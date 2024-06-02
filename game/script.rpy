@@ -50,6 +50,8 @@ label start:
 
         # increment week and go back to town
 
+        $ calendar.increment_week()
+
         hide screen task
 
         jump go_to_town

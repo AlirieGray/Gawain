@@ -25,6 +25,13 @@ init python:
         def get_current_month_name(self):
             return self.months_list[self.current_month]
 
+        def increment_week(self):
+            if self.get_current_week() == 4:
+                self.current_month += 1
+                self.current_week = 1
+            else:
+                self.current_week += 1
+
         def add_activity(self, activity):
             # TODO: player should be able to select which slot they are filling
             self.activity_slots[0] = activity
