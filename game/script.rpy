@@ -1,6 +1,6 @@
 ﻿# character creation
 default cc_points = 2 # dev value, change to 30 for release
-
+default activities_selected = False
 
 # The game starts here.
 
@@ -32,12 +32,30 @@ label start:
     label go_to_town:
         show screen town_screen
         
+        # TODO: different "bark" for each week/month
         $ g.c("This is the town, where I can do activities.")
 
         show screen town_menus
 
-        $ wait_for_activity_selection(calendar.ready)
+        $ wait_for_activity_selection(activities_selected)
 
+    label first_story_event:
+        $ g.c("Haha! My test worked!")
+
+        $ g.c("Time for my first task....")
+
+        show screen task
+
+        $ g.c("okay moving on....")
+
+        # increment week and go back to town
+
+        hide screen task
+
+        jump go_to_town
+
+    label second_story_event:
+        $ g.c("This should be running IFF it's blood month or whatever")
 
     # This ends the game.
 

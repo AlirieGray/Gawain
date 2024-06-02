@@ -1,6 +1,9 @@
 style spacing:
     spacing 10
 
+style dark_text:
+    color "#181818"
+
 screen cc_screen:
     add "images/lake_cc.jpg"
     hbox:
@@ -57,10 +60,24 @@ screen cc_screen:
 
 
 screen town_screen: 
-    add "images/town.jpg"
+    add "images/town_without_building.png"
+
+    imagebutton:
+        idle "images/town_building.png"
+        hover "images/town_building.png"
+        xpos 720
+        ypos 280
 
 screen town_menus:
-    add "images/town_menus.png"
+    add "images/town_menus_without_building.png"
+
+    imagebutton:
+        idle "images/town_building.png"
+        hover "images/town_building_hover.png"
+        xpos 720
+        ypos 280
+        action Function(calendar.add_activity, activity="Visit Tavern")
+
     hbox:
         xalign .08
         yalign .09
@@ -95,12 +112,20 @@ screen town_menus:
                         text str(g.stats_dict[skill]) yalign 0.5
 
 
-    vbox:
-        xalign .068
-        yalign .78
-        spacing 15
-        xsize 500
-        text "This week's activities:"
-        add "gui/custom/square_rectangle_empty.png" xalign 0.5
-        add "gui/custom/square_rectangle_empty.png" xalign 0.5
+    text "This week's activities:" xpos 68 ypos 440
+    add "gui/custom/square_rectangle_empty.png" xpos 70 ypos 500
+    text calendar.activity_slots[0] xpos 90 ypos 510 
+    add "gui/custom/square_rectangle_empty.png" xpos 300 ypos 500
+    text calendar.activity_slots[1] xpos 310 ypos 510 
+    button:
+        xpos 310
+        ypos 600
+        idle_background "gui/custom/button.png"
+        hover_background "gui/custom/button_hover.png"
+        xysize (200, 70)
+        text "Start Week" style "dark_text"
+        action [Hide("town_menus"), Jump(calendar.next_jump)]
+
+screen task:
+    add "gui/custom/transparent_bg_600_500.png" xalign .5 yalign .05
 
