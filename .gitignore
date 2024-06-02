@@ -2,6 +2,7 @@
 *rpymc
 game/saves
 game/cache
+game/images
 traceback.txt
 log.txt
 errors.txt

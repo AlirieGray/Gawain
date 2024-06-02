@@ -2,9 +2,9 @@ style spacing:
     spacing 10
 
 screen cc_screen:
-    add "gui/lake.jpg"
+    add "images/lake_cc.jpg"
     hbox:
-        xalign .76
+        xalign .8
         yalign .15
         spacing 50
         vbox:
@@ -41,8 +41,23 @@ screen cc_screen:
                         hover "gui/button/r_arrow.png"
                         if cc_points > 0:
                             action [Function(g.change_stat, stat=skill, val=1), SetVariable("cc_points", cc_points - 1)]
-
+            
         vbox:
-            text "health"
-            text "stamina"
+            xsize 250
+            text "Health"
+            text "Stamina"
             text "Points Remaining " + str(cc_points)
+
+    textbutton "Continue":
+        xalign .7
+        yalign .7
+        if cc_points <1:
+            action [Hide("cc_screen"), Jump("new_knight")]
+
+
+
+screen town_screen: 
+    add "images/Town.jpg"
+
+screen town_menus:
+    add "images/town_menus.png"
