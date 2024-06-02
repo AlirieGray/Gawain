@@ -1,6 +1,5 @@
 ﻿# character creation
-default cc_points = 50 # dev value, change to 30 for release
-default ready_for_week = False
+default cc_points = 2 # dev value, change to 30 for release
 
 
 # The game starts here.
@@ -9,6 +8,9 @@ label start:
     # characters
     $ g = Gawain(Character("Gawain"))
     $ l = Lady(Character("Lady of the Lake"))
+
+    # handlers
+    $ calendar = Calendar()
 
     scene lake_cc
 
@@ -34,7 +36,7 @@ label start:
 
         show screen town_menus
 
-        $ wait_for_activity_selection(ready_for_week)
+        $ wait_for_activity_selection(calendar.ready)
 
 
     # This ends the game.

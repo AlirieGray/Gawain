@@ -94,3 +94,13 @@ screen town_menus:
                             right_bar Frame("gui/custom/round_rectangle_empty.png", 10, 0)
                         text str(g.stats_dict[skill]) yalign 0.5
 
+
+    vbox:
+        xalign .068
+        yalign .78
+        spacing 15
+        xsize 500
+        text "This week's activities:"
+        add "gui/custom/square_rectangle_empty.png" xalign 0.5
+        add "gui/custom/square_rectangle_empty.png" xalign 0.5
+
