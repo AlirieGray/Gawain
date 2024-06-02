@@ -68,8 +68,17 @@ screen town_screen:
         xpos 720
         ypos 280
 
+# TODO: use separate transparent box images over town image
+# TODO: refactor UI elements to be modular ("use __ screen" syntax?)
 screen town_menus:
     add "images/town_menus_without_building.png"
+    add "gui/custom/transparent_bg_300_200.png" yalign .05 xalign .95
+    vbox:
+        xalign .92
+        yalign .052
+        xsize 250
+        text calendar.get_current_month_name()
+        text "Week " + str(calendar.get_current_week())
 
     imagebutton:
         idle "images/town_building.png"
@@ -123,7 +132,7 @@ screen town_menus:
         idle_background "gui/custom/button.png"
         hover_background "gui/custom/button_hover.png"
         xysize (200, 70)
-        text "Start Week" style "dark_text"
+        text "Start Week" style "dark_text" # TODO: only allow action if both/all actions are selected
         action [Hide("town_menus"), Jump(calendar.next_jump)]
 
 screen task:

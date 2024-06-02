@@ -19,6 +19,12 @@ init python:
                 'After Yule Month'
                 ]
 
+        def get_current_week(self):
+            return self.current_week
+
+        def get_current_month_name(self):
+            return self.months_list[self.current_month]
+
         def add_activity(self, activity):
             # TODO: player should be able to select which slot they are filling
             self.activity_slots[0] = activity
