@@ -1,5 +1,5 @@
 ﻿# character creation
-default cc_points = 2 # dev value, change to 30 for release
+default cc_points = 50 # dev value, change to 30 for release
 default ready_for_week = False
 
 
@@ -32,9 +32,9 @@ label start:
         
         $ g.c("This is the town, where I can do activities.")
 
-        $ wait_for_activity_selection(ready_for_week)
-
         show screen town_menus
+
+        $ wait_for_activity_selection(ready_for_week)
 
 
     # This ends the game.

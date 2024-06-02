@@ -57,7 +57,40 @@ screen cc_screen:
 
 
 screen town_screen: 
-    add "images/Town.jpg"
+    add "images/town.jpg"
 
 screen town_menus:
     add "images/town_menus.png"
+    hbox:
+        xalign .08
+        yalign .09
+        spacing 50
+        vbox:
+            spacing 10
+            for attribute in attributes:
+                vbox:
+                    spacing 1
+                    text attribute.title()
+                    hbox:
+                        spacing 6
+                        bar value StaticValue(g.stats_dict[attribute], 100):
+                            xmaximum 200
+                            ymaximum 40
+                            left_bar Frame("gui/custom/round_rectangle_full.png", 10, 0)
+                            right_bar Frame("gui/custom/round_rectangle_empty.png", 10, 0)
+                        text str(g.stats_dict[attribute]) yalign 0.5
+        vbox:
+            spacing 10
+            for skill in skills:
+                vbox:
+                    spacing 1
+                    text skill.title()
+                    hbox:
+                        spacing 6
+                        bar value StaticValue(g.stats_dict[skill], 100):
+                            xmaximum 200
+                            ymaximum 40
+                            left_bar Frame("gui/custom/round_rectangle_full.png", 10, 0)
+                            right_bar Frame("gui/custom/round_rectangle_empty.png", 10, 0)
+                        text str(g.stats_dict[skill]) yalign 0.5
+

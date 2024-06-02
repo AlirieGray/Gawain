@@ -7,14 +7,14 @@ init python:
                 "stamina": 10,
                 "piety": 1,
                 "honor": 1,
-                "mettle": 1,
-                "grit": 1,
-                "archery": 1,
-                "swordplay": 1,
-                "charm": 1,
-                "brawling": 1,
-                "intuition": 1,
-                "medicine": 1,
+                "mettle": 5,
+                "grit": 5,
+                "archery": 5,
+                "swordplay": 5,
+                "charm": 5,
+                "brawling": 5,
+                "intuition": 5,
+                "medicine": 5,
             }
 
         def change_stat(self, stat, val):

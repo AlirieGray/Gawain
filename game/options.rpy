@@ -21,6 +21,10 @@ define config.name = _("Gawain")
 define gui.show_name = True
 
 
+# Disable rollback
+define config.rollback_enabled = False
+
+
 ## The version of the game.
 
 define config.version = "1.0"
