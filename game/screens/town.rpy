@@ -62,7 +62,7 @@ screen town_menus:
     add "gui/custom/square_rectangle_empty.png" xpos 300 ypos 500
     text calendar.activity_slots[1] xpos 310 ypos 510 
     # TODO: only allow action if both/all actions are selected
-    use my_button("Next Week", [Hide("town_menus"), Function(execute_day), Jump(calendar.next_jump)], 310, 600) #TODO: this is a HACK, this button should not increment day
+    use my_button("Next Week", [Hide("town_menus"), Function(execute_day), Jump(calendar.next_jump)], 230, 650) #TODO: this is a HACK, this button should not increment day
 
 
 # TODO: fix bug where first click doesn't increment stat

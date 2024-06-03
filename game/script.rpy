@@ -28,8 +28,8 @@ transform midleft:
 
 label start:
     # characters
-    $ g = Gawain(Character("Gawain", who_xpos = 100))
-    $ l = Lady(Character("Lady of the Lake", who_xpos = 600))
+    $ g = Gawain(Character("Gawain"))
+    $ l = Lady(Character("Lady of the Lake"))
 
     # handlers
     $ calendar = Calendar()
@@ -38,26 +38,27 @@ label start:
     scene lake
 
     #####***** INTRO CUTSCENE *****#####
-
-    "In the land of yore, when kings and queens still ruled over all and knights still roamed the kingdom, young Gawain fought valiantly to prove himself worthy of his place at King Arthur's Round Table." 
-
-    # TODO: show tooltip indicating click or press spacebar to continue...
     
-    "He battled fearsome beasts and loathsome sorcerers, traveled far and wide on many a dangerous quest, and wooed many lusty and kind-hearted maidens alike." 
+    # "In the land of yore, when kings and queens still ruled over all and knights still roamed the kingdom, young Gawain fought valiantly to prove himself worthy of his place at King Arthur's Round Table." 
+
+    # # TODO: show tooltip indicating click or press spacebar to continue...
     
-    "The name Sir Gawain the True came to mean peace, honor, reliability, and protection among all of King Arthur's peoples." 
+    # "He battled fearsome beasts and loathsome sorcerers, traveled far and wide on many a dangerous quest, and wooed many lusty and kind-hearted maidens alike." 
     
-    "However, that peace has begun to break down, leaving many confused and terrified in its wake." 
+    # "The name Sir Gawain the True came to mean peace, honor, reliability, and protection among all of King Arthur's peoples." 
+    
+    # "However, that peace has begun to break down, leaving many confused and terrified in its wake." 
 
-    "Lady Guinevere ran off with Sir Lancelot, King Arthur abandoned his throne, and all but one knight has melted into the shadows of the kingdom." 
+    # "Lady Guinevere ran off with Sir Lancelot, King Arthur abandoned his throne, and all but one knight has melted into the shadows of the kingdom." 
 
-    "Worse still, women have begun disappearing from Herefordshire, never to be seen again." 
+    # "Worse still, women have begun disappearing from Herefordshire, never to be seen again." 
 
-    "Sir Gawain the True stands alone, left to pick up the crumbling pieces of the kingdom, starting with finding the missing maidens of Herefordshire. "
+    # "Sir Gawain the True stands alone, left to pick up the crumbling pieces of the kingdom, starting with finding the missing maidens of Herefordshire. "
 
-    "Lost and desperately alone, Sir Gawain, now older, wiser, and stronger than in his youth, decides to visit the Lady of the Lake, hoping for sage council as many a knight have been given in the past."
+    # "Lost and desperately alone, Sir Gawain, now older, wiser, and stronger than in his youth, decides to visit the Lady of the Lake, hoping for sage council as many a knight have been given in the past."
 
     $ _window_hide()
+
 
     #####***** END CUTSCENE *****#####
 

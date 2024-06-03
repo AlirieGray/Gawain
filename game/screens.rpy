@@ -101,7 +101,14 @@ screen say(who, what):
     window:
         id "window"
 
-        if who is not None:
+        if who == "Gawain":
+
+            window:
+                id "namebox"
+                style "namebox_left"
+                text who id "who"
+
+        elif who is not None:
 
             window:
                 id "namebox"
@@ -137,7 +144,7 @@ style window:
 
     background Image("gui/textbox.png", xalign=0.5, yalign=1.0)
 
-style namebox:
+style namebox_left:
     xpos gui.name_xpos
     xanchor gui.name_xalign
     xsize gui.namebox_width
@@ -146,6 +153,18 @@ style namebox:
 
     background Frame("gui/namebox.png", gui.namebox_borders, tile=gui.namebox_tile, xalign=gui.name_xalign)
     padding gui.namebox_borders.padding
+    xpadding 12
+
+style namebox:
+    xpos 850
+    xanchor gui.name_xalign
+    xsize gui.namebox_width
+    ypos gui.name_ypos
+    ysize gui.namebox_height
+
+    background Frame("gui/namebox.png", gui.namebox_borders, tile=gui.namebox_tile, xalign=gui.name_xalign)
+    padding gui.namebox_borders.padding
+    xpadding 12
 
 style say_label:
     properties gui.text_properties("name", accent=True)
