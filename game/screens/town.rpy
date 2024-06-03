@@ -29,7 +29,7 @@ screen town_menus:
             for attribute in attributes:
                 vbox:
                     spacing 1
-                    text attribute.title()
+                    text attribute.title() xpos 10 ypos 9
                     hbox:
                         spacing 6
                         bar value StaticValue(g.stats_dict[attribute], 100):
@@ -43,7 +43,7 @@ screen town_menus:
             for skill in skills:
                 vbox:
                     spacing 1
-                    text skill.title()
+                    text skill.title() xpos 10 ypos 9
                     hbox:
                         spacing 6
                         bar value StaticValue(g.stats_dict[skill], 100):
