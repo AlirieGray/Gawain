@@ -57,7 +57,14 @@ screen cc_screen:
         if cc_points <1:
             action [Hide("cc_screen"), Jump("new_knight")]
 
-
+screen calendar_screen:
+    add "gui/custom/transparent_bg_300_200.png" yalign .05 xalign .97
+    vbox:
+        xalign .94
+        yalign .052
+        xsize 250
+        text calendar.get_current_month_name()
+        text "Week " + str(calendar.get_current_week())
 
 screen town_screen: 
     add "images/town_without_building.png"
@@ -72,13 +79,7 @@ screen town_screen:
 # TODO: refactor UI elements to be modular ("use __ screen" syntax?)
 screen town_menus:
     add "images/town_menus_without_building.png"
-    add "gui/custom/transparent_bg_300_200.png" yalign .05 xalign .95
-    vbox:
-        xalign .92
-        yalign .052
-        xsize 250
-        text calendar.get_current_month_name()
-        text "Week " + str(calendar.get_current_week())
+    use calendar_screen
 
     imagebutton:
         idle "images/town_building.png"
@@ -135,6 +136,37 @@ screen town_menus:
         text "Start Week" style "dark_text" # TODO: only allow action if both/all actions are selected
         action [Hide("town_menus"), Jump(calendar.next_jump)]
 
-screen task:
-    add "gui/custom/transparent_bg_600_500.png" xalign .5 yalign .05
+
+# TODO: fix bug where first click doesn't increment stat
+# TODO: make a more beautiful stat bar...
+# TODO: fix day numbering and day/week/month increment...
+
+
+screen task(cal, gawain):
+    add "gui/custom/transparent_bg_600_500.png" xalign .455 yalign .33
+    use calendar_screen
+
+    default current_day = 0
+    default stat_name = cal.current_day_outcome['stat_name']
+    default stat_for_bar = gawain.stats_dict[stat_name]
+
+
+    vbox:
+        xalign 0.5
+        yalign 0.5
+
+        hbox:
+            text stat_name.title()
+            bar value AnimatedValue(stat_for_bar, 100):
+                xmaximum 200
+                ymaximum 40
+                left_bar Frame("gui/custom/round_rectangle_full.png", 10, 0)
+                right_bar Frame("gui/custom/round_rectangle_empty.png", 10, 0)
+            text "+" + str(cal.current_day_outcome['skill_gain'])
+        
+        textbutton "Next Day":
+            if cal.current_day < 6:
+                action [Function(execute_day, cal=cal, gawain=gawain), SetScreenVariable('stat_for_bar', stat_for_bar + cal.current_day_outcome['skill_gain'])]
+            if cal.current_day >= 6:
+                action [Hide("task"), Jump(calendar.next_jump)]
 

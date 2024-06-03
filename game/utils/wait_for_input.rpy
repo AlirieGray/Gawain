@@ -5,7 +5,7 @@ init python:
         return
 
 
-    def wait_for_activity_selection(ready):
+    def wait_for_status(ready):
         while(not ready):
             renpy.pause(1)
         return

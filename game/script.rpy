@@ -1,6 +1,7 @@
 ﻿# character creation
 default cc_points = 2 # dev value, change to 30 for release
 default activities_selected = False
+default activities_finished = False
 
 # The game starts here.
 
@@ -37,20 +38,24 @@ label start:
 
         show screen town_menus
 
-        $ wait_for_activity_selection(activities_selected)
+        $ wait_for_status(activities_selected)
 
     label first_story_event:
         $ g.c("Haha! My test worked!")
 
         $ g.c("Time for my first task....")
 
-        show screen task
+        # $ week_outcomes = execute_week(calendar, g)
+
+        show screen task(calendar, g)
+
+        $ wait_for_status(activities_finished)
 
         $ g.c("okay moving on....")
 
         # increment week and go back to town
 
-        $ calendar.increment_week()
+        # $ calendar.increment_week()
 
         hide screen task
 

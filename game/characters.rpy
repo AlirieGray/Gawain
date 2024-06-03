@@ -2,6 +2,7 @@ init python:
     class Gawain:
         def __init__(self, character):
             self.c = character
+            self.gold = 0
             self.stats_dict = {
                 "hp": 20,
                 "stamina": 10,
@@ -22,6 +23,12 @@ init python:
 
         def get_stat(self, stat):
             return self.stats_dict[stat]
+
+        def change_gold(self, val):
+            self.gold = self.gold + val
+
+        def get_gold(self, val):
+            return self.gold
 
     class Lady:
         def __init__(self, character):
