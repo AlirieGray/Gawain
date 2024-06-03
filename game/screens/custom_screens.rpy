@@ -63,8 +63,7 @@ screen calendar_screen:
         xalign .94
         yalign .052
         xsize 250
-        text calendar.get_current_month_name()
-        text "Week " + str(calendar.get_current_week())
+        text str(calendar.get_day_number()) + " of " + calendar.get_current_month_name()
 
 screen town_screen: 
     add "images/town_without_building.png"
@@ -142,13 +141,13 @@ screen town_menus:
 # TODO: fix day numbering and day/week/month increment...
 
 
-screen task(cal, gawain):
+screen task():
     add "gui/custom/transparent_bg_600_500.png" xalign .455 yalign .33
     use calendar_screen
 
     default current_day = 0
-    default stat_name = cal.current_day_outcome['stat_name']
-    default stat_for_bar = gawain.stats_dict[stat_name]
+    default stat_name = calendar.current_day_outcome['stat_name']
+    default stat_for_bar = g.stats_dict[stat_name]
 
 
     vbox:
@@ -162,11 +161,12 @@ screen task(cal, gawain):
                 ymaximum 40
                 left_bar Frame("gui/custom/round_rectangle_full.png", 10, 0)
                 right_bar Frame("gui/custom/round_rectangle_empty.png", 10, 0)
-            text "+" + str(cal.current_day_outcome['skill_gain'])
-        
-        textbutton "Next Day":
-            if cal.current_day < 6:
-                action [Function(execute_day, cal=cal, gawain=gawain), SetScreenVariable('stat_for_bar', stat_for_bar + cal.current_day_outcome['skill_gain'])]
-            if cal.current_day >= 6:
-                action [Hide("task"), Jump(calendar.next_jump)]
+            text "+" + str(calendar.current_day_outcome['skill_gain'])
+
+        if calendar.current_day < 7:
+            textbutton "Next Day":
+                action [Function(execute_day), SetScreenVariable('stat_for_bar', stat_for_bar + calendar.current_day_outcome['skill_gain'])]
+        else:
+            textbutton "End Week":
+                action [Function(calendar.increment_day), Hide("task"), Jump(calendar.next_jump)]
 

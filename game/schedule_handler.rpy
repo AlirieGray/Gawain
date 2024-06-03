@@ -30,14 +30,19 @@ init python:
         #         outcomes.append(self.get_outcome())
         #     return outcomes
 
+    # TODO: refactor class methods into a nice order and add documentation strings w input and output
     class Calendar:
         def __init__(self):
             self.current_month = 0
             self.current_week = 1
-            self.current_day = 0
+            self.current_day = 1
             self.current_day_outcome = {'stat_name': 'mettle', 'skill_gain': 0, 'gold_gain': 0}
             self.next_jump = 'first_story_event'
             self.activity_slots = ['*none selected*', '*none selected*']
+            self.scenes_played = {
+                'first_story_event': False,
+                'second_story_event': False,
+            }
             self.months_list = [
                 'Hearthcake Month', 
                 'Hrethmonth', 
@@ -55,6 +60,19 @@ init python:
         def get_current_week(self):
             return self.current_week
 
+        def set_played(self, scene):
+            self.scenes_played[scene] = True
+
+        def get_day_number(self):
+            if self.current_week == 1:
+                return self.current_day
+            if self.current_week == 2:
+                return 6 + self.current_day
+            if self.current_week == 3:
+                return 13 + self.current_day
+            else:
+                return 20 + self.current_day
+
         def get_current_month_name(self):
             return self.months_list[self.current_month]
 
@@ -66,9 +84,27 @@ init python:
                 self.current_week += 1
             self.activity_slots =  ['*none selected*', '*none selected*']
 
-        # TODO reset for beginning of week 
+        # TODO reset for beginning of week
+        # TODO Set jump??? 
+        # TODO: 7th of 2nd of etc. string
         def increment_day(self):
+            # if it's the last day of the week, set the week back to Monday.
+            # if it's also the end of the month, increment the month and set weeks back to 1
+            # otherwise just increment the week
+            if self.current_day == 7:
+                self.current_day = 1
+                if self.current_week == 4:
+                    self.current_month += 1
+                    self.current_week = 1
+                else:
+                    self.current_week += 1
+                self.set_next_jump()
+                return
+            # if it's not the last day of the week, just increment the day and set the jump
             self.current_day += 1
+            self.set_next_jump()
+            
+
 
         def add_activity(self, activity):
             # TODO: player should be able to select which slot they are filling
@@ -78,30 +114,31 @@ init python:
         # TODO: also depends on which activity selected
         # TODO: call this function when incrememting calendar
         # TODO: distinguish story events from task incrementing stats view
+        # TODO: map out all story events cleanly and refactor the class (maybe just a simple dict)
         def set_next_jump(self):
-            if self.current_month == 0 and self.current_week == 1:
+            if self.current_month == 0 and self.current_week == 1 and not self.scenes_played['first_story_event']:
                 self.next_jump = 'first_story_event'
+                self.set_played('first_story_event')
             elif self.current_month == 1 and self.current_week == 1:
                 self.next_jump = 'second_story_event'
-            else:
+            elif self.current_day > 5:
                 self.next_jump = 'go_to_town'
+            else: 
+                self.next_jump = 'tasks_only'
 
-        
 
-    def execute_day(cal, gawain):
+    def execute_day():
         # execute_week takes a calendar and a gawain
         # creates a task object (for each activity) to roll for skills and gold
         # and returns a list of 7 (days) with each roll results
 
         # TODO: first task and second task
         # if cal.activity_slots[0] == "Tavern":
-        first_task = Task('Tavern', cal, gawain)
+        first_task = Task('Tavern', calendar, g)
         first_outcome = first_task.get_outcome()
-        cal.current_day_outcome = first_outcome
-        gawain.change_stat(first_outcome['stat_name'], first_outcome['skill_gain'])
-        cal.increment_day()
-        if cal.current_day == 6:
-            cal.increment_week()
+        calendar.current_day_outcome = first_outcome
+        g.change_stat(first_outcome['stat_name'], first_outcome['skill_gain'])
+        calendar.increment_day()
             
         # TODO: testing click to increment day....
         # TODO update Gawain object's skill and gold

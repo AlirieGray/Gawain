@@ -31,6 +31,8 @@ label start:
 
     
     label go_to_town:
+        $ calendar.set_next_jump()
+
         show screen town_screen
         
         # TODO: different "bark" for each week/month
@@ -40,6 +42,19 @@ label start:
 
         $ wait_for_status(activities_selected)
 
+    label tasks_only:
+        $ g.c("I wonder what awaits me this week...")
+
+        show screen task
+
+        $ wait_for_status(activities_finished)
+
+        $ g.c("okay moving on....")
+
+        hide screen task
+
+        jump go_to_town
+
     label first_story_event:
         $ g.c("Haha! My test worked!")
 
@@ -47,7 +62,7 @@ label start:
 
         # $ week_outcomes = execute_week(calendar, g)
 
-        show screen task(calendar, g)
+        show screen task
 
         $ wait_for_status(activities_finished)
 
