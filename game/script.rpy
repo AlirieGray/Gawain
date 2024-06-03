@@ -3,6 +3,13 @@ default cc_points = 2 # dev value, change to 30 for release
 default activities_selected = False
 default activities_finished = False
 
+# styles
+transform midleft:
+    alpha 0.3
+    xcenter 0.33
+    yalign 0.85
+    easein 0.5 alpha 1.0 yalign .65
+
 # The game starts here.
 
 label start:
@@ -13,17 +20,22 @@ label start:
     # handlers
     $ calendar = Calendar()
 
+
     scene lake_cc
 
     # $ g.c("The name's Gawain. Sir Gawain.")
 
     show screen cc_screen
 
+    show gawain at midleft
+
     $ wait_for_character_creation(cc_points)
 
     label new_knight:
 
         scene lake
+
+        show gawain at midleft
 
         $ l.c("I am the Lady of the Lake, and this is the introductory scene.")
 

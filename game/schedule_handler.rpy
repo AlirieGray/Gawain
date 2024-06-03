@@ -9,10 +9,12 @@ init python:
             gawain_stat = self.character.stats_dict[stat]
             return 10
 
-        # TODO
+        # TODO fix roll numbers, add modifier math to Character class
+        # or to dice utils
         def roll_for_skill(self, stat):
             gawain_stat = self.character.stats_dict[stat]
-            return 15
+            modifier = get_modifier(gawain_stat)
+            return roll(6, modifier)
 
         def get_outcome(self):
             stat = 'charm' # TODO???
@@ -91,8 +93,10 @@ init python:
             # if it's the last day of the week, set the week back to Monday.
             # if it's also the end of the month, increment the month and set weeks back to 1
             # otherwise just increment the week
+            # clear current day outcome when going to the next week
             if self.current_day == 7:
                 self.current_day = 1
+                self.current_day_outcome = {'stat_name': 'mettle', 'skill_gain': 0, 'gold_gain': 0}
                 if self.current_week == 4:
                     self.current_month += 1
                     self.current_week = 1
@@ -115,6 +119,7 @@ init python:
         # TODO: call this function when incrememting calendar
         # TODO: distinguish story events from task incrementing stats view
         # TODO: map out all story events cleanly and refactor the class (maybe just a simple dict)
+        # TODO: end of month should jump back to lake
         def set_next_jump(self):
             if self.current_month == 0 and self.current_week == 1 and not self.scenes_played['first_story_event']:
                 self.next_jump = 'first_story_event'
@@ -128,7 +133,6 @@ init python:
 
 
     def execute_day():
-        # execute_week takes a calendar and a gawain
         # creates a task object (for each activity) to roll for skills and gold
         # and returns a list of 7 (days) with each roll results
 
