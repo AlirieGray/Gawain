@@ -57,9 +57,6 @@ screen cc_screen:
             text "Health"
             text "Stamina"
             text "Points Remaining " + str(cc_points)
-
-    textbutton "Continue":
-        xalign .7
-        yalign .7
-        if cc_points <1:
-            action [Hide("cc_screen"), Jump("new_knight")]
+    
+    if cc_points <1:
+        use my_button("Continue", [Hide("cc_screen"), Jump("new_knight")], 1000, 500)

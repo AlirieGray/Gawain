@@ -1,3 +1,5 @@
+# TODO: does this work?
+
 screen town_screen: 
     add "images/town_without_building.png"
 
@@ -59,19 +61,15 @@ screen town_menus:
     text calendar.activity_slots[0] xpos 90 ypos 510 
     add "gui/custom/square_rectangle_empty.png" xpos 300 ypos 500
     text calendar.activity_slots[1] xpos 310 ypos 510 
-    button:
-        xpos 310
-        ypos 600
-        idle_background "gui/custom/button.png"
-        hover_background "gui/custom/button_hover.png"
-        xysize (200, 70)
-        text "Start Week" style "dark_text" # TODO: only allow action if both/all actions are selected
-        action [Hide("town_menus"), Function(execute_day), Jump(calendar.next_jump)] #TODO: this is a HACK, this button should not increment day
+    # TODO: only allow action if both/all actions are selected
+    use my_button("Next Week", [Hide("town_menus"), Function(execute_day), Jump(calendar.next_jump)], 310, 600) #TODO: this is a HACK, this button should not increment day
 
 
 # TODO: fix bug where first click doesn't increment stat
 # TODO: make a more beautiful stat bar...
 # TODO: fix day numbering and day/week/month increment...
+
+
 
 
 screen task():
@@ -98,8 +96,15 @@ screen task():
             text "+" + str(calendar.current_day_outcome['skill_gain'])
 
         if calendar.current_day < 7:
-            textbutton "Next Day":
-                action [Function(execute_day), SetScreenVariable('stat_for_bar', stat_for_bar + calendar.current_day_outcome['skill_gain'])]
+            use my_button("Next Day", 
+                [Function(execute_day), SetScreenVariable('stat_for_bar', stat_for_bar + calendar.current_day_outcome['skill_gain'])],
+                20,
+                100
+            )
         else:
-            textbutton "End Week":
-                action [Function(calendar.increment_day), Hide("task"), Jump(calendar.next_jump)]
+            use my_button("End Week",
+                [Function(calendar.increment_day), Hide("task"), Jump(calendar.next_jump)],
+                20, 
+                100
+            )
+                

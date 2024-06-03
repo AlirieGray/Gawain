@@ -7,3 +7,5 @@ traceback.txt
 log.txt
 errors.txt
 game/gui/fonts
+.vscode/
+*.bak
