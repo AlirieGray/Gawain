@@ -86,6 +86,7 @@ screen task():
         yalign 0.5
 
         hbox:
+            spacing 5
             text stat_name.title()
             bar value AnimatedValue(stat_for_bar, 100):
                 xmaximum 200

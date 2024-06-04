@@ -33,6 +33,14 @@ init python:
     class Lady:
         def __init__(self, character):
             self.c = character
+
+    class Enemy:
+        def ___init__(self, character, hp, ac, attack):
+            self.c = character
+            self.hp = hp
+            self.ac = ac
+            # attack is a modifier to dice rolls
+            self.attack = attack
     
     stat_descriptions = {"mettle": "Mettle is a knight's resolve, his ability to stand firm in the face of danger and hardship. This attribute reduces damage from all phyiscal sources."}
     attributes = ["mettle", "grit", "intuition", "charm"]
