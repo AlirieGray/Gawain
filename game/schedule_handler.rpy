@@ -120,10 +120,15 @@ init python:
         # TODO: distinguish story events from task incrementing stats view
         # TODO: map out all story events cleanly and refactor the class (maybe just a simple dict)
         # TODO: end of month should jump back to lake
-        def set_next_jump(self):
+        def set_next_jump(self, jump=None):
+            if jump:
+                self.next_jump = jump
+                return
             if self.current_month == 0 and self.current_week == 1 and not self.scenes_played['first_story_event']:
                 self.next_jump = 'first_story_event'
                 self.set_played('first_story_event')
+            elif self.current_month == 0 and self.current_week == 2:
+                self.next_jump = 'first_combat_time'
             elif self.current_month == 1 and self.current_week == 1:
                 self.next_jump = 'second_story_event'
             elif self.current_day > 5:
@@ -137,12 +142,12 @@ init python:
         # and returns a list of 7 (days) with each roll results
 
         # TODO: first task and second task
-        # if cal.activity_slots[0] == "Tavern":
-        first_task = Task('Tavern', calendar, g)
-        first_outcome = first_task.get_outcome()
-        calendar.current_day_outcome = first_outcome
-        g.change_stat(first_outcome['stat_name'], first_outcome['skill_gain'])
-        calendar.increment_day()
+        if calendar.activity_slots[0] == "Visit Tavern":
+            first_task = Task('Tavern', calendar, g)
+            first_outcome = first_task.get_outcome()
+            calendar.current_day_outcome = first_outcome
+            g.change_stat(first_outcome['stat_name'], first_outcome['skill_gain'])
+            calendar.increment_day()
             
         # TODO: testing click to increment day....
         # TODO update Gawain object's skill and gold

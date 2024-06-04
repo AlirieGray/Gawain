@@ -54,9 +54,10 @@ screen cc_screen:
             
         vbox:
             xsize 250
+            # TODO: health is based on mettle, stamina is based on grit (or vice versa)
             text "Health"
             text "Stamina"
             text "Points Remaining " + str(cc_points)
     
     if cc_points <1:
-        use my_button("Continue", [Hide("cc_screen"), Jump("new_knight")], 1000, 500)
+        use my_button("Continue", [Hide("cc_screen"), Jump("new_knight")], 1020, 570)

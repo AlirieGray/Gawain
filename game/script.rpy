@@ -24,6 +24,10 @@ transform midleft:
     xcenter 0.33
     yalign 0.63
 
+transform bottomleft:
+    xalign 0.5
+    yalign 0.5
+
 # The game starts here.
 
 label start:
@@ -139,7 +143,9 @@ label start:
 
     show screen cc_screen
 
-    # show gawain at midleft
+    # TODO: gawain not showing here....?
+
+    show gawain at bottomleft
 
     $ wait_for_character_creation(cc_points)
 
@@ -201,6 +207,14 @@ label start:
         hide screen task
 
         jump go_to_town
+
+    label first_combat_time:
+
+        $ (" Suddenly, a loud roar echoes through the town, emanating through the streets with enough power to shake window panes and send birds into flight.")
+
+        show screen combat_menus
+
+        $ wait_for_status(activities_finished)
 
     label first_story_event:
         $ g.c("Haha! My test worked!")

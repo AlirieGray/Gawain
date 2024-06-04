@@ -1,4 +1,5 @@
 init python:
+    import math
     class Gawain:
         def __init__(self, character):
             self.c = character
@@ -30,6 +31,22 @@ init python:
         def get_gold(self, val):
             return self.gold
 
+        def attack(self, attack_type, target):
+            # returns an hp loss for target (Enemy class)
+            # target then applies that hp loss
+            # also spends some stamina, depends on the type of attack or special ability
+
+            # get attack modifier
+            attack_modifier = self.stats_dict[attack_type]
+            to_hit = roll(100, attack_modifier)
+
+            # roll to hit, then roll for damage if roll beats target ac
+            if to_hit > target.ac:
+                damage_modifier = math.floor(attack_modifier / 2)
+                return roll(3, damage_modifier)
+            return 0 # miss!
+
+
     class Lady:
         def __init__(self, character):
             self.c = character
@@ -39,8 +56,7 @@ init python:
             self.c = character
             self.hp = hp
             self.ac = ac
-            # attack is a modifier to dice rolls
-            self.attack = attack
+            self.attack_modifier = attack
     
     stat_descriptions = {"mettle": "Mettle is a knight's resolve, his ability to stand firm in the face of danger and hardship. This attribute reduces damage from all phyiscal sources."}
     attributes = ["mettle", "grit", "intuition", "charm"]
