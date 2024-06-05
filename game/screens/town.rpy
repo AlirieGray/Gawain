@@ -1,31 +1,27 @@
 # TODO: does this work?
 
 screen town_screen: 
-    add "images/town_without_building.png"
-
-    imagebutton:
-        idle "images/town_building.png"
-        hover "images/town_building.png"
-        xpos 720
-        ypos 280
+    add "images/town.png"
 
 # TODO: use separate transparent box images over town image
 # TODO: refactor UI elements to be modular ("use __ screen" syntax?)
 screen town_menus:
-    add "images/town_menus_without_building.png"
+    # add "images/town_menus_without_building.png"
+    add "gui/custom/transparent_bg_537_376.png" yalign .03 xalign 0.03 
+    add "gui/custom/transparent_bg_537_270.png" yalign .95 xalign 0.03 
     use calendar_screen
 
     imagebutton:
         idle "images/town_building.png"
         hover "images/town_building_hover.png"
         xpos 720
-        ypos 280
+        ypos 195
         action Function(calendar.add_activity, activity="Visit Tavern")
 
     hbox:
-        xalign .08
-        yalign .09
-        spacing 50
+        xalign .06
+        yalign .05
+        spacing 45
         vbox:
             spacing 10
             for attribute in attributes:

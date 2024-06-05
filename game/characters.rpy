@@ -46,17 +46,33 @@ init python:
                 return roll(3, damage_modifier)
             return 0 # miss!
 
+        def apply_damage(self, damage):
+            self.hp = self.hp - damage
+            # handle death/game over :( 
 
     class Lady:
         def __init__(self, character):
             self.c = character
 
     class Enemy:
-        def ___init__(self, character, hp, ac, attack):
+        def __init__(self, character, name, hp, ac, attack, img):
             self.c = character
             self.hp = hp
             self.ac = ac
             self.attack_modifier = attack
+            self.img = img
+            self.name = name
+
+        def get_image(self):
+            return self.img
+
+        def get_name(self):
+            return self.name
+
+        def apply_damage(self, damage):
+            self.hp = self.hp - damage
+            if self.hp < 1:
+                self.img = "images/monster_dead.png"
     
     stat_descriptions = {"mettle": "Mettle is a knight's resolve, his ability to stand firm in the face of danger and hardship. This attribute reduces damage from all phyiscal sources."}
     attributes = ["mettle", "grit", "intuition", "charm"]

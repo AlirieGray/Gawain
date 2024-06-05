@@ -1,8 +1,11 @@
+
+#TODO: standardize margins and UI layout across game, standardize corner rounding on bgs
 screen stats_left:
+    add "gui/custom/transparent_bg_300_700.png" xalign 0.04 yalign 0.2 
     vbox:
         xalign .08
         yalign .09
-        spacing 10
+        spacing 7
         for attribute in attributes:
             vbox:
                 spacing 1
@@ -29,9 +32,23 @@ screen stats_left:
                     text str(g.stats_dict[skill]) yalign 0.5
 
 
-screen combat_menus:
+screen combat_menus(enemy):
+    # TODO: use scary forest image
     add "images/town.jpg"
-    add "gui/custom/transparent_bg_300_680.png" yalign 0.05
+    add "gui/custom/transparent_bg_600_650.png" xalign .52 yalign .165
     use calendar_screen
     use stats_left
+
+    # enemy name and health bar
+    vbox:
+        xalign 0.5
+        yalign 0.1
+        text enemy.get_name()
+        text "Health: " + str(enemy.hp)
+        add enemy.get_image()
+
+    # action buttons
+    use my_button("Sword Attack", Function(g.attack, attack_type="swordplay", target=enemy), 400, 600)
+    use my_button("Bow and Arrow", Function(g.attack, attack_type="archery", target=enemy), 575, 600)
+    use my_button("Brawl", Function(g.attack, attack_type="brawling", target=enemy), 750, 600)
 

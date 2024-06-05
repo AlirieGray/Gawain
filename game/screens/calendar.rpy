@@ -1,7 +1,7 @@
 screen calendar_screen:
-    add "gui/custom/transparent_bg_300_150.png" yalign .05 xalign .97
+    add "gui/custom/transparent_bg_250_120.png" yalign .05 xalign .975
     vbox:
-        xalign .94
+        xalign .975
         yalign .052
-        xsize 250
-        text str(calendar.get_day_number()) + " of " + calendar.get_current_month_name()
+        xsize 230
+        text str(calendar.get_day_number()) + " of " + calendar.get_current_month_name() 
