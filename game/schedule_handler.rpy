@@ -32,6 +32,10 @@ init python:
         #         outcomes.append(self.get_outcome())
         #     return outcomes
 
+    # utility function 
+    def ordinal(n):
+        return str(n)+("th" if 4<=n%100<=20 else {1:"st",2:"nd",3:"rd"}.get(n%10, "th"))
+
     # TODO: refactor class methods into a nice order and add documentation strings w input and output
     class Calendar:
         def __init__(self):
@@ -67,13 +71,13 @@ init python:
 
         def get_day_number(self):
             if self.current_week == 1:
-                return self.current_day
+                return ordinal(self.current_day)
             if self.current_week == 2:
-                return 6 + self.current_day
+                return ordinal(6 + self.current_day)
             if self.current_week == 3:
-                return 13 + self.current_day
+                return ordinal(13 + self.current_day)
             else:
-                return 20 + self.current_day
+                return ordinal(0 + self.current_day)
 
         def get_current_month_name(self):
             return self.months_list[self.current_month]
@@ -107,8 +111,6 @@ init python:
             # if it's not the last day of the week, just increment the day and set the jump
             self.current_day += 1
             self.set_next_jump()
-            
-
 
         def add_activity(self, activity):
             # TODO: player should be able to select which slot they are filling

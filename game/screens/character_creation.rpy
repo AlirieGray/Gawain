@@ -1,5 +1,6 @@
 
 
+
 screen cc_screen:
     add "images/lake.jpg"
     add "gui/custom/transparent_bg_cc.png" xalign .95 yalign .2
@@ -9,11 +10,11 @@ screen cc_screen:
         spacing 120
         vbox:
             style "spacing"
-            text "Attributes:" xpos -30  
+            text "Attributes:" xpos -20 style "special_font"
             for attribute in attributes:
                 vbox:
                     spacing 1
-                    text attribute.title() xalign 0.5
+                    text attribute.title() xalign 0.5 
                     hbox:
                         imagebutton:
                             yalign 0.5 xpos -10
@@ -31,7 +32,7 @@ screen cc_screen:
                                 action [Function(g.change_stat, stat=attribute, val=1), SetVariable("cc_points", cc_points - 1)]
         vbox:
             style "spacing"
-            text "Skills:" xpos -30
+            text "Skills:" xpos -20 style "special_font"
             for skill in skills:
                 vbox:
                     spacing 1

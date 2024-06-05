@@ -7,3 +7,7 @@ style dark_text:
 style my_button_text:
     hover_color "#181818"
     color "#ffffff"
+
+style special_font:
+    font "gui/fonts/dumbledor/dum1.ttf"
+    size 30

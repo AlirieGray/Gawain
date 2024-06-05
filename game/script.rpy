@@ -155,7 +155,7 @@ label start:
 
         # TODO: DEV JUMP ONLY
         # REMOVE FOR BUILD
-        jump first_combat_time
+        # jump first_combat_time
 
         scene lake
 
