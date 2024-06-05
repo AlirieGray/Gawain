@@ -1,12 +1,13 @@
 init python:
     import math
+    import time
     class Gawain:
         def __init__(self, character):
             self.c = character
             self.gold = 0
+            self.hp = 20
+            self.stamina = 10
             self.stats_dict = {
-                "hp": 20,
-                "stamina": 10,
                 "piety": 1,
                 "honor": 1,
                 "mettle": 5,
@@ -43,8 +44,9 @@ init python:
             # roll to hit, then roll for damage if roll beats target ac
             if to_hit > target.ac:
                 damage_modifier = math.floor(attack_modifier / 2)
-                return roll(3, damage_modifier)
-            return 0 # miss!
+                combat_handler.apply_damage(roll(3, damage_modifier))
+            else:
+                combat_handler.apply_damage(0) # miss!
 
         def apply_damage(self, damage):
             self.hp = self.hp - damage
@@ -55,11 +57,11 @@ init python:
             self.c = character
 
     class Enemy:
-        def __init__(self, character, name, hp, ac, attack, img):
+        def __init__(self, character, name, hp, ac, attack_modifier, img):
             self.c = character
             self.hp = hp
             self.ac = ac
-            self.attack_modifier = attack
+            self.attack_modifier = attack_modifier
             self.img = img
             self.name = name
 
@@ -69,8 +71,22 @@ init python:
         def get_name(self):
             return self.name
 
+        def attack(self):
+            to_hit = roll(100, self.attack_modifier)
+            # TODO: calculate Gawain's AC based on mettle stat
+            # TODO: use different attack and damage modifiers 
+            if to_hit > 50:
+                combat_handler.apply_damage(roll(3, self.attack_modifier))
+            else:
+                combat_handler.apply_damage(0) # miss!
+
+
         def apply_damage(self, damage):
-            self.hp = self.hp - damage
+            new_hp = self.hp - damage
+            if new_hp < 0:
+                self.hp = 0
+            else:
+                self.hp = self.hp - damage
             if self.hp < 1:
                 self.img = "images/monster_dead.png"
     

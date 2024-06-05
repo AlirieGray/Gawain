@@ -9,7 +9,7 @@ screen town_menus:
     # add "images/town_menus_without_building.png"
     add "gui/custom/transparent_bg_537_376.png" yalign .03 xalign 0.03 
     add "gui/custom/transparent_bg_537_270.png" yalign .95 xalign 0.03 
-    use calendar_screen
+    use hud
 
     imagebutton:
         idle "images/town_building.png"
@@ -70,7 +70,7 @@ screen town_menus:
 
 screen task():
     add "gui/custom/transparent_bg_600_500.png" xalign .455 yalign .33
-    use calendar_screen
+    use hud
 
     default current_day = 0
     default stat_name = calendar.current_day_outcome['stat_name']

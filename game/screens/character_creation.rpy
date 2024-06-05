@@ -1,6 +1,4 @@
 
-
-
 screen cc_screen:
     add "images/lake.jpg"
     add "gui/custom/transparent_bg_cc.png" xalign .95 yalign .2

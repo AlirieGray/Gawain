@@ -119,20 +119,20 @@ label start:
     # $ l.c("I am not disagreeing, dearest knight. Tell me, though, do you miss the guidance of Arthur or do you need my advice on your journey? ")
 
     # hide lady 
-    show gawain at midleft
+    # show gawain at midleft
 
-    "{i}You hesitate. You thought you were coming for advice, but... the Lady was right. You've been on this journey before, many, many moons ago, when King Arthur still took the throne and the Round Table was still a seat of honor.{/i}"
+    # "{i}You hesitate. You thought you were coming for advice, but... the Lady was right. You've been on this journey before, many, many moons ago, when King Arthur still took the throne and the Round Table was still a seat of honor.{/i}"
     
-    $ g.c("I request your blessing, my Lady. I am to go forth to Herefordshire, though I have little desire to proceed alone.")
+    # $ g.c("I request your blessing, my Lady. I am to go forth to Herefordshire, though I have little desire to proceed alone.")
 
-    hide gawain
-    show lady at midright 
+    # hide gawain
+    # show lady at midright 
 
-    $ l.c("Well, dearest Gawain, consider this a token of my faith.")
+    # $ l.c("Well, dearest Gawain, consider this a token of my faith.")
 
-    "{i}The Lady of the Lake offers you a golden, glowing flower teeming with so much arcane energy, your fingertips buzz. You're quick to kneel before her again as you accept her gift, bowing low out of respect.{/i}"
+    # "{i}The Lady of the Lake offers you a golden, glowing flower teeming with so much arcane energy, your fingertips buzz. You're quick to kneel before her again as you accept her gift, bowing low out of respect.{/i}"
 
-    $ _window_hide()
+    # $ _window_hide()
 
 
     #####***** END CUTSCENE *****#####
@@ -155,7 +155,7 @@ label start:
 
         # TODO: DEV JUMP ONLY
         # REMOVE FOR BUILD
-        # jump first_combat_time
+        jump first_combat_time
 
         scene lake
 
@@ -217,6 +217,8 @@ label start:
     label first_combat_time:
 
         $ (" Suddenly, a loud roar echoes through the town, emanating through the streets with enough power to shake window panes and send birds into flight.")
+
+        $ combat_handler.set_enemy(beast_1)
 
         show screen combat_menus(beast_1)
 
