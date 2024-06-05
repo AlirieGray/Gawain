@@ -12,8 +12,12 @@ init python:
             self.combat_status_string = "Your foe is vanquished!"
             self.player_turn = True
             self.current_enemy = None
+            calendar.increment_day()
+            calendar.set_next_jump()
         
-
+        # TODO: if the enemy misses twice, it's not clear that you need to push the button again
+        # need a way to pause in between hits...
+        # maybe dice animation will fix this?
         def apply_damage(self, dmg):
             # handle miss
             if self.player_turn:

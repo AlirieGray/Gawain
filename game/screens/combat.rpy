@@ -1,5 +1,7 @@
 
 #TODO: standardize margins and UI layout across game, standardize corner rounding on bgs
+# TODO: reset health after combat ends??
+# TODO: buttons to take potion, inventory on side screen or in hud
 screen stats_left:
     add "gui/custom/transparent_bg_300_700.png" xalign 0.04 yalign 0.2 
     vbox:
@@ -54,4 +56,6 @@ screen combat_menus(enemy):
         use my_button("Sword Attack", Function(g.attack, attack_type="swordplay", target=enemy), 400, 600)
         use my_button("Bow and Arrow", Function(g.attack, attack_type="archery", target=enemy), 575, 600)
         use my_button("Brawl", Function(g.attack, attack_type="brawling", target=enemy), 750, 600)
+    elif combat_handler.current_enemy is None:
+        use my_button("Continue", Jump(calendar.next_jump), 750, 600)
 

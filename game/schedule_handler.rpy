@@ -25,13 +25,6 @@ init python:
                 'stat_name': stat
             }
 
-        # returns a list of outcome dicts (keys: skill_gain and gold_gain)
-        # def get_outcomes_for_week(self):
-        #     outcomes = []
-        #     for i in range(7):
-        #         outcomes.append(self.get_outcome())
-        #     return outcomes
-
     # utility function 
     def ordinal(n):
         return str(n)+("th" if 4<=n%100<=20 else {1:"st",2:"nd",3:"rd"}.get(n%10, "th"))
@@ -44,7 +37,7 @@ init python:
             self.current_day = 1
             self.current_day_outcome = {'stat_name': 'mettle', 'skill_gain': 0, 'gold_gain': 0}
             self.next_jump = 'first_story_event'
-            self.activity_slots = ['*none selected*', '*none selected*']
+            self.activity_slots = ['*none selected*']
             self.scenes_played = {
                 'first_story_event': False,
                 'second_story_event': False,
@@ -73,11 +66,11 @@ init python:
             if self.current_week == 1:
                 return ordinal(self.current_day)
             if self.current_week == 2:
-                return ordinal(6 + self.current_day)
+                return ordinal(7 + self.current_day)
             if self.current_week == 3:
-                return ordinal(13 + self.current_day)
+                return ordinal(14 + self.current_day)
             else:
-                return ordinal(0 + self.current_day)
+                return ordinal(21 + self.current_day)
 
         def get_current_month_name(self):
             return self.months_list[self.current_month]
@@ -88,11 +81,11 @@ init python:
                 self.current_week = 1
             else:
                 self.current_week += 1
-            self.activity_slots =  ['*none selected*', '*none selected*']
+            self.activity_slots =  ['*none selected*']
 
         # TODO reset for beginning of week
         # TODO Set jump??? 
-        # TODO: 7th of 2nd of etc. string
+        # TODO: this math is NOT working :( 
         def increment_day(self):
             # if it's the last day of the week, set the week back to Monday.
             # if it's also the end of the month, increment the month and set weeks back to 1
@@ -129,7 +122,7 @@ init python:
             if self.current_month == 0 and self.current_week == 1 and not self.scenes_played['first_story_event']:
                 self.next_jump = 'first_story_event'
                 self.set_played('first_story_event')
-            elif self.current_month == 0 and self.current_week == 2:
+            elif self.current_month == 0 and self.current_week == 4:
                 self.next_jump = 'first_combat_time'
             elif self.current_month == 1 and self.current_week == 1:
                 self.next_jump = 'second_story_event'

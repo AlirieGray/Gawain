@@ -5,10 +5,11 @@ screen town_screen:
 
 # TODO: use separate transparent box images over town image
 # TODO: refactor UI elements to be modular ("use __ screen" syntax?)
+# TODO: clean up unused transparent backgrounds... or use im.Scale() isntead of a new image each time?
 screen town_menus:
     # add "images/town_menus_without_building.png"
     add "gui/custom/transparent_bg_537_376.png" yalign .03 xalign 0.03 
-    add "gui/custom/transparent_bg_537_270.png" yalign .95 xalign 0.03 
+    add "gui/custom/transparent_bg_537_245.png" yalign .9 xalign 0.03 
     use hud
 
     imagebutton:
@@ -52,13 +53,11 @@ screen town_menus:
                         text str(g.stats_dict[skill]) yalign 0.5
 
 
-    text "This week's activities:" xpos 68 ypos 440
-    add "gui/custom/square_rectangle_empty.png" xpos 70 ypos 500
-    text calendar.activity_slots[0] xpos 90 ypos 510 
-    add "gui/custom/square_rectangle_empty.png" xpos 300 ypos 500
-    text calendar.activity_slots[1] xpos 310 ypos 510 
+    text "This week's task:" xpos 65 ypos 450
+    add "gui/custom/square_rectangle_empty.png" xpos 270 ypos 445
+    text calendar.activity_slots[0] xpos 300 ypos 450
     # TODO: only allow action if both/all actions are selected
-    use my_button("Next Week", [Hide("town_menus"), Function(execute_day), Jump(calendar.next_jump)], 230, 650) #TODO: this is a HACK, this button should not increment day
+    use my_button("Next Week", [Hide("town_menus"), Function(execute_day), Jump(calendar.next_jump)], 215, 590) #TODO: this is a HACK, this button should not increment day
 
 
 # TODO: fix bug where first click doesn't increment stat

@@ -155,7 +155,7 @@ label start:
 
         # TODO: DEV JUMP ONLY
         # REMOVE FOR BUILD
-        jump first_combat_time
+        # jump first_combat_time
 
         scene lake
 
@@ -182,6 +182,8 @@ label start:
         # "{i}Knowing your Lady is there for you despite you no longer being a Knight of the Round Table lets you breathe a sigh of relief, vigor for the journey ahead restored.{/i}" 
         # "{i}You rent a room at the local inn and settle in for some heavy-duty detective work, ready to get to the bottom of the disappearing women of Herefordshire, starting with the main city of Hereford.{/i}" 
         # "{i}Now to start exploring Hereford... which is teeming with cats?{/i}"
+
+        $ _window_hide()
 
         # TODO: tutorial
 
@@ -221,6 +223,9 @@ label start:
         $ combat_handler.set_enemy(beast_1)
 
         show screen combat_menus(beast_1)
+
+        # TODO: automatically go to the next month 
+        # combat should actually happen at the END of the fourth week, not the beginning
 
         $ wait_for_status(activities_finished)
 
