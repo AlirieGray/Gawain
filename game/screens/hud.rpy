@@ -7,6 +7,6 @@ screen hud:
         text calendar.get_day_number() + " of " + calendar.get_current_month_name() 
         # TODO: use bars for health and stamina
         hbox:
-            text "HP:" + str(g.hp)
+            text "HP:" + str(g.current_hp) + "/" + str(g.max_hp)
             text "Gold: " + str(g.gold) xoffset 25
 

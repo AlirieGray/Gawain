@@ -11,7 +11,8 @@ init python:
         def __init__(self, character):
             self.c = character
             self.gold = 0
-            self.hp = 10 + math.floor(5 / 2)
+            self.max_hp = 10 + math.floor(5 / 2)
+            self.current_hp = 10 + math.floor(5 / 2)
             # self.stamina = 10
             self.stats_dict = {
                 "piety": 1,
@@ -32,7 +33,7 @@ init python:
             self.stats_dict[stat] = self.stats_dict[stat] + val
 
             if stat == 'mettle':
-                self.hp = 10 + math.floor(self.stats_dict[stat] / 2)
+                self.max_hp = 10 + math.floor(self.stats_dict[stat] / 2)
 
         def get_stat(self, stat):
             return self.stats_dict[stat]
@@ -55,15 +56,15 @@ init python:
             # roll to hit, then roll for damage if roll beats target ac
             if to_hit > target.ac:
                 damage_modifier = math.floor(attack_modifier / 2)
-                combat_handler.apply_damage(roll(3, damage_modifier))
+                return roll(3, damage_modifier)
             else:
-                combat_handler.apply_damage(0) # miss!
+                return 0 # miss!
 
-        def apply_damage(self, damage):
-            self.hp = self.hp - damage
+        def take_damage(self, damage):
+            self.current_hp = self.current_hp - damage
 
-            if self.hp < 1:
-                self.hp = 0
+            if self.current_hp < 1:
+                self.current_hp = 0
                 combat_handler.gawain_defeated()
 
     class Lady:
@@ -90,12 +91,12 @@ init python:
             # TODO: calculate Gawain's AC based on mettle stat
             # TODO: use different attack and damage modifiers 
             if to_hit > 50:
-                combat_handler.apply_damage(roll(3, self.attack_modifier))
+                return roll(3, self.attack_modifier)
             else:
-                combat_handler.apply_damage(0) # miss!
+                return 0 # miss!
 
 
-        def apply_damage(self, damage):
+        def take_damage(self, damage):
             new_hp = self.hp - damage
             if new_hp < 0:
                 self.hp = 0

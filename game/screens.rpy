@@ -225,9 +225,31 @@ style input:
 screen choice(items):
     style_prefix "choice"
 
-    vbox:
-        for i in items:
-            textbutton i.caption action i.action
+    # special menu for combat choices
+    if (combat_handler.current_enemy):
+        hbox:
+            xalign .75
+            yalign .65
+            for i in items:
+                button:
+                    idle_background "gui/custom/button.png"
+                    hover_background "gui/custom/button_hover.png"
+                    style "my_button_text"
+                    xysize (200, 70)
+                    text i.caption xalign 0.5 xfill True yoffset 5 xoffset -25
+                    action i.action 
+
+        hbox:
+            xalign .65 
+            yalign .68
+            xsize 500
+            text "+" + str(get_attack_modifier(g.stats_dict["swordplay"])) + " from Swordplay"  style "little_font" xoffset 15
+            text "+" + str(get_attack_modifier(g.stats_dict["archery"])) + " from Archery"  style "little_font" xoffset 35
+            text "+" + str(get_attack_modifier(g.stats_dict["brawling"])) + " from Brawling"  style "little_font" xoffset 80
+    else:
+        vbox:
+            for i in items:
+                textbutton i.caption action i.action
 
 
 ## When this is true, menu captions will be spoken by the narrator. When false,

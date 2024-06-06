@@ -54,6 +54,11 @@ label start:
 
     # jump lluds # TODO DEV JUMP ONLY
 
+    
+    # TODO: DEV JUMP ONLY
+    # REMOVE FOR BUILD
+    jump first_combat_time
+
     # "{i}In the land of yore, when kings and queens still ruled over all and knights still roamed the kingdom, you, Gawain, fought valiantly to prove yourself worthy of your place at King Arthur's Round Table.{/i}"
     # "{i}You battled fearsome beasts and loathsome sorcerers, traveled far and wide on many a dangerous quest, and wooed many lusty and kind-hearted maidens alike.{/i}"
     # "{i}The name Sir Gawain the True came to mean peace, honor, reliability, and protection among all of King Arthur's peoples.{/i}"
@@ -159,10 +164,6 @@ label start:
 
     label new_knight:
 
-        # TODO: DEV JUMP ONLY
-        # REMOVE FOR BUILD
-        jump first_combat_time
-
         scene lake
 
         show lady at midright_intro
@@ -226,16 +227,41 @@ label start:
 
     label first_combat_time:
 
-        $ (" Suddenly, a loud roar echoes through the town, emanating through the streets with enough power to shake window panes and send birds into flight.")
+        scene town
+
+        "Suddenly, a loud roar echoes through the town, emanating through the streets with enough power to shake window panes and send birds into flight."
 
         $ combat_handler.set_enemy(beast_1)
 
         show screen combat_menus(beast_1)
 
+        while g.current_hp > 0:
+            menu:
+                "Sword Attack":
+                    $ combat_handler.gawain_attack("swordplay")
+                "Bow and Arrow":
+                    $ g.attack("archery", beast_1)
+                    $ combat_handler.gawain_attack("archery")
+                "Brawl":
+                    $ g.attack("brawling", beast_1)
+                    $ combat_handler.gawain_attack("brawling")
+            "[str(combat_handler.combat_status_string)]" 
+
+            $ combat_handler.enemy_attack()
+
+            "[str(combat_handler.combat_status_string)]" 
+            
+                
+
+        
+
         # TODO: automatically go to the next month 
         # combat should actually happen at the END of the fourth week, not the beginning
 
-        $ wait_for_status(activities_finished)
+        # $ wait_for_status(activities_finished)
+
+    label end_combat:
+        "you lose!!"
 
     label first_story_event:
         $ g.c("Haha! My test worked!")
