@@ -1,10 +1,6 @@
-# TODO: does this work?
-
 screen town_screen: 
     add "images/town.png"
 
-# TODO: use separate transparent box images over town image
-# TODO: refactor UI elements to be modular ("use __ screen" syntax?)
 # TODO: clean up unused transparent backgrounds... or use im.Scale() isntead of a new image each time?
 screen town_menus:
     # add "images/town_menus_without_building.png"

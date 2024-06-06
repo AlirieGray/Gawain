@@ -22,7 +22,6 @@ screen cc_screen:
                         unhovered SetVariable("current_tooltip", ["", ""])   
                         action SetVariable("current_tooltip", [attribute, stat_descriptions[attribute]])            
                     hbox:
-                        # TODO: make arrows flush with stat box, with transparent margins, so tooltip doesn't disappear when mousing over
                         imagebutton:
                             yalign 0.5
                             idle "gui/button/l_arrow_idle.png"
@@ -106,7 +105,7 @@ screen cc_screen:
             xsize 250
             yalign .2
             style "spacing" 
-            # TODO: health is based on mettle, stamina is based on fortitude 
+
             vbox:
                 text "Health" 
                 hbox:

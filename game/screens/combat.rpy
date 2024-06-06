@@ -51,11 +51,10 @@ screen combat_menus(enemy):
         text combat_handler.get_combat_status_string()
 
     # action buttons
-    # TODO: once enemy dies, replace this with a "continue" button
-    if combat_handler.player_turn and combat_handler.current_enemy is not None:
+    if combat_handler.current_enemy is not None:
         use my_button("Sword Attack", Function(g.attack, attack_type="swordplay", target=enemy), 400, 600)
         use my_button("Bow and Arrow", Function(g.attack, attack_type="archery", target=enemy), 575, 600)
         use my_button("Brawl", Function(g.attack, attack_type="brawling", target=enemy), 750, 600)
     elif combat_handler.current_enemy is None:
-        use my_button("Continue", Jump(calendar.next_jump), 750, 600)
+        use my_button("Continue", [Hide("combat_menus"), Hide("stats_left"), Jump(calendar.next_jump)], 750, 600)
 

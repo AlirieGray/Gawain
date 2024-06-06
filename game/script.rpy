@@ -1,5 +1,5 @@
 ﻿# character creation
-default cc_points = 30 # dev value, change to 30 for release
+default cc_points = 2 # dev value, change to 30 for release
 default activities_selected = False
 default activities_finished = False
 default current_tooltip = ["", ""]
@@ -35,7 +35,8 @@ label start:
     # characters
     $ g = Gawain(Character("Gawain"))
     $ l = Lady(Character("Lady of the Lake"))
-    $ beast_1 = Enemy(Character("Monster"), "Monster", 10, 40, 2, "images/monster.png")
+    # TODO: 50 health is a dev number, should have 10 release
+    $ beast_1 = Enemy(Character("Monster"), "Monster", 50, 40, 2, "images/monster.png")
 
     # handlers
     $ calendar = Calendar()
@@ -47,7 +48,7 @@ label start:
     #####***** INTRO CUTSCENE *****#####
 
 
-    # # TODO: show tooltip indicating click or press spacebar to continue...
+    $ renpy.notify("Click or press spacebar to continue.")
 
     # "{i}In the land of yore, when kings and queens still ruled over all and knights still roamed the kingdom, you, Gawain, fought valiantly to prove yourself worthy of your place at King Arthur's Round Table.{/i}"
     # "{i}You battled fearsome beasts and loathsome sorcerers, traveled far and wide on many a dangerous quest, and wooed many lusty and kind-hearted maidens alike.{/i}"
@@ -156,7 +157,7 @@ label start:
 
         # TODO: DEV JUMP ONLY
         # REMOVE FOR BUILD
-        # jump first_combat_time
+        jump first_combat_time
 
         scene lake
 
@@ -205,6 +206,8 @@ label start:
         $ wait_for_status(activities_selected)
 
     label tasks_only:
+        show screen town_screen
+
         $ g.c("I wonder what awaits me this week...")
 
         show screen task
@@ -253,6 +256,15 @@ label start:
 
     label second_story_event:
         $ g.c("This should be running IFF it's blood month or whatever")
+
+    label visit_lake:
+        scene lake
+
+        show lady at midright_intro
+
+        $ l.c("Welcome back, Sir Gawain.")
+
+        # TODO: wait for user to go back to town? or go back to town ourselves 
 
     # This ends the game.
 

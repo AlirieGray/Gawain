@@ -14,13 +14,14 @@ init python:
         def roll_for_skill(self, stat):
             gawain_stat = self.character.stats_dict[stat]
             modifier = get_modifier(gawain_stat)
-            return roll(6, modifier)
+            return roll(3, modifier)
 
         def get_outcome(self):
             # default stats 
+            # TODO: figure out stats for all activities
             stats = ['mettle', 'fortitude']
             if self.name == 'Tavern':
-                stats = ['charm', 'intuition'] # TODO???
+                stats = ['charm', 'intuition']
 
             return [{
                 'skill_gain': self.roll_for_skill(stats[0]),
@@ -117,7 +118,8 @@ init python:
         # TODO: call this function when incrememting calendar
         # TODO: distinguish story events from task incrementing stats view
         # TODO: map out all story events cleanly and refactor the class (maybe just a simple dict)
-        # TODO: end of month should jump back to lake
+        # TODO: end of month should jump back to lake, after combat
+        # combat should also be at end of 4th week of activities
         def set_next_jump(self, jump=None):
             if jump:
                 self.next_jump = jump
@@ -132,7 +134,7 @@ init python:
             elif self.current_day > 5:
                 self.next_jump = 'go_to_town'
             else: 
-                self.next_jump = 'tasks_only'
+                self.next_jump = 'visit_lake'
 
 
     def execute_day():

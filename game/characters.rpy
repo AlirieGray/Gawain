@@ -1,6 +1,12 @@
 init python:
     import math
     import time
+
+    dev_default = 9
+    prod_default = 5
+
+    # TODO: max out stats (at 100?)
+
     class Gawain:
         def __init__(self, character):
             self.c = character
@@ -10,14 +16,14 @@ init python:
             self.stats_dict = {
                 "piety": 1,
                 "honor": 1,
-                "mettle": 5,
-                "fortitude": 5,
-                "archery": 5,
-                "swordplay": 5,
-                "charm": 5,
-                "brawling": 5,
-                "intuition": 5,
-                "medicine": 5,
+                "mettle": dev_default,
+                "fortitude": dev_default,
+                "archery": dev_default,
+                "swordplay": dev_default,
+                "charm": dev_default,
+                "brawling": dev_default,
+                "intuition": dev_default,
+                "medicine": dev_default,
             }
             
 
@@ -54,7 +60,10 @@ init python:
 
         def apply_damage(self, damage):
             self.hp = self.hp - damage
-            # handle death/game over :( 
+
+            if self.hp < 1:
+                self.hp = 0
+                combat_handler.gawain_defeated()
 
     class Lady:
         def __init__(self, character):
