@@ -55,6 +55,16 @@ screen combat_menus(enemy):
         use my_button("Sword Attack", Function(g.attack, attack_type="swordplay", target=enemy), 400, 600)
         use my_button("Bow and Arrow", Function(g.attack, attack_type="archery", target=enemy), 575, 600)
         use my_button("Brawl", Function(g.attack, attack_type="brawling", target=enemy), 750, 600)
+        
     elif combat_handler.current_enemy is None:
         use my_button("Continue", [Hide("combat_menus"), Hide("stats_left"), Jump(calendar.next_jump)], 750, 600)
+
+    hbox:
+        ypos 612
+        xpos 400 
+        xsize 500
+        
+        text "+" + str(get_attack_modifier(g.stats_dict["swordplay"])) + " from Swordplay"  style "little_font" 
+        text "+" + str(get_attack_modifier(g.stats_dict["archery"])) + " from Archery"  style "little_font" 
+        text "+" + str(get_attack_modifier(g.stats_dict["brawling"])) + " from Brawling"  style "little_font" xoffset 12
 

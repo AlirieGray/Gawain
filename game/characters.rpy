@@ -48,7 +48,7 @@ init python:
             # also spends some stamina, depends on the type of attack or special ability
 
             # get attack modifier
-            attack_modifier = self.stats_dict[attack_type]
+            attack_modifier = get_attack_modifier(self.stats_dict[attack_type])
             to_hit = roll(100, attack_modifier)
 
             # roll to hit, then roll for damage if roll beats target ac

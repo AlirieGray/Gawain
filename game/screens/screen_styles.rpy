@@ -19,3 +19,6 @@ style special_font:
 
 style tooltip_text:
     size 20    
+
+style little_font:
+    size 16
