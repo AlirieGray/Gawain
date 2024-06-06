@@ -35,6 +35,8 @@ label start:
     # characters
     $ g = Gawain(Character("Gawain"))
     $ l = Lady(Character("Lady of the Lake"))
+    define d = Character("Llud")
+
     # TODO: 50 health is a dev number, should have 10 release
     $ beast_1 = Enemy(Character("Monster"), "Monster", 50, 40, 2, "images/monster.png")
 
@@ -49,6 +51,8 @@ label start:
 
 
     $ renpy.notify("Click or press spacebar to continue.")
+
+    # jump lluds # TODO DEV JUMP ONLY
 
     # "{i}In the land of yore, when kings and queens still ruled over all and knights still roamed the kingdom, you, Gawain, fought valiantly to prove yourself worthy of your place at King Arthur's Round Table.{/i}"
     # "{i}You battled fearsome beasts and loathsome sorcerers, traveled far and wide on many a dangerous quest, and wooed many lusty and kind-hearted maidens alike.{/i}"
@@ -256,6 +260,19 @@ label start:
 
     label second_story_event:
         $ g.c("This should be running IFF it's blood month or whatever")
+
+
+    label lluds:
+        scene town 
+
+        d "Welcome to Llud's Libations!"
+
+        $ _window_hide()
+
+        show screen shop
+
+        $ wait_for_status(activities_selected)
+
 
     label visit_lake:
         scene lake

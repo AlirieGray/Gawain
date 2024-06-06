@@ -8,6 +8,5 @@ screen hud:
         # TODO: use bars for health and stamina
         hbox:
             text "HP:" + str(g.hp)
-            text "Stamina:" + str(g.stamina) xoffset 15
             text "Gold: " + str(g.gold) xoffset 25
 

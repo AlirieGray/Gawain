@@ -12,7 +12,7 @@ init python:
             self.c = character
             self.gold = 0
             self.hp = 10 + math.floor(5 / 2)
-            self.stamina = 10
+            # self.stamina = 10
             self.stats_dict = {
                 "piety": 1,
                 "honor": 1,
@@ -25,6 +25,7 @@ init python:
                 "intuition": dev_default,
                 "medicine": dev_default,
             }
+            self.inventory = []
             
 
         def change_stat(self, stat, val):
@@ -106,9 +107,9 @@ init python:
     # TODO: apply all of these stats in the gameplay...
     stat_descriptions = {
         "mettle": "Mettle is a knight's resolve, his ability to stand courageously in the face of danger and hardship.\nThis attribute increases your total health point maximum.",
-        "fortitude": "A knight's duty is often arduous and grueling, he must therefore possess fortitude of both mind and body.\nThis attribute increases your total stamina maximum, which is spent for attacks and special abilities.",
+        "fortitude": "A knight's duty is often arduous and grueling, he must therefore possess fortitude of both mind and body.\nThis attribute increases your rate of skill gain.",
         "intuition": "There is much in this world that lies beneath the surface, hidden to all but those with a trained eye and a still mind.\nThis attribute increases your chance of dodging incoming attacks.",
-        "charm": "A knight must comport himself with charm and courtesy, in accordance with the chivalric virtues.\nThis attribute increased your chance of success in social scenarios.",
+        "charm": "A knight must comport himself with charm and courtesy, in accordance with the chivalric virtues.\nThis attribute increased your chance of success in social scenarios and lowers the cost of items in the shop.",
         "archery": "From a young age, a knight trains his skill with a bow for both sport and warfare.\nThis skill increases your damage and chance to hit with a bow and arrow attack.",
         "swordplay": "A knight's weapon is his life. You have studied the blade since you were a young page.\nThis skill increases your damage and chance to hit with a sword attack.",
         "brawling": "At times, a knight must defend himself without a weapon. His skill with his fists is then tested.\nThis skill increases your damage and chance to hit with unarmed attacks.",

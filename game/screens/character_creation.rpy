@@ -111,11 +111,11 @@ screen cc_screen:
                 hbox:
                     add 'gui/custom/round_square_empty.png' xpos 5
                     text str(g.hp) xpos -30 yalign 0.5
-            vbox:
-                text "Stamina" 
-                hbox:
-                    add 'gui/custom/round_square_empty.png' xpos 5
-                    text str(g.stamina) xpos -30 yalign 0.5
+            # vbox:
+            #     text "Stamina" 
+            #     hbox:
+            #         add 'gui/custom/round_square_empty.png' xpos 5
+            #         text str(g.stamina) xpos -30 yalign 0.5
             
             text "Points Remaining " + str(cc_points)
     
