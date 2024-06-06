@@ -1,3 +1,4 @@
+# TODO: button should show when disabled, but be grayed-out...
 screen my_button(button_text, button_action, x_position, y_position):
     button:
         xpos x_position

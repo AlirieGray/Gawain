@@ -17,13 +17,21 @@ init python:
             return roll(6, modifier)
 
         def get_outcome(self):
-            stat = 'charm' # TODO???
+            # default stats 
+            stats = ['mettle', 'grit']
+            if self.name == 'Tavern':
+                stats = ['charm', 'intuition'] # TODO???
 
-            return {
-                'skill_gain': self.roll_for_skill(stat),
-                'gold_gain': self.roll_for_gold(stat),
-                'stat_name': stat
-            }
+            return [{
+                'skill_gain': self.roll_for_skill(stats[0]),
+                'gold_gain': self.roll_for_gold(stats[0]),
+                'stat_name': stats[0]
+            },
+            {
+                'skill_gain': self.roll_for_skill(stats[1]),
+                'gold_gain': self.roll_for_gold(stats[1]),
+                'stat_name': stats[1]
+            }]
 
     # utility function 
     def ordinal(n):
@@ -35,7 +43,7 @@ init python:
             self.current_month = 0
             self.current_week = 1
             self.current_day = 1
-            self.current_day_outcome = {'stat_name': 'mettle', 'skill_gain': 0, 'gold_gain': 0}
+            self.current_day_outcome = [{'stat_name': 'mettle', 'skill_gain': 0, 'gold_gain': 0}, {'stat_name': 'grit', 'skill_gain': 0, 'gold_gain': 0}]
             self.next_jump = 'first_story_event'
             self.activity_slots = ['*none selected*']
             self.scenes_played = {
@@ -76,12 +84,15 @@ init python:
             return self.months_list[self.current_month]
 
         def increment_week(self):
+            self.current_day = 1
+            # reset current task and outcomes   
             if self.get_current_week() == 4:
                 self.current_month += 1
                 self.current_week = 1
             else:
                 self.current_week += 1
             self.activity_slots =  ['*none selected*']
+            self.current_day_outcome = [{'stat_name': 'mettle', 'skill_gain': 0, 'gold_gain': 0}, {'stat_name': 'grit', 'skill_gain': 0, 'gold_gain': 0}]
 
         # TODO reset for beginning of week
         # TODO Set jump??? 
@@ -90,15 +101,8 @@ init python:
             # if it's the last day of the week, set the week back to Monday.
             # if it's also the end of the month, increment the month and set weeks back to 1
             # otherwise just increment the week
-            # clear current day outcome when going to the next week
             if self.current_day == 7:
-                self.current_day = 1
-                self.current_day_outcome = {'stat_name': 'mettle', 'skill_gain': 0, 'gold_gain': 0}
-                if self.current_week == 4:
-                    self.current_month += 1
-                    self.current_week = 1
-                else:
-                    self.current_week += 1
+                self.increment_week()
                 self.set_next_jump()
                 return
             # if it's not the last day of the week, just increment the day and set the jump
@@ -106,7 +110,6 @@ init python:
             self.set_next_jump()
 
         def add_activity(self, activity):
-            # TODO: player should be able to select which slot they are filling
             # TODO: implement second activity slot
             self.activity_slots[0] = activity
 
@@ -138,10 +141,11 @@ init python:
 
         # TODO: first task and second task
         if calendar.activity_slots[0] == "Visit Tavern":
-            first_task = Task('Tavern', calendar, g)
-            first_outcome = first_task.get_outcome()
-            calendar.current_day_outcome = first_outcome
-            g.change_stat(first_outcome['stat_name'], first_outcome['skill_gain'])
+            task = Task('Tavern', calendar, g)
+            outcomes = task.get_outcome()
+            calendar.current_day_outcome = outcomes
+            for outcome in outcomes:
+                g.change_stat(outcome['stat_name'], outcome['skill_gain'])
             calendar.increment_day()
             
         # TODO: testing click to increment day....
