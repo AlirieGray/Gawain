@@ -52,17 +52,16 @@ init python:
                 'second_story_event': False,
             }
             self.months_list = [
-                'Hearthcake Month', 
-                'Hrethmonth', 
-                'Easter Month', 
-                'Three Milkings Month', 
+                # 'Hearthcake Month', 
+                # 'Hrethmonth', 
+                # 'Easter Month', 
+                # 'Three Milkings Month', 
                 'Fallow Month', 
-                'Second Summer Month',
+                'Haymaking Month',
                 'Weed Month',
                 'Holy Month',
                 "Hunter's Moon Month",
                 'Blood Month',
-                'After Yule Month'
                 ]
 
         def get_current_week(self):
@@ -134,7 +133,7 @@ init python:
             elif self.current_day > 5:
                 self.next_jump = 'go_to_town'
             else: 
-                self.next_jump = 'visit_lake'
+                self.next_jump = 'tasks_only'
 
 
     def execute_day():

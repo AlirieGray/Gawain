@@ -57,7 +57,7 @@ label start:
     
     # TODO: DEV JUMP ONLY
     # REMOVE FOR BUILD
-    jump first_combat_time
+    # jump first_combat_time
 
     # "{i}In the land of yore, when kings and queens still ruled over all and knights still roamed the kingdom, you, Gawain, fought valiantly to prove yourself worthy of your place at King Arthur's Round Table.{/i}"
     # "{i}You battled fearsome beasts and loathsome sorcerers, traveled far and wide on many a dangerous quest, and wooed many lusty and kind-hearted maidens alike.{/i}"
@@ -196,6 +196,9 @@ label start:
 
         show screen town_menus
 
+        $ current_tooltip = ["Selecting Activities", "Each week you can pick one task to earn gold and increase your skills.\nHover over a building to see what the gold and skills reward for completing that task will be.\nClick on a building to set this week's activity, then press \"Start Week.\""]
+        show screen tooltip(current_tooltip, 800, 400, True)
+
         $ wait_for_status(activities_selected)
     
     label go_to_town:
@@ -257,17 +260,11 @@ label start:
 
         jump visit_lake
             
-                
-
-        
-
         # TODO: automatically go to the next month 
         # combat should actually happen at the END of the fourth week, not the beginning
 
         # $ wait_for_status(activities_finished)
 
-    label end_combat:
-        "you lose!!"
 
     label first_story_event:
         $ g.c("Haha! My test worked!")

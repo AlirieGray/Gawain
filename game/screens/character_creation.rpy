@@ -2,7 +2,7 @@ screen cc_screen:
     add "images/lake.jpg"
     add "gui/custom/transparent_bg_cc.png" xalign .95 yalign .2
     add "images/gawain_portrait.png" yanchor 1.0 yalign 1.0 
-    use tooltip(current_tooltip, 100, 100)
+    use tooltip(current_tooltip, 50, 90, False)
 
 
     # TODO: refeactor the cc screen to be modular, it's way too long
@@ -110,7 +110,7 @@ screen cc_screen:
                 text "Health" 
                 hbox:
                     add 'gui/custom/round_square_empty.png' xpos 5
-                    text str(g.hp) xpos -30 yalign 0.5
+                    text str(g.max_hp) xpos -30 yalign 0.5
             # vbox:
             #     text "Stamina" 
             #     hbox:
