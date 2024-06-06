@@ -90,6 +90,15 @@ init python:
             if self.hp < 1:
                 self.img = "images/monster_dead.png"
     
-    stat_descriptions = {"mettle": "Mettle is a knight's resolve, his ability to stand firm in the face of danger and hardship. This attribute reduces damage from all phyiscal sources."}
+    stat_descriptions = {
+        "mettle": "Mettle is a knight's resolve, his ability to stand firm in the face of danger and hardship. This attribute reduces damage from all phyiscal sources.",
+        "grit": ".............",
+        "intuition": "!!!!",
+        "charm": "testing....",
+        "archery": "..",
+        "swordplay": "A knight's weapon is his life.",
+        "brawling": "",
+        "medicine": "..."
+    }
     attributes = ["mettle", "grit", "intuition", "charm"]
     skills = ["archery", "swordplay", "brawling", "medicine"]

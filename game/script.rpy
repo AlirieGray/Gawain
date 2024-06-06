@@ -2,6 +2,7 @@
 default cc_points = 2 # dev value, change to 30 for release
 default activities_selected = False
 default activities_finished = False
+default current_tooltip = ["", ""]
 
 # styles
 transform midleft_intro:
