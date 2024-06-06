@@ -1,5 +1,5 @@
 ﻿# character creation
-default cc_points = 2 # dev value, change to 30 for release
+default cc_points = 30 # dev value, change to 30 for release
 default activities_selected = False
 default activities_finished = False
 default current_tooltip = ["", ""]
@@ -127,24 +127,24 @@ label start:
     # $ g.c("I request your blessing, my Lady. I am to go forth to Herefordshire, though I have little desire to proceed alone.")
 
     # hide gawain
-    # show lady at midright 
+    show lady at midright 
 
-    # $ l.c("Well, dearest Gawain, consider this a token of my faith.")
+    $ l.c("Well, dearest Gawain, consider this a token of my faith.")
 
-    # "{i}The Lady of the Lake offers you a golden, glowing flower teeming with so much arcane energy, your fingertips buzz. You're quick to kneel before her again as you accept her gift, bowing low out of respect.{/i}"
+    "{i}The Lady of the Lake offers you a golden, glowing flower teeming with so much arcane energy, your fingertips buzz. You're quick to kneel before her again as you accept her gift, bowing low out of respect.{/i}"
 
-    # $ _window_hide()
+    $ _window_hide()
 
 
     #####***** END CUTSCENE *****#####
-
-    # $ g.c("The name's Gawain. Sir Gawain.")
 
     # TODO: show tutorial 
 
     # TODO: disable skip when in certain menus
 
     show screen cc_screen
+
+    $ renpy.notify("Hover your mouse over a stat to view a description. Assign all points to continue.")
 
     # TODO: gawain not showing here....?
 

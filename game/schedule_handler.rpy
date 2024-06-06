@@ -18,7 +18,7 @@ init python:
 
         def get_outcome(self):
             # default stats 
-            stats = ['mettle', 'grit']
+            stats = ['mettle', 'fortitude']
             if self.name == 'Tavern':
                 stats = ['charm', 'intuition'] # TODO???
 
@@ -43,7 +43,7 @@ init python:
             self.current_month = 0
             self.current_week = 1
             self.current_day = 1
-            self.current_day_outcome = [{'stat_name': 'mettle', 'skill_gain': 0, 'gold_gain': 0}, {'stat_name': 'grit', 'skill_gain': 0, 'gold_gain': 0}]
+            self.current_day_outcome = [{'stat_name': 'mettle', 'skill_gain': 0, 'gold_gain': 0}, {'stat_name': 'fortitude', 'skill_gain': 0, 'gold_gain': 0}]
             self.next_jump = 'first_story_event'
             self.activity_slots = ['*none selected*']
             self.scenes_played = {
@@ -92,7 +92,7 @@ init python:
             else:
                 self.current_week += 1
             self.activity_slots =  ['*none selected*']
-            self.current_day_outcome = [{'stat_name': 'mettle', 'skill_gain': 0, 'gold_gain': 0}, {'stat_name': 'grit', 'skill_gain': 0, 'gold_gain': 0}]
+            self.current_day_outcome = [{'stat_name': 'mettle', 'skill_gain': 0, 'gold_gain': 0}, {'stat_name': 'fortitude', 'skill_gain': 0, 'gold_gain': 0}]
 
         # TODO reset for beginning of week
         # TODO Set jump??? 

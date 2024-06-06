@@ -5,23 +5,16 @@ screen cc_screen:
     use tooltip(current_tooltip, 100, 100)
 
 
-    # for i, attribute in enumerate(attributes):
-    #     mousearea:
-    #         # area (500, 0 + (i * 100), 100, 100)
-    #         hovered set_tooltip(attribute, stat_descriptions[attribute])
-    #         # unhovered set_tooltip("", "")
-
-
+    # TODO: refeactor the cc screen to be modular, it's way too long
     hbox:
         xalign 1.0
-        yalign .22
-        spacing 120
+        yalign .25
+        spacing 100
         vbox:
             style "spacing"
-            text "Attributes:" xpos -20 style "special_font"
+            text "Attributes:" xpos -10 style "special_font" 
             for attribute in attributes:
                 vbox:
-                    spacing 1
                     textbutton attribute.title():
                         xalign 0.5 
                         text_style "cc_label_text"
@@ -31,7 +24,7 @@ screen cc_screen:
                     hbox:
                         # TODO: make arrows flush with stat box, with transparent margins, so tooltip doesn't disappear when mousing over
                         imagebutton:
-                            yalign 0.5 xpos -10
+                            yalign 0.5
                             idle "gui/button/l_arrow_idle.png"
                             hover "gui/button/l_arrow.png"
                             hovered SetVariable("current_tooltip", [attribute, stat_descriptions[attribute]])
@@ -40,17 +33,22 @@ screen cc_screen:
                                 action [Function(g.change_stat, stat=attribute, val=-1), SetVariable("cc_points", cc_points + 1)]
                         
                         imagebutton: 
-                            xpos 0
+                            # xpos 0
                             idle 'gui/custom/round_square_empty.png' 
                             hover 'gui/custom/round_square_empty.png' 
                             hovered SetVariable("current_tooltip", [attribute, stat_descriptions[attribute]])
                             unhovered SetVariable("current_tooltip", ["", ""])                 
                             action SetVariable("current_tooltip", [attribute, stat_descriptions[attribute]])
 
-                        text str(g.stats_dict[attribute]) xpos -28 yalign 0.5
+                        if g.stats_dict[attribute] < 10:
+                            text "  " + str(g.stats_dict[attribute]) xoffset -35 yalign 0.5 
+
+                        else:
+                            text str(g.stats_dict[attribute]) xoffset -36 yalign 0.5 
                         
                         imagebutton:
                             yalign 0.5 
+                            xpos -21
                             idle "gui/button/r_arrow_idle.png"
                             hover "gui/button/r_arrow.png"
                             hovered SetVariable("current_tooltip", [attribute, stat_descriptions[attribute]])
@@ -63,28 +61,63 @@ screen cc_screen:
             for skill in skills:
                 vbox:
                     spacing 1
-                    text skill.title() xalign 0.5
+                    textbutton skill.title():
+                        xalign 0.5 
+                        text_style "cc_label_text"
+                        hovered SetVariable("current_tooltip", [skill, stat_descriptions[skill]])
+                        unhovered SetVariable("current_tooltip", ["", ""])   
+                        action SetVariable("current_tooltip", [skill, stat_descriptions[skill]])   
                     hbox:
                         imagebutton:
-                            yalign 0.5 xpos -10
+                            yalign 0.5
                             idle "gui/button/l_arrow_idle.png"
                             hover "gui/button/l_arrow.png"
+                            hovered SetVariable("current_tooltip", [skill, stat_descriptions[skill]])
+                            unhovered SetVariable("current_tooltip", ["", ""])   
                             if g.get_stat(skill) > 1:
                                 action [Function(g.change_stat, stat=skill, val=-1), SetVariable("cc_points", cc_points + 1)]
-                        add 'gui/custom/round_square_empty.png' xpos 0
-                        text str(g.stats_dict[skill]) xpos -28 yalign 0.5
+                        
+                        imagebutton: 
+                            xpos 0
+                            idle 'gui/custom/round_square_empty.png' 
+                            hover 'gui/custom/round_square_empty.png' 
+                            hovered SetVariable("current_tooltip", [skill, stat_descriptions[skill]])
+                            unhovered SetVariable("current_tooltip", ["", ""])                 
+                            action SetVariable("current_tooltip", [skill, stat_descriptions[skill]])
+                        
+
+                        if g.stats_dict[skill] < 10:
+                            text "  " + str(g.stats_dict[skill]) xoffset -35 yalign 0.5 
+
+                        else:
+                            text str(g.stats_dict[skill]) xoffset -36 yalign 0.5 
+
                         imagebutton:
                             yalign 0.5
+                            xpos -21
                             idle "gui/button/r_arrow_idle.png"
                             hover "gui/button/r_arrow.png"
+                            hovered SetVariable("current_tooltip", [skill, stat_descriptions[skill]])
+                            unhovered SetVariable("current_tooltip", ["", ""])   
                             if cc_points > 0:
                                 action [Function(g.change_stat, stat=skill, val=1), SetVariable("cc_points", cc_points - 1)]
     
         vbox:
             xsize 250
-            # TODO: health is based on mettle, stamina is based on grit (or vice versa)
-            text "Health"
-            text "Stamina"
+            yalign .2
+            style "spacing" 
+            # TODO: health is based on mettle, stamina is based on fortitude 
+            vbox:
+                text "Health" 
+                hbox:
+                    add 'gui/custom/round_square_empty.png' xpos 5
+                    text str(g.hp) xpos -30 yalign 0.5
+            vbox:
+                text "Stamina" 
+                hbox:
+                    add 'gui/custom/round_square_empty.png' xpos 5
+                    text str(g.stamina) xpos -30 yalign 0.5
+            
             text "Points Remaining " + str(cc_points)
     
     if cc_points <1:

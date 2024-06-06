@@ -5,13 +5,13 @@ init python:
         def __init__(self, character):
             self.c = character
             self.gold = 0
-            self.hp = 20
+            self.hp = 10 + math.floor(5 / 2)
             self.stamina = 10
             self.stats_dict = {
                 "piety": 1,
                 "honor": 1,
                 "mettle": 5,
-                "grit": 5,
+                "fortitude": 5,
                 "archery": 5,
                 "swordplay": 5,
                 "charm": 5,
@@ -19,9 +19,13 @@ init python:
                 "intuition": 5,
                 "medicine": 5,
             }
+            
 
         def change_stat(self, stat, val):
             self.stats_dict[stat] = self.stats_dict[stat] + val
+
+            if stat == 'mettle':
+                self.hp = 10 + math.floor(self.stats_dict[stat] / 2)
 
         def get_stat(self, stat):
             return self.stats_dict[stat]
@@ -90,15 +94,16 @@ init python:
             if self.hp < 1:
                 self.img = "images/monster_dead.png"
     
+    # TODO: apply all of these stats in the gameplay...
     stat_descriptions = {
-        "mettle": "Mettle is a knight's resolve, his ability to stand firm in the face of danger and hardship. This attribute reduces damage from all phyiscal sources.",
-        "grit": ".............",
-        "intuition": "!!!!",
-        "charm": "testing....",
-        "archery": "..",
-        "swordplay": "A knight's weapon is his life.",
-        "brawling": "",
-        "medicine": "..."
+        "mettle": "Mettle is a knight's resolve, his ability to stand courageously in the face of danger and hardship.\nThis attribute increases your total health point maximum.",
+        "fortitude": "A knight's duty is often arduous and grueling, he must therefore possess fortitude of both mind and body.\nThis attribute increases your total stamina maximum, which is spent for attacks and special abilities.",
+        "intuition": "There is much in this world that lies beneath the surface, hidden to all but those with a trained eye and a still mind.\nThis attribute increases your chance of dodging incoming attacks.",
+        "charm": "A knight must comport himself with charm and courtesy, in accordance with the chivalric virtues.\nThis attribute increased your chance of success in social scenarios.",
+        "archery": "From a young age, a knight trains his skill with a bow for both sport and warfare.\nThis skill increases your damage and chance to hit with a bow and arrow attack.",
+        "swordplay": "A knight's weapon is his life. You have studied the blade since you were a young page.\nThis skill increases your damage and chance to hit with a sword attack.",
+        "brawling": "At times, a knight must defend himself without a weapon. His skill with his fists is then tested.\nThis skill increases your damage and chance to hit with unarmed attacks.",
+        "medicine": "In the midst of battle, a knight's knowledge of field medicine means the difference between life and death.\nThis skill increases your health regeneration rate."
     }
-    attributes = ["mettle", "grit", "intuition", "charm"]
+    attributes = ["mettle", "fortitude", "intuition", "charm"]
     skills = ["archery", "swordplay", "brawling", "medicine"]
