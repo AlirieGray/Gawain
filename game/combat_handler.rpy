@@ -29,6 +29,8 @@ init python:
             else:
                 self.combat_status_string = self.combat_status_string + "\nand hits you for " + str(dmg) + " damage!"
                 g.take_damage(dmg)
+            if g.current_hp < 1:
+                self.gawain_defeated()
     
         def gawain_attack(self, attack_type):
             if attack_type == "swordplay":
@@ -37,12 +39,15 @@ init python:
                 self.combat_status_string = "You loose an arrow at the beast."
             else:
                 self.combat_status_string = "You lash out with your bare fists."
+            
             dmg = g.attack(attack_type, self.current_enemy)
             if dmg == 0:
                 self.combat_status_string = self.combat_status_string + "\nYou miss."
             else:
                 self.combat_status_string = self.combat_status_string + "\nYou hit the enemy for " + str(dmg) + " damage!"
                 self.current_enemy.take_damage(dmg)
+            if self.current_enemy.hp < 1:
+                self.enemy_defeated()
 
         def get_combat_status_string(self):
             return self.combat_status_string

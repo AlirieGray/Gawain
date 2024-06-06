@@ -2,10 +2,8 @@
 *rpymc
 game/saves
 game/cache
-game/images
 traceback.txt
 log.txt
 errors.txt
-game/gui/fonts
 .vscode/
 *.bak

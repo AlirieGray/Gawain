@@ -38,7 +38,7 @@ label start:
     define d = Character("Llud")
 
     # TODO: 50 health is a dev number, should have 10 release
-    $ beast_1 = Enemy(Character("Monster"), "Monster", 50, 40, 2, "images/monster.png")
+    $ beast_1 = Enemy(Character("Monster"), "Monster", 10, 40, 2, "images/monster.png")
 
     # handlers
     $ calendar = Calendar()
@@ -204,7 +204,7 @@ label start:
         show screen town_screen
         
         # TODO: different "bark" for each week/month
-        $ g.c("This is the town, where I can do activities.")
+        $ g.c("Another week in Hereford. What should I do this week?")
 
         show screen town_menus
 
@@ -235,7 +235,7 @@ label start:
 
         show screen combat_menus(beast_1)
 
-        while g.current_hp > 0:
+        while g.current_hp > 0 and combat_handler.current_enemy:
             menu:
                 "Sword Attack":
                     $ combat_handler.gawain_attack("swordplay")
@@ -247,9 +247,15 @@ label start:
                     $ combat_handler.gawain_attack("brawling")
             "[str(combat_handler.combat_status_string)]" 
 
-            $ combat_handler.enemy_attack()
+            if combat_handler.current_enemy:
 
-            "[str(combat_handler.combat_status_string)]" 
+                $ combat_handler.enemy_attack()
+
+                "[str(combat_handler.combat_status_string)]"
+
+        hide screen combat_menus
+
+        jump visit_lake
             
                 
 
@@ -306,6 +312,8 @@ label start:
         show lady at midright_intro
 
         $ l.c("Welcome back, Sir Gawain.")
+
+        jump go_to_town
 
         # TODO: wait for user to go back to town? or go back to town ourselves 
 
