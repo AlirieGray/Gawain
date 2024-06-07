@@ -196,7 +196,7 @@ label start:
 
         show screen town_menus
 
-        $ current_tooltip = ["Selecting Activities", "Each week you can pick one task to earn gold and increase your skills.\nHover over a building to see what the gold and skills reward for completing that task will be.\nClick on a building to set this week's activity, then press \"Start Week.\""]
+        $ current_tooltip = ["Selecting Activities", "Each week you can pick one task to earn gold and increase your skills.\nHover over a building to see what the gold and skills reward for completing that task will be.\nClick on a building to set this week's activity."]
         show screen tooltip(current_tooltip, 800, 400, True)
 
         $ wait_for_status(activities_selected)
@@ -216,13 +216,9 @@ label start:
     label tasks_only:
         show screen town_screen
 
-        $ g.c("I wonder what awaits me this week...")
-
         show screen task
 
         $ wait_for_status(activities_finished)
-
-        $ g.c("okay moving on....")
 
         hide screen task
 
@@ -245,9 +241,6 @@ label start:
                 "Bow and Arrow":
                     $ g.attack("archery", beast_1)
                     $ combat_handler.gawain_attack("archery")
-                "Brawl":
-                    $ g.attack("brawling", beast_1)
-                    $ combat_handler.gawain_attack("brawling")
             "[str(combat_handler.combat_status_string)]" 
 
             if combat_handler.current_enemy:
@@ -261,31 +254,16 @@ label start:
         jump visit_lake
             
         # TODO: automatically go to the next month 
-        # combat should actually happen at the END of the fourth week, not the beginning
-
-        # $ wait_for_status(activities_finished)
 
 
-    label first_story_event:
-        $ g.c("Haha! My test worked!")
+    label first_tavern_event:
+        "You enter the tavern to see a single drunk man alone at the bar." 
 
-        $ g.c("Time for my first task....")
+        # $ calendar.set_played('first_tavern')
 
-        # $ week_outcomes = execute_week(calendar, g)
+        # $ calendar.set_next_jump()
 
-        show screen task
-
-        $ wait_for_status(activities_finished)
-
-        $ g.c("okay moving on....")
-
-        # increment week and go back to town
-
-        # $ calendar.increment_week()
-
-        hide screen task
-
-        jump go_to_town
+        jump tasks_only
 
     label second_story_event:
         $ g.c("This should be running IFF it's blood month or whatever")
@@ -310,7 +288,7 @@ label start:
 
         $ l.c("Welcome back, Sir Gawain.")
 
-        jump go_to_town
+        # jump go_to_town
 
         # TODO: wait for user to go back to town? or go back to town ourselves 
 

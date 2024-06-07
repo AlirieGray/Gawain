@@ -45,17 +45,13 @@ init python:
             self.current_week = 1
             self.current_day = 1
             self.current_day_outcome = [{'stat_name': 'mettle', 'skill_gain': 0, 'gold_gain': 0}, {'stat_name': 'fortitude', 'skill_gain': 0, 'gold_gain': 0}]
-            self.next_jump = 'first_story_event'
+            self.next_jump = 'go_to_town'
             self.activity_slots = ['*none selected*']
             self.scenes_played = {
-                'first_story_event': False,
                 'second_story_event': False,
+                'first_tavern': False
             }
             self.months_list = [
-                # 'Hearthcake Month', 
-                # 'Hrethmonth', 
-                # 'Easter Month', 
-                # 'Three Milkings Month', 
                 'Fallow Month', 
                 'Haymaking Month',
                 'Weed Month',
@@ -123,10 +119,10 @@ init python:
             if jump:
                 self.next_jump = jump
                 return
-            if self.current_month == 0 and self.current_week == 1 and not self.scenes_played['first_story_event']:
-                self.next_jump = 'first_story_event'
-                self.set_played('first_story_event')
-            elif self.current_month == 0 and self.current_week == 4:
+            if self.activity_slots[0] == 'Visit Tavern' and not self.scenes_played['first_tavern']:
+                self.next_jump = 'first_tavern_event'
+                self.set_played('first_tavern')
+            elif self.current_month == 0 and self.current_week == 4 and self.current_day > 5:
                 self.next_jump = 'first_combat_time'
             elif self.current_month == 1 and self.current_week == 1:
                 self.next_jump = 'second_story_event'

@@ -3,7 +3,7 @@
 # TODO: reset health after combat ends??
 # TODO: buttons to take potion, inventory on side screen or in hud
 screen stats_left:
-    add "gui/custom/transparent_bg_300_700.png" xalign 0.04 yalign 0.2 
+    add "gui/custom/transparent_bg_300_500.png" xalign 0.04 yalign 0.05 
     vbox:
         xalign .08
         yalign .09
@@ -14,7 +14,7 @@ screen stats_left:
                 text attribute.title() xpos 10 ypos 9
                 hbox:
                     spacing 6
-                    bar value StaticValue(g.stats_dict[attribute], 100):
+                    bar value StaticValue(g.stats_dict[attribute], 200):
                         xmaximum 200
                         ymaximum 40
                         left_bar Frame("gui/custom/round_rectangle_full.png", 10, 0)
@@ -26,7 +26,7 @@ screen stats_left:
                 text skill.title() xpos 10 ypos 9
                 hbox:
                     spacing 6
-                    bar value StaticValue(g.stats_dict[skill], 100):
+                    bar value StaticValue(g.stats_dict[skill], 200):
                         xmaximum 200
                         ymaximum 40
                         left_bar Frame("gui/custom/round_rectangle_full.png", 10, 0)

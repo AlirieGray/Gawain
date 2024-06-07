@@ -13,7 +13,7 @@ screen town_menus:
         hover "images/town_building_hover.png"
         xpos 720
         ypos 195
-        action Function(calendar.add_activity, activity="Visit Tavern")
+        action [Function(calendar.add_activity, activity="Visit Tavern"), Function(calendar.set_next_jump)]
 
     hbox:
         xalign .06
@@ -27,7 +27,7 @@ screen town_menus:
                     text attribute.title() xpos 10 ypos 9
                     hbox:
                         spacing 6
-                        bar value StaticValue(g.stats_dict[attribute], 100):
+                        bar value StaticValue(g.stats_dict[attribute], 200):
                             xmaximum 200
                             ymaximum 40
                             left_bar Frame("gui/custom/round_rectangle_full.png", 10, 0)
@@ -41,7 +41,7 @@ screen town_menus:
                     text skill.title() xpos 10 ypos 9
                     hbox:
                         spacing 6
-                        bar value StaticValue(g.stats_dict[skill], 100):
+                        bar value StaticValue(g.stats_dict[skill], 200):
                             xmaximum 200
                             ymaximum 40
                             left_bar Frame("gui/custom/round_rectangle_full.png", 10, 0)
@@ -54,7 +54,7 @@ screen town_menus:
     text calendar.activity_slots[0] xpos 300 ypos 450
     # TODO: only allow action if both/all actions are selected
     if calendar.activity_slots[0] != "*none selected*":
-        use my_button("Start Week", [Hide("town_menus"), Function(execute_day), Jump(calendar.next_jump)], 215, 590) #TODO: this is a HACK, this button should not increment day
+        use my_button("Start Week", [Hide("town_menus"), Jump(calendar.next_jump)], 215, 590) #TODO: this is a HACK, this button should not increment day
 
 
 # TODO: fix bug where first click doesn't increment stat
@@ -85,7 +85,7 @@ screen task():
                 spacing 5
                 vbox:
                     text outcome['stat_name'].title()
-                    bar value AnimatedValue(g.stats_dict[outcome['stat_name']], 100):
+                    bar value AnimatedValue(g.stats_dict[outcome['stat_name']], 200):
                         xmaximum 200
                         ymaximum 40
                         left_bar Frame("gui/custom/round_rectangle_full.png", 10, 0)

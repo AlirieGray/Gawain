@@ -240,12 +240,11 @@ screen choice(items):
                     action i.action 
 
         hbox:
-            xalign .65 
+            xalign .7 
             yalign .68
-            xsize 500
-            text "+" + str(get_attack_modifier(g.stats_dict["swordplay"])) + " from Swordplay"  style "little_font" xoffset 15
+            xsize 250
+            text "+" + str(get_attack_modifier(g.stats_dict["swordplay"])) + " from Swordplay"  style "little_font" xoffset -20
             text "+" + str(get_attack_modifier(g.stats_dict["archery"])) + " from Archery"  style "little_font" xoffset 35
-            text "+" + str(get_attack_modifier(g.stats_dict["brawling"])) + " from Brawling"  style "little_font" xoffset 80
     else:
         vbox:
             for i in items:

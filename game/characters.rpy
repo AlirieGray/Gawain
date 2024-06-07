@@ -22,9 +22,7 @@ init python:
                 "archery": dev_default,
                 "swordplay": dev_default,
                 "charm": dev_default,
-                "brawling": dev_default,
                 "intuition": dev_default,
-                "medicine": dev_default,
             }
             self.inventory = []
             
@@ -113,8 +111,6 @@ init python:
         "charm": "A knight must comport himself with charm and courtesy, in accordance with the chivalric virtues.\nThis attribute increased your chance of success in social scenarios and lowers the cost of items in the shop.",
         "archery": "From a young age, a knight trains his skill with a bow for both sport and warfare.\nThis skill increases your damage and chance to hit with a bow and arrow attack.",
         "swordplay": "A knight's weapon is his life. You have studied the blade since you were a young page.\nThis skill increases your damage and chance to hit with a sword attack.",
-        "brawling": "At times, a knight must defend himself without a weapon. His skill with his fists is then tested.\nThis skill increases your damage and chance to hit with unarmed attacks.",
-        "medicine": "In the midst of battle, a knight's knowledge of field medicine means the difference between life and death.\nThis skill increases your health regeneration rate."
     }
-    attributes = ["mettle", "fortitude", "intuition", "charm"]
-    skills = ["archery", "swordplay", "brawling", "medicine"]
+    attributes = ["mettle", "intuition", "charm"]
+    skills = ["archery", "swordplay"]
