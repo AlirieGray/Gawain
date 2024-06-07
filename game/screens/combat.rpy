@@ -36,7 +36,7 @@ screen stats_left:
 
 screen combat_menus(enemy):
     # TODO: use scary forest image
-    add "images/town.jpg"
+    add "images/town.png"
     add "gui/custom/transparent_bg_800_500.png" xalign .8 yalign .04
     # use hud
     use stats_left

@@ -23,6 +23,8 @@ init python:
             stats = ['charm', 'intuition']
             if self.name == 'Tavern':
                 stats = ['charm', 'intuition']
+            elif self.name == 'Wash':
+                stats = ['mettle', 'swordplay']
 
             return [{
                 'skill_gain': self.roll_for_skill(stats[0]),
@@ -48,10 +50,15 @@ init python:
             self.current_day_outcome = [{'stat_name': 'charm', 'skill_gain': 0, 'gold_gain': 0}, {'stat_name': 'intuition', 'skill_gain': 0, 'gold_gain': 0}]
             self.next_jump = 'go_to_town'
             self.activity_slots = ['*none selected*']
+            # probably should be array of arrays/dictionaries or something
             self.scenes_played = {
-                'second_story_event': False,
                 'first_tavern': False,
-                'second_tavern': False
+                'second_tavern': False,
+                'first_wash': False,
+                'second_wash': False,
+                'third_wash': False,
+                'fourth_wash': False,
+                'first_cat_haven': False
             }
             self.months_list = [
                 'Fallow Month', 
@@ -118,7 +125,6 @@ init python:
         # TODO: call this function when incrememting calendar
         # TODO: distinguish story events from task incrementing stats view
         # TODO: map out all story events cleanly and refactor the class (maybe just a simple dict)
-        # TODO: end of month should jump back to lake, after combat
         # combat should also be at end of 4th week of activities
         def set_next_jump(self, jump=None):
             if jump:
@@ -129,10 +135,18 @@ init python:
                     self.next_jump = 'first_tavern_event'
                 elif not self.scenes_played['second_tavern']:
                     self.next_jump = 'second_tavern_event'
+
+            if self.activity_slots[0] == 'Visit Washing Well' and self.current_day < 3: 
+                if not self.scenes_played['first_wash']:
+                    self.next_jump = 'first_wash_event'
+                elif not self.scenes_played['second_wash']:
+                    self.next_jump = 'second_wash_event'
+                elif not self.scenes_played['third_wash']:
+                    self.next_jump = 'third_wash_event'
+                else:
+                    self.next_jump = 'wash_no_event'
             elif self.current_month == 0 and self.current_week == 4 and self.current_day > 5:
                 self.next_jump = 'first_combat_time'
-            elif self.current_month == 1 and self.current_week == 1:
-                self.next_jump = 'second_story_event'
             elif self.current_day > 5:
                 self.next_jump = 'go_to_town'
             else: 
@@ -142,9 +156,17 @@ init python:
         # creates a task object (for each activity) to roll for skills and gold
         # and returns a list of 7 (days) with each roll results
 
-        # TODO: first task and second task
+        # TODO: refactor this
         if calendar.activity_slots[0] == "Visit Tavern":
             task = Task('Tavern', calendar, g)
+            outcomes = task.get_outcome()
+            calendar.current_day_outcome = outcomes
+            for outcome in outcomes:
+                g.change_stat(outcome['stat_name'], outcome['skill_gain'])
+            calendar.increment_day()
+
+        elif calendar.activity_slots[0] == "Visit Washing Well":
+            task = Task('Wash', calendar, g)
             outcomes = task.get_outcome()
             calendar.current_day_outcome = outcomes
             for outcome in outcomes:

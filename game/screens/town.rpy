@@ -12,6 +12,13 @@ screen town_menus:
         ypos 195
         action [Function(calendar.add_activity, activity="Visit Tavern")]
 
+    imagebutton:
+        idle "images/town_building.png"
+        hover "images/wash_hover.png"
+        xpos 600
+        ypos 195
+        action [Function(calendar.add_activity, activity="Visit Washing Well")]
+
     text "This week's task:" xalign 0.4 yalign 0.84
     add "gui/custom/square_rectangle_empty.png" xalign 0.6 yalign 0.84
     text calendar.activity_slots[0] xalign 0.6 yalign 0.836

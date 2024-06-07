@@ -248,7 +248,10 @@ screen choice(items):
     else:
         vbox:
             for i in items:
-                textbutton i.caption action i.action
+                if "ENOUGH" in i.caption:
+                    textbutton i.caption action None
+                else:
+                    textbutton i.caption action i.action
 
 
 ## When this is true, menu captions will be spoken by the narrator. When false,

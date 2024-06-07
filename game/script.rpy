@@ -38,6 +38,8 @@ label start:
     define ll = Character("Llud")
     define d = Character("Drunk Man")
     define f = Character("Florian")
+    define o = Character("Olive")
+    define e = Character("Enid")
 
     # TODO: 50 health is a dev number, should have 10 release
     $ beast_1 = Enemy(Character("Monster"), "Monster", 10, 40, 2, "images/monster.png")
@@ -61,22 +63,22 @@ label start:
     # REMOVE FOR BUILD
     # jump first_combat_time
 
-    "{i}In the land of yore, when kings and queens still ruled over all and knights still roamed the kingdom, you, Gawain, fought valiantly to prove yourself worthy of your place at King Arthur's Round Table.{/i}"
-    "{i}You battled fearsome beasts and loathsome sorcerers, traveled far and wide on many a dangerous quest, and wooed many lusty and kind-hearted maidens alike.{/i}"
-    "{i}The name Sir Gawain the True came to mean peace, honor, reliability, and protection among all of King Arthur's peoples.{/i}"
+    "In the land of yore, when kings and queens still ruled over all and knights still roamed the kingdom, you, Gawain, fought valiantly to prove yourself worthy of your place at King Arthur's Round Table."
+    "You battled fearsome beasts and loathsome sorcerers, traveled far and wide on many a dangerous quest, and wooed many lusty and kind-hearted maidens alike."
+    "The name Sir Gawain the True came to mean peace, honor, reliability, and protection among all of King Arthur's peoples."
 
-    "{i}However, that peace has begun to break down, leaving many confused and terrified in its wake.{/i}"
-    "{i}Lady Guinevere ran off with Sir Lancelot, King Arthur abandoned his throne, and all but one knight has melted into the shadows of the kingdom.{/i}"
-    "{i}Worse still, women have begun disappearing from Herefordshire, never to be seen again.{/i}" 
-    "{i}You, Sir Gawain the True, stand alone, left to pick up the crumbling pieces of the kingdom, starting with finding the missing maidens of Herefordshire.{/i}"
-    "{i}Lost and desperately alone, you, now older, wiser, and stronger than in your youth, decide to visit the Lady of the Lake, hoping for sage council as many a knight have been given in the past.{/i}" 
+    "However, that peace has begun to break down, leaving many confused and terrified in its wake."
+    "Lady Guinevere ran off with Sir Lancelot, King Arthur abandoned his throne, and all but one knight has melted into the shadows of the kingdom."
+    "Worse still, women have begun disappearing from Herefordshire, never to be seen again." 
+    "You, Sir Gawain the True, stand alone, left to pick up the crumbling pieces of the kingdom, starting with finding the missing maidens of Herefordshire."
+    "Lost and desperately alone, you, now older, wiser, and stronger than in your youth, decide to visit the Lady of the Lake, hoping for sage council as many a knight have been given in the past." 
     
-    "{i}You travel for weeks, your companion Ragamuffin, a Ragdoll cat your son had gifted you, on your shoulder the whole journey.{/i}"
-    "{i}You fear you may be lost, or horribly misguided, until you come upon a gorgeous lake populated by many happy kitties and thriving foliage alike.{/i}"
+    "You travel for weeks, your companion Ragamuffin, a Ragdoll cat your son had gifted you, on your shoulder the whole journey."
+    "You fear you may be lost, or horribly misguided, until you come upon a gorgeous lake populated by many happy kitties and thriving foliage alike."
 
     show lady at midright_intro
 
-    "{i}Emerging from the center of the lake is a stunning woman - the Lady of the Lake. You are quick to kneel in her presence, head bowed respectfully.{/i}"
+    "Emerging from the center of the lake is a stunning woman - the Lady of the Lake. You are quick to kneel in her presence, head bowed respectfully."
 
     $ l.c("Sir Gawain the True. Fortune smiles upon you on this fine day. What wisdom do you seek?")
 
@@ -88,14 +90,14 @@ label start:
     hide gawain 
     show lady at midright
 
-    "{i}The Lady of the Lake giggles at your properness.{/i}"
+    "The Lady of the Lake giggles at your properness."
 
     $ l.c("No need to grovel, dearest knight. What do you seek?")
 
     hide lady 
     show gawain at midleft
 
-    "{i}Your cheeks burn, eyes glittering with mirth as you rise to your feet.{/i}"
+    "Your cheeks burn, eyes glittering with mirth as you rise to your feet."
 
     $ g.c("I appreciate your candidness, my Lady. I do require your guidance. I'm struggling to find my footing after the dissolution of the Round Table") 
     
@@ -134,7 +136,7 @@ label start:
     hide lady 
     show gawain at midleft
 
-    "{i}You hesitate. You thought you were coming for advice, but... the Lady was right. You've been on this journey before, many, many moons ago, when King Arthur still took the throne and the Round Table was still a seat of honor.{/i}"
+    "You hesitate. You thought you were coming for advice, but... the Lady was right. You've been on this journey before, many, many moons ago, when King Arthur still took the throne and the Round Table was still a seat of honor."
     
     $ g.c("I request your blessing, my Lady. I am to go forth to Herefordshire, though I have little desire to proceed alone.")
 
@@ -143,7 +145,7 @@ label start:
 
     $ l.c("Well, dearest Gawain, consider this a token of my faith.")
 
-    "{i}The Lady of the Lake offers you a golden, glowing flower teeming with so much arcane energy, your fingertips buzz. You're quick to kneel before her again as you accept her gift, bowing low out of respect.{/i}"
+    "The Lady of the Lake offers you a golden, glowing flower teeming with so much arcane energy, your fingertips buzz. You're quick to kneel before her again as you accept her gift, bowing low out of respect."
 
     $ _window_hide()
 
@@ -183,12 +185,12 @@ label start:
 
         scene town with fade
 
-        "{i}You travel forth into the countryside, finding your journey to Hereford relatively quick.{/i}" 
-        "{i}You would have no qualms about returning to your Lady as frequently as she suggested.{/i}"
-        "{i}Even with Ragamuffin by your side to soothe the lonely ache in your heart, you still find yourself reeling at the dissolution of the Round Table.{/i}" 
-        "{i}Knowing your Lady is there for you despite you no longer being a Knight of the Round Table lets you breathe a sigh of relief, vigor for the journey ahead restored.{/i}" 
-        "{i}You rent a room at the local inn and settle in for some heavy-duty detective work, ready to get to the bottom of the disappearing women of Herefordshire, starting with the main city of Hereford.{/i}" 
-        "{i}Now to start exploring Hereford... which is teeming with cats?{/i}"
+        "You travel forth into the countryside, finding your journey to Hereford relatively quick." 
+        "You would have no qualms about returning to your Lady as frequently as she suggested."
+        "Even with Ragamuffin by your side to soothe the lonely ache in your heart, you still find yourself reeling at the dissolution of the Round Table." 
+        "Knowing your Lady is there for you despite you no longer being a Knight of the Round Table lets you breathe a sigh of relief, vigor for the journey ahead restored." 
+        "You rent a room at the local inn and settle in for some heavy-duty detective work, ready to get to the bottom of the disappearing women of Herefordshire, starting with the main city of Hereford." 
+        "Now to start exploring Hereford... which is teeming with cats?"
 
         $ _window_hide()
 
@@ -230,7 +232,7 @@ label start:
 
         scene town
 
-        "{i}Suddenly, a loud roar echoes through the town, emanating through the streets with enough power to shake window panes and send birds into flight.{/i}"
+        "Suddenly, a loud roar echoes through the town, emanating through the streets with enough power to shake window panes and send birds into flight."
 
         $ combat_handler.set_enemy(beast_1)
 
@@ -259,7 +261,7 @@ label start:
 
 
     label first_tavern_event:
-        "{i}You enter the tavern to see a single drunk man alone at the bar.{/i}" 
+        "You enter the tavern to see a single drunk man alone at the bar." 
 
         menu:
             "Do you speak to him?"
@@ -345,32 +347,46 @@ label start:
                 f "Why would I be here drinking if I could be in the presence of my beautiful, angelic Anglides was still here!"
 
                 show gawain at midleft 
+                if g.stats_dict['mettle'] > 10:
+                    menu:
+                        "Soothe Florian":
+                            $ g.c("My, I’m terribly sorry for poking at such a festering wound. May it soothe you that I’m on the hunt for the missing women of Herefordshire.")
 
-                menu:
-                    "Soothe Florian":
-                        $ g.c("My, I’m terribly sorry for poking at such a festering wound. May it soothe you that I’m on the hunt for the missing women of Herefordshire.")
+                            hide gawain 
 
-                        hide gawain 
+                            f "*sniffle* It does. Thank you, Sir Gawain."
 
-                        f "*sniffle* It does. Thank you, Sir Gawain."
+                            show gawain at midleft
 
-                        show gawain at midleft
+                            $ g.c("It’s my pleasure, truly. Stay safe, Florian.")
 
-                        $ g.c("It’s my pleasure, truly. Stay safe, Florian.")
+                            hide gawain
+                        
+                        "Balk":
+                            $ g.c("My, no need to get so feisty, Florian. I assure you, I’m on the case.")
 
-                        hide gawain
-                    
-                    "Balk":
-                        $ g.c("My, no need to get so feisty, Florian. I assure you, I’m on the case.")
+                            hide gawain
 
-                        hide gawain
+                            f "Don’t you understand?! My wife is missing, and her little kitty she loved so dearly! I must find her!"
 
-                        f "Don’t you understand?! My wife is missing, and her little kitty she loved so dearly! I must find her!"
+                            "Florian rises to his feet, stumbling out the door and into the street."
 
-                        "{i}Florian rises to his feet, stumbling out the door and into the street.{/i}"
+                            f "I MUST FIND ANGLIDES!"
+                else:
+                    menu:
+                        "Soothe Florian (NOT ENOUGH METTLE)":
+                            "...."
+                        
+                        "Balk":
+                            $ g.c("My, no need to get so feisty, Florian. I assure you, I’m on the case.")
 
-                        f "I MUST FIND ANGLIDES!"
+                            hide gawain
 
+                            f "Don’t you understand?! My wife is missing, and her little kitty she loved so dearly! I must find her!"
+
+                            "{i}Florian rises to his feet, stumbling out the door and into the street.{/i}"
+
+                            f "I MUST FIND ANGLIDES!"
 
             "No":
                 "You have a nice meal at the tavern."
@@ -378,9 +394,141 @@ label start:
         $ calendar.set_played('second_tavern')
         jump tasks_only
 
-    label second_story_event:
-        $ g.c("This should be running IFF it's blood month or whatever")
+    label first_wash_event:
+        o "Excuse me, sir? You look new in town - are you here to find the missing women?"
 
+        show gawain at midleft_intro
+
+        $ g.c("Yes I am, miss. My name is Sir Gawain. Have you any information that may help my search?")
+
+        hide gawain
+
+        o "Titled, I see. What an honor. *wink* I’m Olive, pleasure to meet you, Sir Gawain. My mother has joined the missing women."
+
+        show gawain at midleft
+        
+        $ g.c("Were there any signs she would leave? Was there anything she told you?")
+
+        hide gawain
+
+        o "No, she told me nothing. She left my father and I to care for my siblings alone. She did take her cat, though."
+
+        show gawain at midleft
+
+        $ g.c("She had a cat?")
+
+        hide gawain
+
+        o "Yes, a cat."
+        
+        o "I’ve had to postpone my wedding to pick up the pieces of our family, and she’s out galavanting with her cat. That’s what Father says, anyways."
+
+        show gawain at midleft
+        if g.stats_dict['charm'] > 15:
+            menu:
+                "Challenge":
+
+                    $ g.c("You don’t think there could have been a less… heartless reason she may have left?")
+
+                    hide gawain
+
+                    "Olive hesitates, seeming caught off-guard."
+
+                    o "Potentially. I do find myself quite exhausted from filling her shoes. Mayhaps she needed a vacation."
+
+                    show gawain at midleft
+
+                    $ g.c("Mayhaps. My sincerest apologies you’ve been left to rise to the occasion when you’re meant to be forming a family of your own.")
+                    
+                    $ g.c("I’m sure your family appreciates it.")
+
+                    hide gawain
+
+                    o "Thank you, Sir Gawain. I find I understand my mother better after this. Good day."
+                    
+                "Agree":
+                    $ g.c("Well, I’ll be sure to take note of that, then.")
+
+                    hide gawain
+
+                    "{i}Seems the women are fleeing the town, regardless of what family they leave behind.{/i}"
+        else:
+            menu:
+                "Challenge (NOT ENOUGH CHARM)":
+                    "..."
+                "Agree":
+                    $ g.c("Well, I’ll be sure to take note of that, then.")
+
+                    "{i}Seems the women are fleeing the town, regardless of what family they leave behind.{/i}"
+
+        $ calendar.set_played('first_wash')
+        jump tasks_only
+           
+    label second_wash_event:
+        "The cat says nothing, just stares up at you knowingly. He scurries off when you try to pet him." 
+        if calendar.scenes_played['first_cat_haven']:
+            "There are more cats roaming the city than just the ones you’ve met at the Cat Haven, and they all seem to know you."
+
+        $ calendar.set_played('second_wash')
+        jump tasks_only
+
+    label third_wash_event:
+        show gawain at midleft_intro
+
+        $ g.c("Pardon me, ma’am, my name is Sir Gawain. I notice you have a wedding ring on, may I ask if you know anything about the disappearing wives?")
+
+        hide gawain
+        
+        e "Good day, Sir Gawain. I am Enid, widow of Emrys. I knew all the women who have fled from Hereford."
+        
+        e "Have you any questions for me?"
+
+        show gawain at midleft
+
+        $ g.c("You call it fleeing, why do you label their disappearances as such? Do you know where they have ‘fled’ to?")
+
+        e "I know not where they are, just… that I don’t blame them for leaving. The men in this town often forget to mind their wives while their wives mind the homes."
+        
+        e "Have you a wife, Sir Gawain?"
+
+        show gawain at midleft
+
+        $ g.c("I’ve had many wives, yes.")
+
+        hide gawain
+
+        e "And did you love them? Did you tend to them? Did you make them happy?"
+
+        show gawain at midleft
+
+        $ g.c("I did my best to. I loved each of my wives in their own ways.")
+
+        hide gawain
+
+        e "Then you are a rare breed, Sir Gawain."
+        
+        e "I miss my friends, I miss my sisters, though I do not feel their disappearance is unwarranted. Not everyone can handle their husbands like I."
+
+        show gawain at midleft
+        
+        $ g.c("...Well, thank you for your time, Enid. I fear I still have much to learn.")
+
+        hide gawain
+
+        $ calendar.set_played('third_wash')
+        jump tasks_only
+
+    label fourth_wash_event:
+        "The cat says nothing, just stares up at you knowingly. She scurries off when you try to pet her."
+
+        $ calendar.set_played('fourth_wash')
+        jump tasks_only
+
+
+    label wash_no_event:
+        # TODO: randomize barks for no event tasks
+        "You learn an old wives’ tale to help you in battle."
+        jump tasks_only
 
     label lluds:
         scene town 
