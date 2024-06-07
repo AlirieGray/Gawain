@@ -181,7 +181,7 @@ label start:
     label first_time_in_town:
         $ calendar.set_next_jump()
 
-        show screen town_screen with fade
+        scene town with fade
 
         "{i}You travel forth into the countryside, finding your journey to Hereford relatively quick.{/i}" 
         # "{i}You would have no qualms about returning to your Lady as frequently as she suggested.{/i}"
@@ -204,7 +204,7 @@ label start:
     label go_to_town:
         $ calendar.set_next_jump()
 
-        show screen town_screen
+        scene town
         
         # TODO: different "bark" for each week/month
         $ g.c("Another week in Hereford. What should I do this week?")
@@ -214,7 +214,7 @@ label start:
         $ wait_for_status(activities_selected)
 
     label tasks_only:
-        show screen town_screen
+        scene town
 
         show screen task
 
@@ -282,7 +282,7 @@ label start:
 
 
     label visit_lake:
-        scene lake
+        scene lake with fade
 
         show lady at midright_intro
 

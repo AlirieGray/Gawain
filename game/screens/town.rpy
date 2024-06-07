@@ -1,5 +1,3 @@
-screen town_screen: 
-    add "images/town.png"
 
 # TODO: clean up unused transparent backgrounds... or use im.Scale() isntead of a new image each time?
 screen town_menus:

@@ -19,7 +19,8 @@ init python:
         def get_outcome(self):
             # default stats 
             # TODO: figure out stats for all activities
-            stats = ['mettle', 'fortitude']
+            # TODO: the default behavior NOT working, might have to go back to getting outcome first?
+            stats = ['charm', 'intuition']
             if self.name == 'Tavern':
                 stats = ['charm', 'intuition']
 
@@ -44,7 +45,7 @@ init python:
             self.current_month = 0
             self.current_week = 1
             self.current_day = 1
-            self.current_day_outcome = [{'stat_name': 'mettle', 'skill_gain': 0, 'gold_gain': 0}, {'stat_name': 'fortitude', 'skill_gain': 0, 'gold_gain': 0}]
+            self.current_day_outcome = [{'stat_name': 'charm', 'skill_gain': 0, 'gold_gain': 0}, {'stat_name': 'intuition', 'skill_gain': 0, 'gold_gain': 0}]
             self.next_jump = 'go_to_town'
             self.activity_slots = ['*none selected*']
             self.scenes_played = {
@@ -88,7 +89,7 @@ init python:
             else:
                 self.current_week += 1
             self.activity_slots =  ['*none selected*']
-            self.current_day_outcome = [{'stat_name': 'mettle', 'skill_gain': 0, 'gold_gain': 0}, {'stat_name': 'fortitude', 'skill_gain': 0, 'gold_gain': 0}]
+            self.current_day_outcome = [{'stat_name': 'charm', 'skill_gain': 0, 'gold_gain': 0}, {'stat_name': 'intuition', 'skill_gain': 0, 'gold_gain': 0}]
 
         # TODO reset for beginning of week
         # TODO Set jump??? 

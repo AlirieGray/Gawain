@@ -243,7 +243,7 @@ screen choice(items):
             xalign .7 
             yalign .68
             xsize 250
-            text "+" + str(get_attack_modifier(g.stats_dict["swordplay"])) + " from Swordplay"  style "little_font" xoffset -20
+            text "+" + str(get_attack_modifier(g.stats_dict["swordplay"])) + " from Swordplay"  style "little_font" xoffset -45
             text "+" + str(get_attack_modifier(g.stats_dict["archery"])) + " from Archery"  style "little_font" xoffset 35
     else:
         vbox:
