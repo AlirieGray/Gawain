@@ -3,7 +3,7 @@
 # TODO: reset health after combat ends??
 # TODO: buttons to take potion, inventory on side screen or in hud
 screen stats_left:
-    add "gui/custom/transparent_bg_300_500.png" xalign 0.04 yalign 0.05 
+    add "gui/custom/transparent_bg_300_500.png" xalign 0.03 yalign 0.05 
     vbox:
         xalign .08
         yalign .09

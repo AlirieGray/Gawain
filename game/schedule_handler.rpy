@@ -50,7 +50,8 @@ init python:
             self.activity_slots = ['*none selected*']
             self.scenes_played = {
                 'second_story_event': False,
-                'first_tavern': False
+                'first_tavern': False,
+                'second_tavern': False
             }
             self.months_list = [
                 'Fallow Month', 
@@ -89,7 +90,7 @@ init python:
             else:
                 self.current_week += 1
             self.activity_slots =  ['*none selected*']
-            self.current_day_outcome = [{'stat_name': 'charm', 'skill_gain': 0, 'gold_gain': 0}, {'stat_name': 'intuition', 'skill_gain': 0, 'gold_gain': 0}]
+            self.current_day_outcome = [{'stat_name': 'mettle', 'skill_gain': 0, 'gold_gain': 0}, {'stat_name': 'swordplay', 'skill_gain': 0, 'gold_gain': 0}]
 
         # TODO reset for beginning of week
         # TODO Set jump??? 
@@ -109,6 +110,9 @@ init python:
         def add_activity(self, activity):
             # TODO: implement second activity slot
             self.activity_slots[0] = activity
+            self.set_next_jump() # TODO redundant?
+            if activity == "Visit Tavern":
+                self.current_day_outcome = [{'stat_name': 'charm', 'skill_gain': 0, 'gold_gain': 0}, {'stat_name': 'intuition', 'skill_gain': 0, 'gold_gain': 0}]
 
         # TODO: also depends on which activity selected
         # TODO: call this function when incrememting calendar
@@ -120,9 +124,11 @@ init python:
             if jump:
                 self.next_jump = jump
                 return
-            if self.activity_slots[0] == 'Visit Tavern' and not self.scenes_played['first_tavern']:
-                self.next_jump = 'first_tavern_event'
-                self.set_played('first_tavern')
+            if self.activity_slots[0] == 'Visit Tavern' and self.current_day < 3: 
+                if not self.scenes_played['first_tavern']:
+                    self.next_jump = 'first_tavern_event'
+                elif not self.scenes_played['second_tavern']:
+                    self.next_jump = 'second_tavern_event'
             elif self.current_month == 0 and self.current_week == 4 and self.current_day > 5:
                 self.next_jump = 'first_combat_time'
             elif self.current_month == 1 and self.current_week == 1:
@@ -131,7 +137,6 @@ init python:
                 self.next_jump = 'go_to_town'
             else: 
                 self.next_jump = 'tasks_only'
-
 
     def execute_day():
         # creates a task object (for each activity) to roll for skills and gold
@@ -149,18 +154,3 @@ init python:
         # TODO: testing click to increment day....
         # TODO update Gawain object's skill and gold
         # cal.increment_week()
-
-
-
-# start task
-# check if there is a story event
-# if so, play the dialog
-# open task screen
-# show: name of task, day #, skill bar increasing, gold increasing
-# iterate through days, roll each time for gold and skill gain
-# use colors to show extra good skill/gold gain or not so good
-# top portion, task 1. bottom text task 2. 
-# calculate gold based on skill (TODO next iteration?)
-# use flaticon free icon to show time passing
-# honor/piety scale(s) 
-# use global calendar to increment date, show in top right

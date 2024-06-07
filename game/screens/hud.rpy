@@ -5,8 +5,10 @@ screen hud:
         yalign .052
         xsize 230
         text calendar.get_day_number() + " of " + calendar.get_current_month_name() 
+        text "Current day var: " + str(calendar.current_day)
+        text "next jump " + (calendar.next_jump)
         # TODO: use bars for health and stamina
         hbox:
-            text "HP:" + str(g.current_hp) + "/" + str(g.max_hp)
+            text "HP: " + str(g.current_hp) + "/" + str(g.max_hp)
             text "Gold: " + str(g.gold) xoffset 25
 
