@@ -20,11 +20,19 @@ init python:
             # default stats 
             # TODO: figure out stats for all activities
             # TODO: the default behavior NOT working, might have to go back to getting outcome first?
+            # TODO: just do pop-up for one skill at a time, forget about "Next Day" and week passing?
             stats = ['charm', 'intuition']
+
             if self.name == 'Tavern':
                 stats = ['charm', 'intuition']
             elif self.name == 'Wash':
                 stats = ['mettle', 'swordplay']
+            elif self.name == 'Inn':
+                stats = ['intuition', 'swordplay']
+            elif self.name == 'Haven':
+                stats = ['archery', 'charm']
+            elif self.name == 'Cottages':
+                stats = ['archery', 'mettle']
 
             return [{
                 'skill_gain': self.roll_for_skill(stats[0]),
@@ -50,15 +58,12 @@ init python:
             self.current_day_outcome = [{'stat_name': 'charm', 'skill_gain': 0, 'gold_gain': 0}, {'stat_name': 'intuition', 'skill_gain': 0, 'gold_gain': 0}]
             self.next_jump = 'go_to_town'
             self.activity_slots = ['*none selected*']
-            # probably should be array of arrays/dictionaries or something
+
             self.scenes_played = {
-                'first_tavern': False,
-                'second_tavern': False,
-                'first_wash': False,
-                'second_wash': False,
-                'third_wash': False,
-                'fourth_wash': False,
-                'first_cat_haven': False
+                'tavern': [False, False],
+                'wash': [False, False, False, False],
+                'cat': [False, False, False, False, False],
+                'inn': [False, False, False],
             }
             self.months_list = [
                 'Fallow Month', 
@@ -72,8 +77,8 @@ init python:
         def get_current_week(self):
             return self.current_week
 
-        def set_played(self, scene):
-            self.scenes_played[scene] = True
+        def set_played(self, location, scene_number):
+            self.scenes_played[location][scene_number] = True
 
         def get_day_number(self):
             if self.current_week == 1:
@@ -131,20 +136,26 @@ init python:
                 self.next_jump = jump
                 return
             if self.activity_slots[0] == 'Visit Tavern' and self.current_day < 3: 
-                if not self.scenes_played['first_tavern']:
+                if not self.scenes_played['tavern'][0]:
                     self.next_jump = 'first_tavern_event'
                 elif not self.scenes_played['second_tavern']:
                     self.next_jump = 'second_tavern_event'
-
-            if self.activity_slots[0] == 'Visit Washing Well' and self.current_day < 3: 
-                if not self.scenes_played['first_wash']:
+            elif self.activity_slots[0] == 'Visit Washing Well' and self.current_day < 3: 
+                if not self.scenes_played['wash'][0]:
                     self.next_jump = 'first_wash_event'
-                elif not self.scenes_played['second_wash']:
+                elif not self.scenes_played['wash'][1]:
                     self.next_jump = 'second_wash_event'
-                elif not self.scenes_played['third_wash']:
+                elif not self.scenes_played['wash'][2]:
                     self.next_jump = 'third_wash_event'
                 else:
                     self.next_jump = 'wash_no_event'
+            elif self.activity_slots[0] == 'Hang out at the Inn' and self.current_day < 3:
+                if not self.scenes_played['inn'][0]:
+                    self.next_jump = 'first_inn_event'
+                elif self.current_month == 4 and not self.scenes_played['inn'][1]:
+                    self.next_jump = 'inn_hunters_moon'
+                else:
+                    self.next_jump = 'inn_no_event'
             elif self.current_month == 0 and self.current_week == 4 and self.current_day > 5:
                 self.next_jump = 'first_combat_time'
             elif self.current_day > 5:

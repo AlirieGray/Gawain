@@ -8,16 +8,32 @@ screen town_menus:
     imagebutton:
         idle "images/town_building.png"
         hover "images/tavern_hover.png"
-        xpos 720
-        ypos 195
+        xpos 750
+        ypos 150
         action [Function(calendar.add_activity, activity="Visit Tavern")]
 
     imagebutton:
         idle "images/town_building.png"
         hover "images/wash_hover.png"
-        xpos 600
-        ypos 195
+        xpos 515
+        ypos 150
         action [Function(calendar.add_activity, activity="Visit Washing Well")]
+
+
+    imagebutton:
+        idle "images/town_building.png"
+        hover "images/inn_hover.png"
+        xpos 355
+        ypos 195
+        action [Function(calendar.add_activity, activity="Hang out at the Inn")]
+
+
+    imagebutton:
+        idle "images/town_building.png"
+        hover "images/cat_hover.png"
+        xpos 950
+        ypos 220
+        action [Function(calendar.add_activity, activity="Check out Cat Haven")]
 
     text "This week's task:" xalign 0.4 yalign 0.84
     add "gui/custom/square_rectangle_empty.png" xalign 0.6 yalign 0.84

@@ -40,6 +40,7 @@ label start:
     define f = Character("Florian")
     define o = Character("Olive")
     define e = Character("Enid")
+    define lun = Character("Lunete")
 
     # TODO: 50 health is a dev number, should have 10 release
     $ beast_1 = Enemy(Character("Monster"), "Monster", 10, 40, 2, "images/monster.png")
@@ -62,6 +63,7 @@ label start:
     # TODO: DEV JUMP ONLY
     # REMOVE FOR BUILD
     # jump first_combat_time
+    jump go_to_town
 
     "In the land of yore, when kings and queens still ruled over all and knights still roamed the kingdom, you, Gawain, fought valiantly to prove yourself worthy of your place at King Arthur's Round Table."
     "You battled fearsome beasts and loathsome sorcerers, traveled far and wide on many a dangerous quest, and wooed many lusty and kind-hearted maidens alike."
@@ -260,6 +262,9 @@ label start:
         # TODO: automatically go to the next month 
 
 
+    ####**** TAVERN SCENES ****####
+
+
     label first_tavern_event:
         "You enter the tavern to see a single drunk man alone at the bar." 
 
@@ -324,7 +329,7 @@ label start:
                         d "STOP CALLIN’ ME SIR! *hic*"
             "No":
                 "The bartender gives you a drink on the house."
-        $ calendar.set_played('first_tavern')
+        $ calendar.set_played('tavern', 0)
         jump tasks_only
 
 
@@ -391,8 +396,10 @@ label start:
             "No":
                 "You have a nice meal at the tavern."
 
-        $ calendar.set_played('second_tavern')
+        $ calendar.set_played('tavern', 1)
         jump tasks_only
+
+    ####**** WASHING WELL SCENES ****####
 
     label first_wash_event:
         o "Excuse me, sir? You look new in town - are you here to find the missing women?"
@@ -461,7 +468,7 @@ label start:
 
                     "{i}Seems the women are fleeing the town, regardless of what family they leave behind.{/i}"
 
-        $ calendar.set_played('first_wash')
+        $ calendar.set_played('wash', 0)
         jump tasks_only
            
     label second_wash_event:
@@ -469,7 +476,7 @@ label start:
         if calendar.scenes_played['first_cat_haven']:
             "There are more cats roaming the city than just the ones you’ve met at the Cat Haven, and they all seem to know you."
 
-        $ calendar.set_played('second_wash')
+        $ calendar.set_played('wash', 1)
         jump tasks_only
 
     label third_wash_event:
@@ -515,20 +522,153 @@ label start:
 
         hide gawain
 
-        $ calendar.set_played('third_wash')
+        $ calendar.set_played('wash', 2)
         jump tasks_only
 
     label fourth_wash_event:
         "The cat says nothing, just stares up at you knowingly. She scurries off when you try to pet her."
 
-        $ calendar.set_played('fourth_wash')
-        jump tasks_only
+        menu:
+            "Follow her":
+                "You chase after the cat as she tries to flee, all the way to the forest line. She disappears behind a bush before you can follow."
+                
+                "Seems the cats live in the forest when not in the city."
 
+                # TODO: + intuition
+            "Leave her be":
+                "You watch the cat disappear into an alleyway, becoming one with the shadows."
+                # TODO + mettle
+
+        $ calendar.set_played('wash', 3)
+        jump tasks_only
 
     label wash_no_event:
         # TODO: randomize barks for no event tasks
         "You learn an old wives’ tale to help you in battle."
         jump tasks_only
+
+
+    ####**** CAT HAVEN SCENES ****#### 
+
+
+    ####**** INN SCENES ****####
+
+    label first_inn_event:
+        lun "Greetings, traveler! Did you have an issue with your room?"
+        
+        show gawain at midleft_intro
+        
+        $ g.c("No, ma’am, my room is quite nice. Thank you for your hospitality. I actually have some questions for you, if you don’t mind my intrusion.")
+        
+        hide gawain
+        
+        lun "Of course, ask away!"
+        
+        show gawain at midleft
+        
+        $ g.c("I see you have a wedding ring; all the women that have left have been wed. Have you heard any whispers of plans to leave, or anyone approaching these women to ask them to leave?")
+        
+        hide gawain
+
+        lun "I myself have heard nothing. My husband and I work hard to keep this inn a place of respite from such troubles."
+        
+        show gawain at midleft
+       
+        $ g.c("Have you ever considered leaving yourself?")
+        
+        hide gawain
+        
+        lun "Leave Aurelius? Oh, heavens, no. I love that man more than life itself, and I’m positive he feels the same."
+        
+        show gawain at midleft
+        
+        $ g.c("Do the other women in town have the same security? Could they have been lured by forces you have not?")
+        
+        hide gawain
+        
+        lun "…Well, I do see many of their husbands entertaining guests here. I would assume they do not have such a luxury as a man as stable and loving as Aurelius."
+        
+        show gawain at midleft
+        
+        $ g.c("And no one has approached you to join or aid them?")
+        
+        hide gawain
+        
+        lun "No, but I shall let you know if someone has. Thank you for your dedication, Sir Gawain. Your quest is quite admirable. Have a good night."
+        
+        show gawain at midleft
+        
+        $ g.c("You have a good night, too. And thank you for keeping a listening ear out for me.")
+        
+        hide gawain
+
+        $ calendar.set_played('inn', 0)
+        jump tasks_only
+
+    label inn_hunters_moon:
+        lun "Sir Gawain! May I speak to you for a moment?"
+
+        show gawain at midleft_intro
+
+        $ g.c("Of course, Lunete. How may I be of service?")
+        hide gawain
+
+        lun "I have the information you seek. I was approached by a cat which I named Catthew. I… I am unsure how I came up with the name, it just felt right. "
+        show gawain at midleft
+
+        $ g.c("Catthew, yes, I know the cat you speak of. Quite an adorable little guy.")
+        hide gawain
+
+        lun "He is quite sweet. But I invited him to live with Aurelius and I, and Catthew was, well, a terror to say the least. He shredded my clothes, ate every loaf of bread I brought home, and expelled his humors on my bed sheets every night! This dress I have on is the only one I have left!"
+        show gawain at midleft
+
+        $ g.c("Catthew did all that? But he seemed like such a sweet boy.")
+        hide gawain
+
+        lun "Catthew isn’t even the one I’m the most upset with. Aurelius brushed it all off on me, saying it was my fault because I brought the cat in. He didn’t help clean a single hairball this entire time. I’m at my wit’s end with that man! "
+        show gawain at midleft
+
+        $ g.c("Really? Aurelius?")
+        hide gawain
+
+        lun "I don’t rightly know what’s gotten into him! My Aurelius would never abandon someone while they’re struggling, but… it seems Catthew is his exception. I let Catthew back into the streets, thinking he would be happier not living in our home anymore, but he keeps waiting by our front door each night. My heart aches for that poor, scared kitty, but Aurelius won’t let me let him back in. "
+        show gawain at midleft
+
+        $ g.c("Will you and Aurelius be okay?")
+        hide gawain
+
+        lun "We’re going to have to be. I’m extremely disappointed in him right now, but… I have nowhere else to go. And our niece, Albiona, needs me while Florian is in such a tizzy. I can’t leave. "
+        
+        show gawain at midleft
+
+        $ g.c("That makes it seem like you want to.")
+        hide gawain
+
+        lun "I don’t know, maybe I do. But my part of our arrangement was fulfilled. You asked me to report if I was approached by anyone, and I was only approached by a cat. I’m too frazzled to be of much help going forward, Sir Gawain. Hopefully this is enough. "
+        show gawain at midleft
+
+        $ g.c("I understand, Lunete. You focus on your family. Leave the rest to me. Maybe I’ll see if I can find Catthew…")
+        hide gawain
+
+        lun "And don’t bring him back in! The only cat I want to see around these parts is Ragamuffin. "
+
+        "Lunete reaches out to pet Ragamuffin, who purrs happily." 
+        
+        lun "Good kitty. And thanks for listening, Sir Gawain. "
+        
+        show gawain at midleft
+
+        $ g.c("It’s my pleasure. Take care, Lunete")
+        hide gawain
+
+        $ calendar.set_played('inn', 1)
+        jump tasks_only
+
+
+    label inn_no_event:
+        "Rest up for the search ahead."
+        jump tasks_only
+
 
     label lluds:
         scene town 
