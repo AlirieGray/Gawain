@@ -14,7 +14,7 @@ screen stats_left:
                 text attribute.title() xpos 10 ypos 9
                 hbox:
                     spacing 6
-                    bar value StaticValue(g.stats_dict[attribute], 200):
+                    bar value StaticValue(g.stats_dict[attribute], 100):
                         xmaximum 200
                         ymaximum 40
                         left_bar Frame("gui/custom/round_rectangle_full.png", 10, 0)
@@ -26,7 +26,7 @@ screen stats_left:
                 text skill.title() xpos 10 ypos 9
                 hbox:
                     spacing 6
-                    bar value StaticValue(g.stats_dict[skill], 200):
+                    bar value StaticValue(g.stats_dict[skill], 100):
                         xmaximum 200
                         ymaximum 40
                         left_bar Frame("gui/custom/round_rectangle_full.png", 10, 0)

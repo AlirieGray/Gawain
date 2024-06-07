@@ -41,6 +41,8 @@ label start:
     define o = Character("Olive")
     define e = Character("Enid")
     define lun = Character("Lunete")
+    define s = Character("Shrimp")
+    define m = Character("Mittens")
 
     # TODO: 50 health is a dev number, should have 10 release
     $ beast_1 = Enemy(Character("Monster"), "Monster", 10, 40, 2, "images/monster.png")
@@ -211,24 +213,13 @@ label start:
         scene town
         
         # TODO: different "bark" for each week/month
-        show gawain at midleft_intro
+        show gawain at midleft
         $ g.c("Another week in Hereford. What should I do this week?")
         hide gawain
 
         show screen town_menus
 
         $ wait_for_status(activities_selected)
-
-    label tasks_only:
-        scene town
-
-        show screen task
-
-        $ wait_for_status(activities_finished)
-
-        hide screen task
-
-        jump go_to_town
 
     label first_combat_time:
 
@@ -329,9 +320,15 @@ label start:
                         d "STOP CALLIN’ ME SIR! *hic*"
             "No":
                 "The bartender gives you a drink on the house."
-        $ calendar.set_played('tavern', 0)
-        jump tasks_only
 
+                "You gain +2 Charm, -1 Mettle."
+
+                # TODO: use a special pop-up screen for skill gains through dialog?
+                $ g.change_stat('charm', 2)
+                $ g.change_stat('mettle', -1)
+
+        $ calendar.set_played('tavern', 0)
+        jump go_to_town
 
     label second_tavern_event:
         "You enter the tavern and see a miserable looking man alone at the bar. He has a wedding ring."
@@ -395,9 +392,27 @@ label start:
 
             "No":
                 "You have a nice meal at the tavern."
+                "You gain +3 Mettle."
+                $ g.change_stat('mettle', 3)
 
         $ calendar.set_played('tavern', 1)
-        jump tasks_only
+        jump go_to_town
+
+    label tavern_no_event:
+        $ r = roll(2, 0)
+        if r == 1:
+            "The bartender gives you a drink on the house."
+            "You gain +2 Charm, lose 1 Mettle."
+
+            $ g.change_stat('charm', 2)
+            $ g.change_stat('mettle', -1)
+        else:
+            "You have a nice meal at the tavern."
+            "You gain +3 Mettle."
+            $ g.change_stat('mettle', 3)
+
+        jump go_to_town
+
 
     ####**** WASHING WELL SCENES ****####
 
@@ -469,15 +484,15 @@ label start:
                     "{i}Seems the women are fleeing the town, regardless of what family they leave behind.{/i}"
 
         $ calendar.set_played('wash', 0)
-        jump tasks_only
+        jump go_to_town
            
     label second_wash_event:
         "The cat says nothing, just stares up at you knowingly. He scurries off when you try to pet him." 
-        if calendar.scenes_played['first_cat_haven']:
+        if calendar.scenes_played['cat'][0]:
             "There are more cats roaming the city than just the ones you’ve met at the Cat Haven, and they all seem to know you."
 
         $ calendar.set_played('wash', 1)
-        jump tasks_only
+        jump go_to_town
 
     label third_wash_event:
         show gawain at midleft_intro
@@ -523,7 +538,7 @@ label start:
         hide gawain
 
         $ calendar.set_played('wash', 2)
-        jump tasks_only
+        jump go_to_town
 
     label fourth_wash_event:
         "The cat says nothing, just stares up at you knowingly. She scurries off when you try to pet her."
@@ -534,21 +549,218 @@ label start:
                 
                 "Seems the cats live in the forest when not in the city."
 
-                # TODO: + intuition
+                "You gain +5 intuition."
+                $ g.change_stat('intuition', 5)
+
             "Leave her be":
                 "You watch the cat disappear into an alleyway, becoming one with the shadows."
-                # TODO + mettle
+                "You gain +5 mettle."
+                $ g.change_stat('mettle', 5)
 
         $ calendar.set_played('wash', 3)
-        jump tasks_only
+        jump go_to_town
 
     label wash_no_event:
-        # TODO: randomize barks for no event tasks
-        "You learn an old wives’ tale to help you in battle."
-        jump tasks_only
+        $ r = roll(2, 0)
+        if r == 1:
+            "You learn an old wives’ tale to help you in battle."
+            "You gain +2 Swordplay skill."
+            $ g.change_stat('swordplay', 2)
 
+        else:
+            "Get a pep talk from a kind old woman."
+            "You gain +2 Mettle and +1 Swordplay skill."
+            $ g.change_stat('swordplay', 1)
+            $ g.change_stat('mettle', 2)
+
+        jump go_to_town
+
+    # TODO: need some dialogs that increase archery skill
 
     ####**** CAT HAVEN SCENES ****#### 
+
+    label cat_haven_no_event:
+        $ r = roll(3, 0)
+        if r == 1:
+            "Pet them kitties!"
+
+            "You gain +3 Intuition."
+            $ g.change_stat('intuition', 3)
+        elif r == 2:
+            "Have a sword fight with Sir Hiss!"
+            "Gain +4 Swordplay skill."
+            $ g.change_stat('swordplay', 4)
+        else:
+            "Have a tea party with Mittens and Shrimp!"
+            "Gain +3 Mettle."
+            $ g.change_stat('mettle', 3)
+
+        jump go_to_town
+
+    label first_cat_haven_event:
+        # TODO: add cutscene here
+        $ calendar.set_played('cat', 0)
+        jump cat_haven_no_event
+
+    label second_cat_haven_event:
+        s "Sir Meowain, Sir Meowain!!"
+
+        show gawain at midleft_intro
+        $g.c("Hello there, Shrimp. How are you on this fine day? ")
+        hide gawain
+
+        s "I have the most dangerous quest for you, will you accept?"
+
+        show gawain at midleft
+
+        if g.stats_dict['mettle'] > 20 and g.stats_dict['intuition'] > 15:
+            menu:
+                "Accept":
+                    jump accept_shrimps_quest
+                "Ask for more details":
+                    $ g.c ("What is this quest you so desire to send me on, Shrimp?")
+
+                    s "I want some salmon from the market! Will you get me some?"
+
+                    $ g.c ("You want me to buy you some salmon to eat?")
+
+                    s "Yes, yes, yes, I do! Oh! And I have some gold for you that Sir Hiss gave me to buy salmon with!"
+
+                    "Shrimp gives you the gold and you head into town and purchase some raw salmon. When you return, all members of the Cat Coven feast and share Shrimp’s spoils."
+
+                    "You gain +10 Mettle and +5 Intuition."
+
+                    $ g.change_stat('mettle', 10)
+
+                    $ g.change_stat('intuition', 5)
+
+                "Decline":
+                    jump decline_shrimps_quest
+        elif g.stats_dict['mettle'] > 20 and g.stats_dict['intuition'] < 15:
+            menu:
+                "Accept":
+                    jump accept_shrimps_quest
+                "Ask for more details (NOT ENOUGH INTUITION)":
+                    "..."
+                "Decline":
+                    jump decline_shrimps_quest
+        elif g.stats_dict['mettle'] < 20 and g.stats_dict['intuition'] > 15:
+            menu:
+                "Accept (NOT ENOUGH METTLE)":
+                    "..."
+                "Ask for more details":
+                    $ g.c ("What is this quest you so desire to send me on, Shrimp?")
+
+                    s "I want some salmon from the market! Will you get me some?"
+
+                    $ g.c ("You want me to buy you some salmon to eat?")
+
+                    s "Yes, yes, yes, I do! Oh! And I have some gold for you that Sir Hiss gave me to buy salmon with!"
+
+                    "Shrimp gives you the gold and you head into town and purchase some raw salmon. When you return, all members of the Cat Coven feast and share Shrimp’s spoils."
+
+                    "You gain +10 Mettle and +5 Intuition."
+
+                    $ g.change_stat('mettle', 10)
+
+                    $ g.change_stat('intuition', 5)
+
+                "Decline":
+                    jump decline_shrimps_quest
+        else:
+            menu:
+                "Accept (NOT ENOUGH METTLE)":
+                    "..."
+                "Ask for more details (NOT ENOUGH INTUITION)":
+                    "..."
+                "Decline":
+                    jump decline_shrimps_quest
+
+        $ calendar.set_played('cat', 1)
+        jump go_to_town
+
+    label accept_shrimps_quest:
+        $ g.c("I accept, Shrimp. What journey are you sending me on?")
+
+        hide gawain 
+
+        s "I want salmon! Purchase some from the market for me?"
+
+        if g.gold >= 5:
+            "You head into town and purchase some raw salmon for Shrimp. When you return, all members of the Cat Coven feast and share Shrimp’s spoils."
+            "You spent 5 gold on the salmon."
+            "You gain + 10 Mettle and +5 Intuition."
+            $ g.change_gold(-5)
+        elif g.gold > 0:
+            "You head into town and purchase some raw salmon for Shrimp. When you return, all members of the Cat Coven feast and share Shrimp’s spoils."
+            "You spend [g.gold] on the salmon."
+            "You gain + 10 Mettle and +5 Intuition."
+            $ g.change_stat('mettle', 10)
+            $ g.change_stat('intuition', 5)
+            $ g.changegold(-(g.gold))
+        else:
+            "You don't have any money to buy salmon with."
+            # TODO: go fishing? or decline quest
+
+        $ calendar.set_played('cat', 1)
+        jump go_to_town
+
+    label decline_shrimps_quest:
+        $ g.c("I’m sorry, Shrimp. I don’t think this quest is quite my focus at the moment.")
+
+        hide gawain
+
+        s "I see, Sir Meowain. Be on your way then. Sorry to bother you." 
+        "Shrimp sulks off to be comforted by Mittens, who glares at you for hurting Shrimp’s feelings."
+        "You lose 5 Intuition and 5 Charm."
+        $ g.change_stat('intuition', -5)
+        $ g.change_stat('charm', -5)
+        $ calendar.set_played('cat', 1)
+        jump go_to_town
+
+
+    label third_cat_haven_event:
+        m "Sir Meowain! Do you have a moment?"
+
+        show gawain at midleft_intro
+        
+        $ g.c("Of course, Mittens. How may I be of service?")
+
+        hide gawain
+        
+        m "Why can’t Ragamuffin talk? I want to play with her but she does not understand me."
+        
+        "Ragamuffin perks up at the sound of her name." 
+
+        show gawain at midleft
+        
+        $ g.c("Ragamuffin is but a regular cat, not a magical one like you.")
+
+        hide gawain
+        
+        m "I’m not magical... am I?"
+
+        show gawain at midleft
+        
+        $ g.c("Aren’t you?")
+
+        hide gawain
+
+        m "I’m confused… can Ragamuffin play or not?"
+
+        menu:
+            "Let her play":
+                "Ragamuffin hops off your shoulder to play with Mittens. They spend the afternoon chasing butterflies and playing with balls of yarn."
+                "You gain +4 Mettle."
+                $ g.change_stat('mettle', 4)
+            "Leave":
+                "You choose not to trust Mittens. She is a talking cat, after all. Who knows what kind of magic is afoot? You keep on walking instead."
+                "You gain +5 Intuition, and lose 2 Charm."
+                $ g.change_stat('intuition', 5)
+                $ g.change_stat('charm', -2)                
+
+        $ calendar.set_played('cat', 2)
+        jump go_to_town
 
 
     ####**** INN SCENES ****####
@@ -603,7 +815,7 @@ label start:
         hide gawain
 
         $ calendar.set_played('inn', 0)
-        jump tasks_only
+        jump go_to_town
 
     label inn_hunters_moon:
         lun "Sir Gawain! May I speak to you for a moment?"
@@ -662,12 +874,16 @@ label start:
         hide gawain
 
         $ calendar.set_played('inn', 1)
-        jump tasks_only
+        jump go_to_town
 
 
     label inn_no_event:
         "Rest up for the search ahead."
-        jump tasks_only
+
+        "You gain +1 Mettle."
+        $ g.change_stat('mettle', 1)
+
+        jump go_to_town
 
 
     label lluds:

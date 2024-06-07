@@ -6,7 +6,6 @@ screen hud:
         xsize 230
         text calendar.get_day_number() + " of " + calendar.get_current_month_name() 
         # for dev use
-        # text "Current day var: " + str(calendar.current_day)
         # text "next jump " + (calendar.next_jump)
         # TODO: use bars for health and stamina
         hbox:
