@@ -10,10 +10,9 @@ init python:
     class Gawain:
         def __init__(self, character):
             self.c = character
-            self.gold = 0
+            self.gold = 10
             self.max_hp = 10 + math.floor(5 / 2)
             self.current_hp = 10 + math.floor(5 / 2)
-            # self.stamina = 10
             self.stats_dict = {
                 "piety": 1,
                 "honor": 1,
@@ -21,10 +20,23 @@ init python:
                 "archery": dev_default,
                 "swordplay": dev_default,
                 "charm": dev_default,
-                "intuition": dev_default,
+                "intuition": dev_default
             }
-            self.inventory = []
-            
+            self.inventory = {
+                'Libation of Liveliness':  0,
+                'Libation of Life': 0,
+                'Libation of Love': 0,
+                'Libation of Leverage': 0,
+                'Libation of Liberation': 0,
+                'Libation of Luck': 0
+            }
+        
+
+        def add_inventory(self, item):
+            self.inventory[item] = self.inventory[item] + 1
+
+        def remove_inventory(self, item):
+            self.inventory[item] = self.inventory[item] - 1
 
         def change_stat(self, stat, val):
             self.stats_dict[stat] = self.stats_dict[stat] + val
@@ -47,7 +59,7 @@ init python:
             # also spends some stamina, depends on the type of attack or special ability
 
             # get attack modifier
-            attack_modifier = get_attack_modifier(self.stats_dict[attack_type])
+            attack_modifier = get_attack_modifier(self.get_stat(attack_type))
             to_hit = roll(100, attack_modifier)
 
             # roll to hit, then roll for damage if roll beats target ac

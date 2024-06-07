@@ -9,14 +9,14 @@ init python:
 
         # TODO
         def roll_for_gold(self, stat):
-            gawain_stat = self.character.stats_dict[stat]
+            gawain_stat = self.character.get_stat(stat)
             return 10
 
         # TODO fix roll numbers, add modifier math to Character class
         # or to dice utils
         def roll_for_skill(self, stat):
-            gawain_stat = self.character.stats_dict[stat]
-            modifier = get_modifier(gawain_stat)
+            stat_value = self.character.get_stat(stat)
+            modifier = get_modifier(stat_value)
             return roll(3, modifier)
 
         def get_outcome(self):

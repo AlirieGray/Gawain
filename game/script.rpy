@@ -50,6 +50,7 @@ label start:
     # handlers
     $ calendar = Calendar()
     $ combat_handler = CombatHandler()
+    $ shop = Shop()
 
 
     scene lake
@@ -59,13 +60,12 @@ label start:
 
     $ renpy.notify("Click or press spacebar to continue.")
 
-    # jump lluds # TODO DEV JUMP ONLY
-
     
     # TODO: DEV JUMP ONLY
     # REMOVE FOR BUILD
     # jump first_combat_time
-    jump go_to_town
+    # jump go_to_town
+    jump lluds
 
     "In the land of yore, when kings and queens still ruled over all and knights still roamed the kingdom, you, Gawain, fought valiantly to prove yourself worthy of your place at King Arthur's Round Table."
     "You battled fearsome beasts and loathsome sorcerers, traveled far and wide on many a dangerous quest, and wooed many lusty and kind-hearted maidens alike."
@@ -349,7 +349,7 @@ label start:
                 f "Why would I be here drinking if I could be in the presence of my beautiful, angelic Anglides was still here!"
 
                 show gawain at midleft 
-                if g.stats_dict['mettle'] > 10:
+                if g.get_stat('mettle') > 10:
                     menu:
                         "Soothe Florian":
                             $ g.c("My, I’m terribly sorry for poking at such a festering wound. May it soothe you that I’m on the hunt for the missing women of Herefordshire.")
@@ -446,7 +446,7 @@ label start:
         o "I’ve had to postpone my wedding to pick up the pieces of our family, and she’s out galavanting with her cat. That’s what Father says, anyways."
 
         show gawain at midleft
-        if g.stats_dict['charm'] > 15:
+        if g.get_stat('charm') > 15:
             menu:
                 "Challenge":
 
@@ -613,7 +613,7 @@ label start:
 
         show gawain at midleft
 
-        if g.stats_dict['mettle'] > 20 and g.stats_dict['intuition'] > 15:
+        if g.get_stat('mettle') > 20 and g.get_stat('intuition') > 15:
             menu:
                 "Accept":
                     jump accept_shrimps_quest
@@ -636,7 +636,7 @@ label start:
 
                 "Decline":
                     jump decline_shrimps_quest
-        elif g.stats_dict['mettle'] > 20 and g.stats_dict['intuition'] < 15:
+        elif g.get_stat('mettle') > 20 and g.get_stat('intuition') < 15:
             menu:
                 "Accept":
                     jump accept_shrimps_quest
@@ -644,7 +644,7 @@ label start:
                     "..."
                 "Decline":
                     jump decline_shrimps_quest
-        elif g.stats_dict['mettle'] < 20 and g.stats_dict['intuition'] > 15:
+        elif g.get_stat('mettle') < 20 and g.get_stat('intuition') > 15:
             menu:
                 "Accept (NOT ENOUGH METTLE)":
                     "..."

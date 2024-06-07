@@ -39,11 +39,11 @@ screen cc_screen:
                             unhovered SetVariable("current_tooltip", ["", ""])                 
                             action SetVariable("current_tooltip", [attribute, stat_descriptions[attribute]])
 
-                        if g.stats_dict[attribute] < 10:
-                            text "  " + str(g.stats_dict[attribute]) xoffset -35 yalign 0.5 
+                        if g.get_stat(attribute) < 10:
+                            text "  " + str(g.get_stat(attribute)) xoffset -35 yalign 0.5 
 
                         else:
-                            text str(g.stats_dict[attribute]) xoffset -36 yalign 0.5 
+                            text str(g.get_stat(attribute)) xoffset -36 yalign 0.5 
                         
                         imagebutton:
                             yalign 0.5 
@@ -85,11 +85,11 @@ screen cc_screen:
                             action SetVariable("current_tooltip", [skill, stat_descriptions[skill]])
                         
 
-                        if g.stats_dict[skill] < 10:
-                            text "  " + str(g.stats_dict[skill]) xoffset -35 yalign 0.5 
+                        if g.get_stat(skill) < 10:
+                            text "  " + str(g.get_stat(skill)) xoffset -35 yalign 0.5 
 
                         else:
-                            text str(g.stats_dict[skill]) xoffset -36 yalign 0.5 
+                            text str(g.get_stat(skill)) xoffset -36 yalign 0.5 
 
                         imagebutton:
                             yalign 0.5

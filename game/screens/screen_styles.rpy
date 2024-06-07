@@ -17,7 +17,7 @@ style special_font:
     font "gui/fonts/dumbledor/dum1.ttf"
     size 30
 
-style tooltip_text:
+style medium_text:
     size 20    
 
 style little_font:
