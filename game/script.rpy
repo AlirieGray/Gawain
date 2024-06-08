@@ -261,8 +261,12 @@ label start:
         "Just as you’re about to rush off, Lunete reaches to catch your arm." 
         
         lun "Do you need me to watch Ragamuffin while you do so? I’d hate for her to get hurt."
+
+        show gawain at midleft
         
         $ g.c("Thank you, Lunete, but she’s my trusted companion. We’ve faced many beasts together; I watch her back and she watches mine. I need her by my side.")
+        
+        hide gawain
         
         lun "That’s… really adorable. Good luck, Sir Gawain and Ragamuffin."
 
@@ -449,6 +453,9 @@ label start:
                 # TODO: use a special pop-up screen for skill gains through dialog?
                 $ g.change_stat('charm', 2)
 
+
+        "You gain +2 Charm"
+        $ g.change_stat('charm', 2)
         $ calendar.set_played('tavern', 0)
         $ calendar.increment_week()
         jump go_to_town
@@ -570,7 +577,7 @@ label start:
         o "I’ve had to postpone my wedding to pick up the pieces of our family, and she’s out galavanting with her cat. That’s what Father says, anyways."
 
         show gawain at midleft
-        if g.get_stat('charm') > 15:
+        if g.get_stat('charm') > 14:
             menu:
                 "Challenge":
 
@@ -753,7 +760,7 @@ label start:
 
         show gawain at midleft
 
-        if g.get_stat('mettle') > 20 and g.get_stat('intuition') > 15:
+        if g.get_stat('mettle') > 13 and g.get_stat('intuition') > 13:
             menu:
                 "Accept":
                     jump accept_shrimps_quest
@@ -776,7 +783,7 @@ label start:
 
                 "Decline":
                     jump decline_shrimps_quest
-        elif g.get_stat('mettle') > 20 and g.get_stat('intuition') < 15:
+        elif g.get_stat('mettle') > 13 and g.get_stat('intuition') < 13:
             menu:
                 "Accept":
                     jump accept_shrimps_quest
@@ -784,7 +791,7 @@ label start:
                     "..."
                 "Decline":
                     jump decline_shrimps_quest
-        elif g.get_stat('mettle') < 20 and g.get_stat('intuition') > 15:
+        elif g.get_stat('mettle') < 13 and g.get_stat('intuition') > 13:
             menu:
                 "Accept (NOT ENOUGH METTLE)":
                     "..."
@@ -842,6 +849,9 @@ label start:
         else:
             "You don't have any money to buy salmon with."
             # TODO: go fishing? or decline quest
+            "You fish in the river and catch some salmon, though it takes the better part of the afternoon. Lose 1 mettle."
+
+            $ g.change_stat('mettle', -1)
 
         $ calendar.set_played('cat', 1)
         $ calendar.increment_week()
@@ -854,9 +864,9 @@ label start:
 
         s "I see, Sir Meowain. Be on your way then. Sorry to bother you." 
         "Shrimp sulks off to be comforted by Mittens, who glares at you for hurting Shrimp’s feelings."
-        "You lose 5 Intuition and 5 Charm."
-        $ g.change_stat('intuition', -5)
-        $ g.change_stat('charm', -5)
+        "You lose 1 Intuition and 1 Charm."
+        $ g.change_stat('intuition', -1)
+        $ g.change_stat('charm', -1)
         $ calendar.set_played('cat', 1)
         $ calendar.increment_week()
         jump go_to_town
@@ -894,13 +904,12 @@ label start:
         menu:
             "Let her play":
                 "Ragamuffin hops off your shoulder to play with Mittens. They spend the afternoon chasing butterflies and playing with balls of yarn."
-                "You gain +4 Mettle."
-                $ g.change_stat('mettle', 4)
+                "You gain +4 Charm."
+                $ g.change_stat('charm', 4)
             "Leave":
                 "You choose not to trust Mittens. She is a talking cat, after all. Who knows what kind of magic is afoot? You keep on walking instead."
-                "You gain +5 Intuition, and lose 2 Charm."
-                $ g.change_stat('intuition', 5)
-                $ g.change_stat('charm', -2)                
+                "You gain +5 archery"
+                $ g.change_stat('archery', 5)              
 
         $ calendar.set_played('cat', 2)
         $ calendar.increment_week()
@@ -1232,7 +1241,7 @@ label start:
 
         $ g.reset_health()
 
-        if calendar.current_month == 0:
+        if calendar.current_month == 1:
             $ l.c("Hello, my dearest Gawain. I offer you another blessing to aid you on your quest.")
 
             # TODO Allow user to pick which stat they want a bonus to
@@ -1257,6 +1266,7 @@ label start:
 
                         $ l.c ("I have little need for debts or payments, dear Gawain. Stay true on your path, that’s all I ask of you.")
                     "Return to Town":
+                        $ calendar.increment_week()
                         jump go_to_town
             else:
                 menu:
@@ -1266,8 +1276,9 @@ label start:
                     "Flirt (NOT ENOUGH CHARM)":
                         "..."
                     "Return to town":
+                        $ calendar.increment_week()
                         jump go_to_town
-        elif calendar.current_month == 1:
+        elif calendar.current_month == 2:
             $ l.c("Hello, my dearest Gawain. I offer you another blessing to aid you on your quest")
             
             if g.get_stat('charm') > 15:
@@ -1278,7 +1289,7 @@ label start:
                         hide lady
                     "Flirt":
                         "Ragamuffin leaps off your shoulder to play with Mochi, the Lady of the Lake’s cat. They splash about the shallows, trying to pounce on each other." 
-                        
+                        hide lady
                         show gawain at midleft
                         
                         $ g.c("Seems they’re fast friends. I wonder if this is a sign, my Lady, that our paths were meant to cross this way.")
@@ -1304,6 +1315,7 @@ label start:
 
                         $ flirted_with_lady = True
                     "Return to town":
+                        $ calendar.increment_week()
                         jump go_to_town
             else:
                 menu:
@@ -1313,9 +1325,10 @@ label start:
                     "Flirt (NOT ENOUGH CHARM)":
                         "..."
                     "Return to town":
+                        $ calendar.increment_week()
                         jump go_to_town
             
-        elif calendar.current_month == 2:
+        elif calendar.current_month == 3:
             $ l.c("Hello, my dearest knight. I offer you yet another blessing to aid you on your quest.")
 
             "You gain +10 Mettle."
@@ -1374,14 +1387,16 @@ label start:
 
                         hide lady
                     "Return to town":
+                        $ calendar.increment_week()
                         jump go_to_town
             else:
                 menu:
                     "Ask for advice":
                         $ l.c("Some people will approach you for your wisdom on their own, no need to worry about going to them.")
                     "Return to town":
+                        $ calendar.increment_week()
                         jump go_to_town
-        elif calendar.current_month == 3:
+        elif calendar.current_month == 4:
             show lady at midright_intro
             $ l.c("Hello, my dearest knight. I offer you yet another blessing to aid you on your quest.")
             
@@ -1422,14 +1437,16 @@ label start:
 
                         hide lady
                     "Return to town":
+                        $ calendar.increment_week()
                         jump go_to_town
             else:
                 menu:
                     "Ask for Advice":
                         $ l.c("Keep your stats balanced, dearest Gawain. You’ll never know when you need high " + g.get_min_stat() + ".")
                     "Return to town":
+                        $ calendar.increment_week()
                         jump go_to_town
-        elif calendar.current_month == 4:
+        elif calendar.current_month == 5:
             show lady at midright_intro
             $ l.c("Hello, my dearest knight. I offer you yet another blessing to aid you on your quest.")
 
@@ -1512,6 +1529,7 @@ label start:
                         $ g.c("Always, my Lady.")
                         hide gawain
                     "Return to town":
+                        $ calendar.increment_week()
                         jump go_to_town
             else:
                 menu:
@@ -1519,6 +1537,7 @@ label start:
                         $ l.c("Those cats down at the Cat Haven seem to have a lot to say. Have you visited them lately?")
                         hide lady
                     "Return to town":
+                        $ calendar.increment_week()
                         jump go_to_town
         else:
             $ l.c("Hello, my dearest Gawain. I offer you one final blessing to aid you on your quest.")
@@ -1591,34 +1610,8 @@ label start:
                     
                     "Return to town":
                         jump boss_fight
-        jump boss_fight
-
-
-
-
-
-
-#####
-                # menu:
-                #     "Ask for Advice":
-                #         "..."
-                #     "Flirt":
-                #         "..."
-                #     "Return to town":
-                #         jump go_to_town
-
-                # menu:
-                #     "Ask for Advice":
-                #         "..."
-                #     "Return to town":
-                #         jump go_to_town
-
-
-
+            jump boss_fight
         jump go_to_town
-
-        # TODO: wait for user to go back to town? or go back to town ourselves 
-
 
     label blood_month_lake_event:
         scene lake

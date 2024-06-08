@@ -29,6 +29,9 @@ init python:
                 'Libation of Luck': 0
             }
 
+        def drink(self, potion):
+            self.inventory[potion] = self.inventory[potion] - 1
+
         def get_min_stat(self):
             return min(self.stats_dict, key = self.stats_dict.get)
         
@@ -46,13 +49,17 @@ init python:
                 self.stats_dict[stat] = 100
 
                 if stat == 'mettle':
-                    self.max_hp = 10 + math.floor(self.stats_dict[stat] / 2)
+                    new_max = 10 + math.floor(self.stats_dict[stat] / 2)
+                    self.max_hp = new_max
+                    self.current_hp = new_max
                 return
             
             self.stats_dict[stat] = self.stats_dict[stat] + val
 
             if stat == 'mettle':
-                self.max_hp = 10 + math.floor(self.stats_dict[stat] / 2)
+                new_max = 10 + math.floor(self.stats_dict[stat] / 2)
+                self.max_hp = new_max
+                self.current_hp = new_max
 
 
 

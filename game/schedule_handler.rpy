@@ -81,7 +81,6 @@ init python:
 
         def set_played(self, location, scene_number):
             self.scenes_played[location][scene_number] = True
-            # self.increment_week()
 
         def get_day_number(self):
             if self.current_week == 1:
@@ -163,7 +162,7 @@ init python:
                 elif not self.scenes_played['cat'][2]:
                     self.next_jump = 'cat_haven_third_event'
                 else:
-                    self.next_jump = 'cat_no_event'
+                    self.next_jump = 'cat_haven_no_event'
             elif self.activity_slots[0] == 'Visit Cottages':
                 if not self.scenes_played['cottages'][0]:
                     self.next_jump = 'cottages_first_event'

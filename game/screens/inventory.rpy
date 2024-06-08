@@ -15,5 +15,6 @@ screen inventory:
                     hbox:
                         text item + ": "
                         text str(amount) 
+                    textbutton "Drink Potion" action Function(g.drink, item)
 
     textbutton "Close" action Hide("inventory") xpos 850 ypos 450
