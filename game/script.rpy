@@ -2,14 +2,19 @@
 default cc_points = 30 # dev value, change to 30 for release
 default activities_selected = False
 default activities_finished = False
+
+# story dialog choices
+default flirted_with_lady = False
+default chose_balk = False
+
+# tutorials/tooltips
 default current_tooltip = ["", ""]
-default town_tutorial = ["Selecting Activities", "Each week you can visit one location to visit to learn more about the mysteries surrounding Hereford, as well as earn gold and increase your skills.", "You can also visit Llud's Libations at any time to buy potions that will help you in battle.", "Hover over a building to see what skills you can improve by spending the week at that location.", "Click on a building to set this week's activity, then press the Start Week button."]
+default town_tutorial = ["Selecting Activities", "Each week you can visit one location to visit to learn more about the mysteries surrounding Hereford, as well as earn gold and increase your skills.", "You can also visit Lludd's Libations at any time during the month to buy potions that will help you in battle.", "Hover over a building to see what skills you can improve by spending the week at that location.", "Click on a building to set this week's activity, then press the Start Week button."]
 default end_month_tutorial = [
     "Ending the Month",
     "This month is coming to an end. Press the End Month button to return to the lake and seek the counsel of your Lady.",
     "Your time in Hereford has been peaceful so far, but you've heard rumors of foul beasts that show themselves around the full moon.\nIf you wish to stock up on any potions, stop by Llud's Libations before ending the month.",
 ]
-default flirted_with_lady = False
 
 # styles
 transform midleft_intro:
@@ -42,7 +47,7 @@ label start:
     # characters
     $ g = Gawain(Character("Gawain"))
     $ l = Lady(Character("Lady of the Lake"))
-    define ll = Character("Llud")
+    define ll = Character("Lludd")
     define d = Character("Drunk Man")
     define f = Character("Florian")
     define o = Character("Olive")
@@ -56,14 +61,16 @@ label start:
     define who = Character("??")
     define morg = Character("Morgana")
     define i = Character("Isoude")
+    define au = Character("Aurelius")
+    define h = Character("Sir Hiss")
 
 
     $ beast_1 = Enemy(Character("Monster"), "Monster", 10, 40, 2, "images/monster.png")
     $ beast_2 = Enemy(Character("Monster"), "Monster", 20, 40, 2, "images/monster.png")
-    $ beast_3 = Enemy(Character("Monster"), "Monster", 35, 40, 2, "images/monster.png")
-    $ beast_4 = Enemy(Character("Monster"), "Monster", 50, 40, 2, "images/monster.png")
-    $ beast_5 = Enemy(Character("Monster"), "Monster", 75, 40, 2, "images/monster.png")
-    $ big_boss = Enemy(Character("Monster"), "Monster", 100, 40, 2, "images/monster.png")
+    $ beast_3 = Enemy(Character("Monster"), "Monster", 35, 50, 2, "images/monster.png")
+    $ beast_4 = Enemy(Character("Monster"), "Monster", 50, 50, 2, "images/monster.png")
+    $ beast_5 = Enemy(Character("Monster"), "Monster", 75, 60, 2, "images/monster.png")
+    $ big_boss = Enemy(Character("Monster"), "Monster", 100, 60, 2, "images/monster.png")
 
     # handlers
     $ calendar = Calendar()
@@ -82,9 +89,10 @@ label start:
     # TODO: DEV JUMP ONLY
     # REMOVE FOR BUILD
     # jump first_combat_time
+    # $ calendar.current_month = 4
     # jump go_to_town
     # jump first_time_in_town
-    # jump lluds
+    # jump lludds
 
     "In the land of yore, when kings and queens still ruled over all and knights still roamed the kingdom, you, Gawain, fought valiantly to prove yourself worthy of your place at King Arthur's Round Table."
     "You battled fearsome beasts and loathsome sorcerers, traveled far and wide on many a dangerous quest, and wooed many lusty and kind-hearted maidens alike."
@@ -224,16 +232,20 @@ label start:
     label go_to_town:
         $ calendar.set_next_jump()
 
-        scene town
+        scene town with fade
 
         if calendar.current_week == 4:
             if calendar.current_month == 0:
                 "Another month comes to an end..."
 
+                $ _window_hide()
+
                 show screen tutorial_modal(end_month_tutorial)
 
             else:
                 "Another month comes to an end..."
+
+                $ _window_hide()
 
             show screen town_menus_month_end
 
@@ -448,13 +460,6 @@ label start:
             "No":
                 "The bartender gives you a drink on the house."
 
-                "You gain +2 Charm and +5 Mettle"
-
-                # TODO: use a special pop-up screen for skill gains through dialog?
-                $ g.change_stat('charm', 2)
-                $ g.change_stat('mettle', 2)
-
-
         "You gain +2 Charm and +5 Mettle"
         $ g.change_stat('mettle', 5)
         $ g.change_stat('charm', 2)
@@ -506,6 +511,8 @@ label start:
                             "Florian rises to his feet, stumbling out the door and into the street."
 
                             f "I MUST FIND ANGLIDES!"
+
+                            $ chose_balk = True
                 else:
                     menu:
                         "Soothe Florian (NOT ENOUGH METTLE)":
@@ -521,6 +528,8 @@ label start:
                             "{i}Florian rises to his feet, stumbling out the door and into the street.{/i}"
 
                             f "I MUST FIND ANGLIDES!"
+
+                            $ chose_balk = True
             "No":
                 "You have a nice meal at the tavern."
         "You gain +3 Charm and +4 mettle."
@@ -628,11 +637,20 @@ label start:
         jump go_to_town
            
     label second_wash_event:
+        "You come across a handsome nebelung cat."
+
         "The cat says nothing, just stares up at you knowingly. He scurries off when you try to pet him." 
+        
         if calendar.scenes_played['cat'][0]:
             "There are more cats roaming the city than just the ones you’ve met at the Cat Haven, and they all seem to know you."
 
         $ calendar.set_played('wash', 1)
+
+        "A group of kids invites you to play."
+
+        "Gain +5 Swordplay."
+
+        $ g.change_stat('swordplay', 5)
         $ calendar.increment_week()
         jump go_to_town
 
@@ -710,14 +728,14 @@ label start:
         $ r = roll(2, 0)
         if r == 1:
             "You learn an old wives’ tale to help you in battle."
-            "You gain +2 Swordplay skill."
-            $ g.change_stat('swordplay', 2)
+            "You gain +4 Swordplay skill."
+            $ g.change_stat('swordplay', 4)
 
         else:
             "Get a pep talk from a kind old woman."
-            "You gain +2 Mettle and +1 Swordplay skill."
+            "You gain +2 Mettle and +3 Swordplay skill."
             $ g.change_stat('swordplay', 1)
-            $ g.change_stat('mettle', 2)
+            $ g.change_stat('mettle', 3)
         
         "You pass the week doing odd jobs around town and earn +10 gold."
 
@@ -749,10 +767,58 @@ label start:
         jump go_to_town
 
     label cat_haven_first_event:
-        # TODO: add cutscene here
+        "You enter an area of town overrun by cats. Ragamuffin is on edge, cuddling closer to your head for reassurance."
+        
+        "The cats seem just as spooked and... whisper to each other behind their paws?"
+        
+        "A regal Bobtail cat approaches on its hind legs, walking like a human." 
+        
+        h "Greetings, human and cat friends! My name is Sir Hiss Meowington, pleasure to have you visit our humble haven. Who do I have the honor of meeting on this fine day?"
+        
+        "Talking cats? Magic must be afoot here..."
+
+        show gawain at midleft_intro
+        
+        $ g.c("My name is Sir Gawain the True and this is my cat, Ragamuffin. Pleased to meet you, Sir Hiss.")
+
+        hide gawain
+        
+        "Sir Hiss turns to announce you to the whole group. All the cats give Sir Hiss their full attention, stopping their whispering." 
+        
+        h "Sir Meowain the Tuna and his cat, Ragamuffin."
+        
+        "The cats erupt into cheers, clapping their little paws. "
+
+        show gawain at midleft
+        
+        $ g.c("Actually, it’s Sir Gawai-")
+
+        hide gawain
+        
+        h "So, Sir Meowain, let me introduce you to the others. We have Shrimp, Mittens, Catthew, Craig, and my beautiful wife, Lady Lotus. She’s over yonder with our kittens, Lily, Lavender, and Lemon."
+        
+        "Lady Lotus, hearing her name, turns to offer you a curtsey before turning back to mind the kittens." 
+        
+        "She’s a regal Angora with piercing blue eyes, which each of her kittens have, too." 
+        
+        h "If you need anything at all, we will be most hospitable to you and Ragamuffin. Do not hesitate to ask, Sir Meowain. Mayhaps you and Ragamuffin desire some cream for the road?"
+        
+        "Ragamuffin perks up at the mention of cream; if she seems intrigued, you know you can trust Sir Hiss’ offer." 
+        
+        "When you nod, Shrimp runs off to gather a saucer of cream, which Ragamuffin happily laps up." 
+
+        show gawain at midleft
+        
+        $ g.c("Thank you for your hospitality, Sir Hiss. We won’t soon forget your kindness.")
+
+        hide gawain
+        
+        h "We protect our own here, and any strays we pick up along the way. Have a safe journey back into town, Sir Meowain the Tuna. May we meet again soon"
+        
         $ calendar.set_played('cat', 0)
         
-        jump cat_haven_no_event
+        $ calendar.increment_week()
+        jump go_to_town
 
     label cat_haven_second_event:
         s "Sir Meowain, Sir Meowain!!"
@@ -880,15 +946,23 @@ label start:
 
 
     label cat_haven_third_event:
+        show mittens at midright_intro
+
         m "Sir Meowain! Do you have a moment?"
 
-        show gawain at midleft_intro
+        hide mittens
+
+        show gawain at midleft
         
         $ g.c("Of course, Mittens. How may I be of service?")
 
         hide gawain
-        
+
+        show mittens at midright
+
         m "Why can’t Ragamuffin talk? I want to play with her but she does not understand me."
+
+        hide mittens
         
         "Ragamuffin perks up at the sound of her name." 
 
@@ -897,8 +971,12 @@ label start:
         $ g.c("Ragamuffin is but a regular cat, not a magical one like you.")
 
         hide gawain
+
+        show mittens at midright
         
         m "I’m not magical... am I?"
+
+        hide mittens
 
         show gawain at midleft
         
@@ -906,14 +984,18 @@ label start:
 
         hide gawain
 
+        show mittens at midright
+
         m "I’m confused… can Ragamuffin play or not?"
 
         menu:
             "Let her play":
                 "Ragamuffin hops off your shoulder to play with Mittens. They spend the afternoon chasing butterflies and playing with balls of yarn."
+                hide mittens
                 "You gain +4 Charm."
                 $ g.change_stat('charm', 4)
             "Leave":
+                hide mittens
                 "You choose not to trust Mittens. She is a talking cat, after all. Who knows what kind of magic is afoot? You keep on walking instead."
                 "You gain +5 archery"
                 $ g.change_stat('archery', 5)              
@@ -975,9 +1057,9 @@ label start:
         
         hide gawain
 
-        "You gain +3 Swordlplay."
+        "You gain +4 Swordplay."
 
-        $ g.change_stat('swordplay', 3)
+        $ g.change_stat('swordplay', 4)
 
         $ calendar.set_played('inn', 0)
         $ calendar.increment_week()
@@ -997,35 +1079,45 @@ label start:
         $ g.c("Catthew, yes, I know the cat you speak of. Quite an adorable little guy.")
         hide gawain
 
-        lun "He is quite sweet. But I invited him to live with Aurelius and I, and Catthew was, well, a terror to say the least. He shredded my clothes, ate every loaf of bread I brought home, and expelled his humors on my bed sheets every night! This dress I have on is the only one I have left!"
+        lun "He is quite sweet. But I invited him to live with Aurelius and I, and Catthew was, well, a terror to say the least."
+        
+        lun "He shredded my clothes, ate every loaf of bread I brought home, and expelled his humors on my bed sheets every night! This dress I have on is the only one I have left!"
         show gawain at midleft
 
         $ g.c("Catthew did all that? But he seemed like such a sweet boy.")
         hide gawain
 
-        lun "Catthew isn’t even the one I’m the most upset with. Aurelius brushed it all off on me, saying it was my fault because I brought the cat in. He didn’t help clean a single hairball this entire time. I’m at my wit’s end with that man! "
+        lun "Catthew isn’t even the one I’m the most upset with. Aurelius brushed it all off on me, saying it was my fault because I brought the cat in."
+        
+        lun "He didn’t help clean a single hairball this entire time. I’m at my wit’s end with that man! "
         show gawain at midleft
 
         $ g.c("Really? Aurelius?")
         hide gawain
 
-        lun "I don’t rightly know what’s gotten into him! My Aurelius would never abandon someone while they’re struggling, but… it seems Catthew is his exception. I let Catthew back into the streets, thinking he would be happier not living in our home anymore, but he keeps waiting by our front door each night. My heart aches for that poor, scared kitty, but Aurelius won’t let me let him back in. "
+        lun "I don’t rightly know what’s gotten into him! My Aurelius would never abandon someone while they’re struggling, but... it seems Catthew is his exception."
+        
+        lun "I let Catthew back into the streets, thinking he would be happier not living in our home anymore, but he keeps waiting by our front door each night. My heart aches for that poor, scared kitty, but Aurelius won’t let me let him back in. "
         show gawain at midleft
 
         $ g.c("Will you and Aurelius be okay?")
         hide gawain
 
-        lun "We’re going to have to be. I’m extremely disappointed in him right now, but… I have nowhere else to go. And our niece, Albiona, needs me while Florian is in such a tizzy. I can’t leave. "
+        lun "We’re going to have to be. I’m extremely disappointed in him right now, but... I have nowhere else to go."
+        
+        lun "And our niece, Albiona, needs me while Florian is in such a tizzy. I can’t leave. "
         
         show gawain at midleft
 
         $ g.c("That makes it seem like you want to.")
         hide gawain
 
-        lun "I don’t know, maybe I do. But my part of our arrangement was fulfilled. You asked me to report if I was approached by anyone, and I was only approached by a cat. I’m too frazzled to be of much help going forward, Sir Gawain. Hopefully this is enough. "
+        lun "I don’t know, maybe I do. But my part of our arrangement was fulfilled. You asked me to report if I was approached by anyone, and I was only approached by a cat."
+        
+        lun "I’m too frazzled to be of much help going forward, Sir Gawain. Hopefully this is enough. "
         show gawain at midleft
 
-        $ g.c("I understand, Lunete. You focus on your family. Leave the rest to me. Maybe I’ll see if I can find Catthew…")
+        $ g.c("I understand, Lunete. You focus on your family. Leave the rest to me. Maybe I’ll see if I can find Catthew...")
         hide gawain
 
         lun "And don’t bring him back in! The only cat I want to see around these parts is Ragamuffin. "
@@ -1047,12 +1139,91 @@ label start:
         $ calendar.increment_week()
         jump go_to_town
 
+    label inn_aurelius:
+        au "Sir Gawain! Pleasure to see you out and about on such a fine day! Enjoying the sunshine?"
+        
+        show gawain at midleft_intro
+        $ g.c("Why, yes, Aurelius. I find I am quite enjoying it, thank you. I heard quite a scrap last night, was everything alright?")
+        hide gawain
+        
+        au "Ah, yes, Sir Gawain. Everything was fine. It was just Florian trying to fight his way up to the rooms. He’s quite convinced my sister, Anglides, is here. I tried to tell him you were the only one renting a room right now, but he seemed unconvinced."
+        show gawain at midleft
+        $ g.c("And does Florian often become belligerent?")
+        hide gawain
+        
+        au "Only when drunk, and when isn’t he these days? It’s the same for most of the men in this bloody town. They work for their wages, pop into the tavern, and the rest of the town is left to deal with the aftermath."
+        show gawain at midleft
+        $ g.c("I see. Is Florian alright now?")
+        hide gawain
+        
+        au "He likely has a terrible headache, but yes. I put him in a room upstairs to sleep it off. Lunete went to his cottage to stay with our niece, Albiona. Florian often forgets to mind her."
+        show gawain at midleft
+        $ g.c("That is quite kind of you and Lunete. Far kinder than Florian has earned.")
+        hide gawain
+        
+        au "This has nothing to do with being kind to Florian. I miss my sister, and Lunete and I will do everything we can to care for our niece while Florian is too drunk to do so himself."
+        
+        au "We all miss Anglides, some of us just handle it with less drink."
+        show gawain at midleft
+        $ g.c("I see I have overstepped. My humblest apologies.")
+        hide gawain
+        
+        au "Every family around here is crumbling. It would behoove you to understand the pain of missing one’s wife rather than judge those who do their best to fight through such loss."
+        menu:
+            "Bond over Ragnell":
+                show gawain at midleft
+                $ g.c("I know what it’s like to lose your true love. I was a wreck after I lost my beloved Ragnell.")
+                hide gawain
+                
+                au "You’ve lost a wife?"
+                show gawain at midleft
+                $ g.c("I’ve lost many wives, Aurelius. Though none whose absence has destroyed me quite like Ragnell.")
+                
+                $ g.c("I loved her more than anything on this Earth. We only had five blessed years, but I will cherish those years as the best of my life.")
+                hide gawain
+                
+                au "So you must understand the pain Florian is going through? He isn’t a bad man, he’s just…"
+                show gawain at midleft
+                $ g.c("Lost. I know the feeling all too well.")
+                hide gawain
+                
+                au "That’s the word I would use, yes."
+                show gawain at midleft
+                $ g.c("If it’s any consolation, I’m working hard to find the women of Herefordshire. Losing Ragnell nearly destroyed me, I still visit her grave with our son as often as time allows.")
+                
+                $ g.c("I would loathe for these men to befall a similar fate.")
+                hide gawain
+                
+                au "...Consider your fare reimbursed, Sir Gawain. We will no longer charge you for your food or board as long as you continue on the search. What you’re doing for us is a priceless gift. It’s the least we can do to repay you."
+                show gawain at midleft
+                $ g.c("Sir, I cannot accept.")
+                hide gawain
+                
+                au "I insist. If not, I’ll find some other, grander way to pay you back that will make you feel much more embarrassed, I assure you."
+                show gawain at midleft
+                $ g.c("Well, then, I guess I have no choice but to accept your kindness.")
+                hide gawain
+                
+                au "You’re catching on fast, Sir Gawain. Here’s your fare back. Thank you for trying to find my sister."
+                show gawain at midleft
+                $ g.c("Thank you for you and your wife’s hospitality, Aurelius. It’s my honor and pleasure to help the town of Hereford become whole again.")
+                hide gawain
+            "Leave the inn":
+                $ g.c("Right, I... should go.")
+
+                au "Yes. You should."
+
+        $ calendar.set_played('inn', 2)
+        $ calendar.increment_week()
+        jump go_to_town
+
+
 
     label inn_no_event:
         "Rest up for the search ahead."
 
-        "You gain +2 Swordplay."
-        $ g.change_stat('swordplay', 2)
+        "You gain +5 Swordplay."
+        $ g.change_stat('swordplay', 5)
 
         $ calendar.increment_week()
         jump go_to_town
@@ -1061,7 +1232,7 @@ label start:
     ####**** COTTAGES SCENES ****####
     # skills: archery and intuition, + gain gold
     label cottages_no_event:
-        $ r = roll(3, 0)
+        $ r = roll(4, 0)
 
         if r == 1:
             "Spend the day connecting with the locals."
@@ -1070,10 +1241,17 @@ label start:
 
             $ g.change_stat('intuition', 4)
 
+        if r == 2:
+            "A group of kids invites you to play."
+
+            "Gain +5 Archery."
+
+            $ g.change_stat('archery', 5)
+
         else:
             "A local invites you to practice archery with her."
 
-            "Gain +4 archery."
+            "Gain +5 Archery."
 
             $ g.change_stat('archery', 5)
 
@@ -1081,6 +1259,7 @@ label start:
         
         $ g.change_gold(5)
         $ calendar.increment_week()
+        jump go_to_town
 
     label cottages_first_event:
         show gawain at midleft_intro
@@ -1225,7 +1404,7 @@ label start:
         jump go_to_town
                         
 
-    label lluds:
+    label lludds:
         # scene town 
 
         ll "Welcome to Llud's Libations!"
@@ -1236,7 +1415,7 @@ label start:
 
         $ wait_for_status(activities_selected)
 
-    label leaving_lluds:
+    label leaving_lludds:
         ll "Let’s meet again later, loyal customer!"
 
         $ wait_for_status(activities_selected)
@@ -1273,7 +1452,7 @@ label start:
 
                         $ l.c ("I have little need for debts or payments, dear Gawain. Stay true on your path, that’s all I ask of you.")
                     "Return to Town":
-                        $ calendar.increment_week()
+                        # $ calendar.increment_week()
                         jump go_to_town
             else:
                 menu:
@@ -1283,7 +1462,7 @@ label start:
                     "Flirt (NOT ENOUGH CHARM)":
                         "..."
                     "Return to town":
-                        $ calendar.increment_week()
+                        # $ calendar.increment_week()
                         jump go_to_town
         elif calendar.current_month == 2:
             $ l.c("Hello, my dearest Gawain. I offer you another blessing to aid you on your quest")
@@ -1322,7 +1501,7 @@ label start:
 
                         $ flirted_with_lady = True
                     "Return to town":
-                        $ calendar.increment_week()
+                        # $ calendar.increment_week()
                         jump go_to_town
             else:
                 menu:
@@ -1332,7 +1511,7 @@ label start:
                     "Flirt (NOT ENOUGH CHARM)":
                         "..."
                     "Return to town":
-                        $ calendar.increment_week()
+                        # $ calendar.increment_week()
                         jump go_to_town
             
         elif calendar.current_month == 3:
@@ -1394,14 +1573,14 @@ label start:
 
                         hide lady
                     "Return to town":
-                        $ calendar.increment_week()
+                        # $ calendar.increment_week()
                         jump go_to_town
             else:
                 menu:
                     "Ask for advice":
                         $ l.c("Some people will approach you for your wisdom on their own, no need to worry about going to them.")
                     "Return to town":
-                        $ calendar.increment_week()
+                        # $ calendar.increment_week()
                         jump go_to_town
         elif calendar.current_month == 4:
             show lady at midright_intro
@@ -1448,14 +1627,14 @@ label start:
 
                         hide lady
                     "Return to town":
-                        $ calendar.increment_week()
+                        # $ calendar.increment_week()
                         jump go_to_town
             else:
                 menu:
                     "Ask for Advice":
                         $ l.c("Keep your stats balanced, dearest Gawain. You’ll never know when you need high " + g.get_min_stat() + ".")
                     "Return to town":
-                        $ calendar.increment_week()
+                        # $ calendar.increment_week()
                         jump go_to_town
         elif calendar.current_month == 5:
             show lady at midright_intro
@@ -1467,6 +1646,7 @@ label start:
                         $ l.c("Those cats down at the Cat Haven seem to have a lot to say. Have you visited them lately?")
                         hide lady
                     "Flirt":
+                        hide lady
                         show gawain at midleft
                         
                         $ g.c("My Lady, I’ve brought you a full bouquet of daisies this time, since you liked the last flower so much.")
@@ -1481,7 +1661,7 @@ label start:
                         
                         $ l.c("There, now they shall last forever.")
                         
-                        "This gives you pause - little in your life has ever lasted “forever”. No matter how many times you shared your heart, it seems the life of a knight is rife with instability and solitude." 
+                        "This gives you pause - little in your life has ever lasted “forever.” No matter how many times you shared your heart, it seems the life of a knight is rife with instability and solitude." 
                         
                         $ l.c("My dearest Gawain, you seem a bit down. Did I say something to upset you?")
                         
@@ -1511,9 +1691,8 @@ label start:
                         
                         $ g.c("Heavens no, my Lady. I’m scared to lose you, is all. I’m scared to give you my heart and lose you just as I did Ragnell. ")
                         
-                        hide lady
-                        
-                        show gawain at midleft
+                        hide gawain
+                        show lady at midright
                         
                         $ l.c("Well, if it’s any consolation, dear Gawain, I’m much harder to kill than Ragnell.")
                         
@@ -1540,7 +1719,7 @@ label start:
                         $ g.c("Always, my Lady.")
                         hide gawain
                     "Return to town":
-                        $ calendar.increment_week()
+                        # $ calendar.increment_week()
                         jump go_to_town
             else:
                 menu:
@@ -1548,15 +1727,16 @@ label start:
                         $ l.c("Those cats down at the Cat Haven seem to have a lot to say. Have you visited them lately?")
                         hide lady
                     "Return to town":
-                        $ calendar.increment_week()
+                        # $ calendar.increment_week()
                         jump go_to_town
-        else:
+        elif calendar.current_month == 6:
             $ l.c("Hello, my dearest Gawain. I offer you one final blessing to aid you on your quest.")
             
             if flirted_with_lady:
                 menu:
                     "Ask for Advice":
                         $ l.c("These beasts seem to be coming from the forest. Maybe the forest will give you answers on the missing women of Herefordshire.")
+                        jump boss_fight
                     "Flirt":
                         hide lady 
                         show gawain at midleft
@@ -1611,14 +1791,14 @@ label start:
                         "You eventually make your way back to town, and for the first time in a long time, sleep comes free of nightmares and anguish." 
                         
                         "You awake well rested to the point you decide to go for a stroll about town, just drinking in the sunlight of a brand new day in Hereford."
-                    
+                        jump boss_fight
                     "Return to town":
                         jump boss_fight
             else:
                 menu:
                     "Ask for Advice":
                         $ l.c("These beasts seem to be coming from the forest. Maybe the forest will give you answers on the missing women of Herefordshire.")
-                    
+                        jump boss_fight
                     "Return to town":
                         jump boss_fight
             jump boss_fight

@@ -40,7 +40,7 @@ screen town_menus:
         hover "images/shop_hover.png"
         xpos 1107
         ypos 505
-        action [Jump('lluds')]
+        action [Jump('lludds')]
 
 
     imagebutton:
@@ -67,7 +67,7 @@ screen town_menus_month_end:
         hover "images/shop_hover.png"
         xpos 1107
         ypos 505
-        action [Jump('lluds')]
+        action [Jump('lludds')]
 
 
     use my_button("End Month", [Hide('town_menus_month_end'), Jump(calendar.next_jump)], 585, 100)

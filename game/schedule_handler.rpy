@@ -64,7 +64,7 @@ init python:
                 'tavern': [False, False],
                 'wash': [False, False, False, False],
                 'cat': [False, False, False, False, False],
-                'inn': [False, False, False],
+                'inn': [False, False, False], # 0: first event, 1: hunters moon, 2: aurelius
                 'cottages': [False, False, False]
             }
             self.months_list = [
@@ -72,8 +72,9 @@ init python:
                 'Haymaking Month',
                 'Weed Month',
                 'Holy Month',
-                "Hunter's Moon Month",
+                "Hunter's Moon",
                 'Blood Month',
+                'Winter Month' #should NOT see this one in hud calendar just hacking an off by one error...
                 ]
 
         def get_current_week(self):
@@ -131,13 +132,15 @@ init python:
                     self.next_jump = 'fourth_combat'
                 elif self.current_month == 4:
                     self.next_jump = 'fifth_combat'
-                else:
-                    self.next_jump = blood_month_lake_event
+                elif self.current_month == 5:
+                    self.next_jump = 'visit_lake'
             elif self.activity_slots[0] == 'Visit Tavern': 
                 if not self.scenes_played['tavern'][0]:
                     self.next_jump = 'tavern_first_event'
                 elif not self.scenes_played['tavern'][1]:
                     self.next_jump = 'second_tavern_event'
+                else:
+                    self.next_jump = 'tavern_no_event'
             elif self.activity_slots[0] == 'Visit Washing Well': 
                 if not self.scenes_played['wash'][0]:
                     self.next_jump = 'wash_first_event'
@@ -148,7 +151,9 @@ init python:
                 else:
                     self.next_jump = 'wash_no_event'
             elif self.activity_slots[0] == 'Hang out at the Inn':
-                if not self.scenes_played['inn'][0]:
+                if self.scenes_played['tavern'][1] and chose_balk and not self.scenes_played['inn'][2]:
+                    self.next_jump = 'inn_aurelius'
+                elif not self.scenes_played['inn'][0]:
                     self.next_jump = 'inn_first_event'
                 elif self.current_month == 4 and not self.scenes_played['inn'][1]:
                     self.next_jump = 'inn_hunters_moon'
@@ -173,6 +178,6 @@ init python:
                 else:
                     self.next_jump = 'cottages_no_event'
             elif self.activity_slots[0] == 'Visit the Shop':
-                self.next_jump = 'lluds'      
+                self.next_jump = 'lludds'      
             else: 
                 self.next_jump = 'go_to_town'

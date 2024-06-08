@@ -2,23 +2,24 @@ init python:
     import math
     import time
 
-    dev_default = 9
+    dev_default = 20
     prod_default = 5
 
     class Gawain:
         def __init__(self, character):
             self.c = character
             self.gold = 5
-            self.max_hp = 10 + math.floor(prod_default / 2)
-            self.current_hp = 10 + math.floor(prod_default / 2)
+            self.max_hp = 10 + math.floor(dev_default / 2)
+            self.current_hp = 10 + math.floor(dev_default / 2)
+            self.ac = 50
             self.stats_dict = {
                 # "piety": 1,
                 # "honor": 1,
-                "mettle": prod_default,
-                "archery": prod_default,
-                "swordplay": prod_default,
-                "charm": prod_default,
-                "intuition": prod_default
+                "mettle": dev_default,
+                "archery": dev_default,
+                "swordplay": dev_default,
+                "charm": dev_default,
+                "intuition": dev_default
             }
             self.inventory = {
                 'Libation of Liveliness': 0,
@@ -52,6 +53,8 @@ init python:
                     new_max = 10 + math.floor(self.stats_dict[stat] / 2)
                     self.max_hp = new_max
                     self.current_hp = new_max
+                elif stat == 'intuition': 
+                    self.ac = 50 + math.floor(self.stats_dict[stat] / 4)
                 return
             
             self.stats_dict[stat] = self.stats_dict[stat] + val
@@ -60,6 +63,8 @@ init python:
                 new_max = 10 + math.floor(self.stats_dict[stat] / 2)
                 self.max_hp = new_max
                 self.current_hp = new_max
+            elif stat == 'intuition': 
+                self.ac = 50 + math.floor(self.stats_dict[stat] / 4)
 
 
 
@@ -118,7 +123,7 @@ init python:
             to_hit = roll(100, self.attack_modifier)
             # TODO: calculate Gawain's AC based on mettle stat
             # TODO: use different attack and damage modifiers 
-            if to_hit > 50:
+            if to_hit > g.ac:
                 return roll(3, self.attack_modifier)
             else:
                 return 0 # miss!
