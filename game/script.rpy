@@ -65,7 +65,7 @@ label start:
     # REMOVE FOR BUILD
     # jump first_combat_time
     # jump go_to_town
-    jump lluds
+    # jump lluds
 
     "In the land of yore, when kings and queens still ruled over all and knights still roamed the kingdom, you, Gawain, fought valiantly to prove yourself worthy of your place at King Arthur's Round Table."
     "You battled fearsome beasts and loathsome sorcerers, traveled far and wide on many a dangerous quest, and wooed many lusty and kind-hearted maidens alike."

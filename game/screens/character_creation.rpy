@@ -1,5 +1,5 @@
 screen cc_screen:
-    add "images/lake.jpg"
+    add "images/lake.png"
     add "gui/custom/transparent_bg_cc.png" xalign .95 yalign .2
     add "images/gawain_portrait.png" yanchor 1.0 yalign 1.0 
     use tooltip(current_tooltip, 50, 90, False)
