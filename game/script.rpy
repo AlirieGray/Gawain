@@ -448,13 +448,15 @@ label start:
             "No":
                 "The bartender gives you a drink on the house."
 
-                "You gain +2 Charm"
+                "You gain +2 Charm and +5 Mettle"
 
                 # TODO: use a special pop-up screen for skill gains through dialog?
                 $ g.change_stat('charm', 2)
+                $ g.change_stat('mettle', 2)
 
 
-        "You gain +2 Charm"
+        "You gain +2 Charm and +5 Mettle"
+        $ g.change_stat('mettle', 5)
         $ g.change_stat('charm', 2)
         $ calendar.set_played('tavern', 0)
         $ calendar.increment_week()
@@ -521,8 +523,9 @@ label start:
                             f "I MUST FIND ANGLIDES!"
             "No":
                 "You have a nice meal at the tavern."
-        "You gain +3 Charm."
+        "You gain +3 Charm and +4 mettle."
         $ g.change_stat('charm', 3)
+        $ g.change_stat('mettle', 4)
 
         $ calendar.set_played('tavern', 1)
         $ calendar.increment_week()
@@ -532,14 +535,14 @@ label start:
         $ r = roll(2, 0)
         if r == 1:
             "The bartender gives you a drink on the house."
-            "You gain +2 Charm."
+            "You gain +2 Charm and +6 Mettle"
 
             $ g.change_stat('charm', 2)
-            $ g.change_stat('mettle', -1)
+            $ g.change_stat('mettle', 6)
         else:
             "You have a nice meal at the tavern."
-            "You gain +3 Mettle."
-            $ g.change_stat('mettle', 3)
+            "You gain +5 Mettle."
+            $ g.change_stat('mettle', 5)
         $ calendar.increment_week()
         jump go_to_town
 
@@ -648,6 +651,8 @@ label start:
 
         $ g.c("You call it fleeing, why do you label their disappearances as such? Do you know where they have ‘fled’ to?")
 
+        hide gawain
+        
         e "I know not where they are, just… that I don’t blame them for leaving. The men in this town often forget to mind their wives while their wives mind the homes."
         
         e "Have you a wife, Sir Gawain?"
@@ -734,12 +739,12 @@ label start:
             $ g.change_stat('intuition', 3)
         elif r == 2:
             "Have a sword fight with Sir Hiss!"
-            "Gain +4 Swordplay skill."
-            $ g.change_stat('swordplay', 4)
+            "Gain +5 Swordplay skill."
+            $ g.change_stat('swordplay', 5)
         else:
             "Have a tea party with Mittens and Shrimp!"
-            "Gain +3 Mettle."
-            $ g.change_stat('mettle', 3)
+            "Gain +5 Mettle."
+            $ g.change_stat('mettle', 5)
         $ calendar.increment_week()
         jump go_to_town
 
@@ -837,12 +842,14 @@ label start:
         if g.gold >= 5:
             "You head into town and purchase some raw salmon for Shrimp. When you return, all members of the Cat Coven feast and share Shrimp’s spoils."
             "You spent 5 gold on the salmon."
-            "You gain + 10 Mettle and +5 Intuition."
+            "You gain +10 Mettle and +5 Intuition."
+            $ g.change_stat('mettle', 10)
+            $ g.change_stat('intuition', 5)
             $ g.change_gold(-5)
         elif g.gold > 0:
             "You head into town and purchase some raw salmon for Shrimp. When you return, all members of the Cat Coven feast and share Shrimp’s spoils."
             "You spend [g.gold] on the salmon."
-            "You gain + 10 Mettle and +5 Intuition."
+            "You gain +10 Mettle and +5 Intuition."
             $ g.change_stat('mettle', 10)
             $ g.change_stat('intuition', 5)
             $ g.changegold(-(g.gold))
@@ -1399,6 +1406,10 @@ label start:
         elif calendar.current_month == 4:
             show lady at midright_intro
             $ l.c("Hello, my dearest knight. I offer you yet another blessing to aid you on your quest.")
+
+            "You gain + 10 Swordplay."
+
+            $ g.change_stat('swordplay', 10)
             
             if flirted_with_lady:
                 menu:
