@@ -18,7 +18,7 @@ style special_font:
     size 30
 
 style medium_text:
-    size 20    
+    size 20   
 
 style little_font:
     size 16

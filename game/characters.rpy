@@ -10,7 +10,7 @@ init python:
     class Gawain:
         def __init__(self, character):
             self.c = character
-            self.gold = 10
+            self.gold = 100 # TODO DEV VALUE, prod start at 0-10
             self.max_hp = 10 + math.floor(5 / 2)
             self.current_hp = 10 + math.floor(5 / 2)
             self.stats_dict = {
