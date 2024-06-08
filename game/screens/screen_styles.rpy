@@ -22,3 +22,6 @@ style medium_text:
 
 style little_font:
     size 16
+
+style disabled_button:
+    color gui.insensitive_color

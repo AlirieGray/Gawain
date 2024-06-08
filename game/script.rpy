@@ -65,6 +65,7 @@ label start:
     # REMOVE FOR BUILD
     # jump first_combat_time
     # jump go_to_town
+    jump first_time_in_town
     # jump lluds
 
     "In the land of yore, when kings and queens still ruled over all and knights still roamed the kingdom, you, Gawain, fought valiantly to prove yourself worthy of your place at King Arthur's Round Table."
@@ -202,8 +203,11 @@ label start:
 
         show screen town_menus
 
-        $ current_tooltip = ["Selecting Activities", "Each week you can pick one task to earn gold and increase your skills.\nHover over a building to see what the gold and skills reward for completing that task will be.\nClick on a building to set this week's activity."]
-        show screen tooltip(current_tooltip, 400, 200, True)
+        $ current_tooltip = ["Selecting Activities", "Each week you can visit one location to visit to learn more about the mysteries surrounding Hereford.\nClick on a building to set this week's activity, then press the Start Week button."]
+        
+        # show screen tooltip(current_tooltip, 430, 200, True, True)
+
+        show screen tooltip_modal(current_tooltip, 430, 200)
 
         $ wait_for_status(activities_selected)
     

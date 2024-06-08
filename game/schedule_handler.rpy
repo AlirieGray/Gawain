@@ -150,6 +150,8 @@ init python:
                     self.next_jump = 'third_cat_haven_event'
                 else:
                     self.next_jump = 'cat_no_event'
+            elif self.activity_slots[0] == 'Visit the Shop':
+                self.next_jump = 'lluds'
             elif self.current_month == 0 and self.current_week == 4:
                 self.next_jump = 'first_combat_time'      
             else: 

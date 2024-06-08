@@ -33,17 +33,21 @@ screen stats_left:
                     text str(g.get_stat(skill)) yalign 0.5
 
 
-# TODO: button should show when disabled, but be grayed-out...
+# TODO: disabled button styling for other buttons besides start week
 screen my_button(button_text, button_action, x_position, y_position):
-    button:
-        xpos x_position
-        ypos y_position
-        idle_background "gui/custom/button.png"
-        hover_background "gui/custom/button_hover.png"
-        style "my_button_text"
-        xysize (200, 70)
-        text button_text xalign 0.5 xfill True yoffset 5 xoffset -25
-        action button_action 
+    if button_action:
+        button:
+            xpos x_position
+            ypos y_position
+            idle_background "gui/custom/button.png"
+            hover_background "gui/custom/button_hover.png"
+            style "my_button_text"
+            xysize (200, 70)
+            text button_text xalign 0.5 xfill True yoffset 5 xoffset -25
+            action button_action 
+    else:
+        add "gui/custom/button_disabled.png" xpos x_position ypos (y_position - 35)
+        text button_text xpos (x_position + 25) ypos (y_position - 30) style "disabled_button"
 
 screen tooltip(tooltip_text, x_position, y_position, close_button): 
     if tooltip_text[0] != "":
@@ -57,3 +61,17 @@ screen tooltip(tooltip_text, x_position, y_position, close_button):
             text tooltip_text[1] style "medium_text"
             if close_button:
                 textbutton "Close" action Hide("tooltip") xalign 0.9
+
+# TODO should be a way to set modal with a screen parameter?
+screen tooltip_modal(tooltip_text, x_position, y_position): 
+    modal True
+    if tooltip_text[0] != "":
+        add "gui/custom/transparent_bg_450_300.png" xpos x_position ypos y_position
+        vbox:
+            xsize 390
+            xpos x_position + 30
+            ypos y_position + 20
+            spacing 2
+            text tooltip_text[0].title() style "special_font"
+            text tooltip_text[1] style "medium_text"
+    textbutton "Close" action Hide("tooltip_modal") xpos x_position + 385 ypos y_position + 255

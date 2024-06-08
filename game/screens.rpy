@@ -444,6 +444,7 @@ style main_menu_text:
 
 style main_menu_title:
     properties gui.text_properties("title")
+    font "gui/fonts/dumbledor/dum1.ttf"
 
 style main_menu_version:
     properties gui.text_properties("version")
