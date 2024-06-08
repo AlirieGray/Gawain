@@ -3,6 +3,7 @@ default cc_points = 2 # dev value, change to 30 for release
 default activities_selected = False
 default activities_finished = False
 default current_tooltip = ["", ""]
+default town_tutorial = ["Selecting Activities", "Each week you can visit one location to visit to learn more about the mysteries surrounding Hereford, as well as earn gold and increase your skills.", "You can also visit Llud's Libations at any time to buy potions that will help you in battle.", "Hover over a building to see what skills you can improve by spending the week at that location.", "Click on a building to set this week's activity, then press the Start Week button."]
 
 # styles
 transform midleft_intro:
@@ -43,9 +44,18 @@ label start:
     define lun = Character("Lunete")
     define s = Character("Shrimp")
     define m = Character("Mittens")
+    define cm = Character("Crying Man")
+    define b = Character("Bryan")
+    define c = Character("Crisea")
+    define who = Character("??")
+    define morg = Character("Morgana")
+    define i = Character("Isoude")
 
-    # TODO: 50 health is a dev number, should have 10 release
+
     $ beast_1 = Enemy(Character("Monster"), "Monster", 10, 40, 2, "images/monster.png")
+    $ beast_2 = Enemy(Character("Monster"), "Monster", 10, 40, 2, "images/monster.png")
+    $ beast_3 = Enemy(Character("Monster"), "Monster", 10, 40, 2, "images/monster.png")
+    $ big_boss = Enemy(Character("Monster"), "Monster", 10, 40, 2, "images/monster.png")
 
     # handlers
     $ calendar = Calendar()
@@ -202,12 +212,10 @@ label start:
         # TODO: tutorial
 
         show screen town_menus
-
-        $ current_tooltip = ["Selecting Activities", "Each week you can visit one location to visit to learn more about the mysteries surrounding Hereford.\nClick on a building to set this week's activity, then press the Start Week button."]
         
         # show screen tooltip(current_tooltip, 430, 200, True, True)
 
-        show screen tooltip_modal(current_tooltip, 430, 200)
+        show screen tutorial_modal(town_tutorial, 430, 200)
 
         $ wait_for_status(activities_selected)
     
@@ -225,22 +233,118 @@ label start:
 
         $ wait_for_status(activities_selected)
 
-    label first_combat_time:
+    ####**** COMBATS/BATTLES ****####
+
+    label first_combat:
 
         scene town
-
-        "Suddenly, a loud roar echoes through the town, emanating through the streets with enough power to shake window panes and send birds into flight."
+        
+        "You see Lunete, the Innkeeper, run up to you as you’re on an evening stroll." 
+        
+        l "Sir Gawain! There’s a beast eating Enid’s cows! You have to come protect them!"
+        
+        "Just as you’re about to rush off, Lunete reaches to catch your arm." 
+        
+        l "Do you need me to watch Ragamuffin while you do so? I’d hate for her to get hurt."
+        
+        $ g.c("Thank you, Lunete, but she’s my trusted companion. We’ve faced many beasts together; I watch her back and she watches mine. I need her by my side.")
+        
+        l "That’s… really adorable. Good luck, Sir Gawain and Ragamuffin."
 
         $ combat_handler.set_enemy(beast_1)
 
-        show screen combat_menus(beast_1)
+        jump combat
+
+    label second_combat:
+        "You see Olive, a citizen of Hereford, run up to you as you’re on an evening stroll. "
+        
+        o "Sir Gawain! There’s a fearsome beast eating all of Bryan’s cows! Please, you must save them!"
+
+        $ combat_handler.set_enemy(beast_2)
+
+        jump combat
+
+    label third_combat:
+        "You’re enjoying a hearty meal in the tavern with Ragamuffin when the sounds of screams outside draw your attention."
+        
+        "A beast is wreaking havoc on the town square, though thankfully no one looks hurt yet."
+
+        $ combat_handler.set_enemy(beast_3)
+
+        jump combat
+
+    label fourth_combat:
+        "You’re asleep in the dead of night when a deathly roar echoes through the town."
+        
+        "A beast is once again ravaging the town square, causing tons of destruction."
+
+        $ combat_handler.set_enemy(beast_4)
+
+        jump combat
+
+    label fifth_combat:
+        "As you’re letting Ragamuffin stretch her legs and play in the brush on the edge of the forest, a huge beast leaps in front of you, looking to pounce at Ragamuffin!"
+
+        $ combat_handler.set_enemy(beast_5)
+        
+        jump combat
+
+    label boss_fight:
+        "A young girl alone picking flowers on the edge of town screams once she sees she’s in the cat’s sights, scrambling to her feet as she desperately tries to get away."
+        
+        "You draw your sword; you don't even hesitate for a moment before you’re charging into the fray, sprinting forward to put yourself between the giant cat and the innocent little child." 
+        
+        $ combat_handler.set_enemy(big_boss)
+        
+        show screen combat_menus(combat_handler.current_enemy)
 
         while g.current_hp > 0 and combat_handler.current_enemy:
             menu:
                 "Sword Attack":
                     $ combat_handler.gawain_attack("swordplay")
                 "Bow and Arrow":
-                    $ g.attack("archery", beast_1)
+                    $ g.attack("archery", combat_handler.current_enemy)
+                    $ combat_handler.gawain_attack("archery")
+            "[str(combat_handler.combat_status_string)]" 
+
+            if combat_handler.current_enemy:
+
+                $ combat_handler.enemy_attack()
+
+                "[str(combat_handler.combat_status_string)]"
+
+        hide screen combat_menus
+        
+        "You stand panting over the corpse of your enemy, looking back over your shoulder to see the young girl safe, cowering behind her older sister. They look terrified of you - they all do. That was something you never got over: the fear in peoples’ eyes as you slayed beasts to protect them. The little girl hesitates before tugging her arm out of her sister’s grasp and walks up to you, offering you two flowers. You lean down to take the first flower and the action only serves to bring Ragamuffin closer to the little girl."
+        
+        "She smiles sweetly, tucking the second flower behind Ragamuffin’s fluffy ear. The cat purrs her thanks, making the little girl giggle." 
+        
+        "You know what you must do to protect these people: you must venture into the forest, slaying any beasts that threaten this beautiful, struggling town any further."
+        
+        "You rise to your full height, tuck your flower behind your ear to match Ragamuffin, and with one last, longing look over the town you’ve been residing in for so long, you head deeper into the forests surrounding Hereford."
+
+        jump morgana_ending
+
+    label morgana_combat:
+        $ g.c("No, I refuse to believe these dedicated women would abandon their families so callously. You must have them enchanted, under some spell, Morgana")
+
+        morg "Me? Spell? I would never."
+        
+        "She’s teasing you now, challenging you outright. "
+        
+        $ g.c("Prepare to be vanquished, foul sorceress. I will set these women free and return them to their proper homes.")
+        
+        morg "Make this quick, Sir Gawain. I have little time for such humorous outbursts."
+
+    label combat:
+        show screen combat_menus(combat_handler.current_enemy)
+
+        while g.current_hp > 0 and combat_handler.current_enemy:
+            menu:
+                "Sword Attack":
+                    $ combat_handler.gawain_attack("swordplay")
+                "Bow and Arrow":
+                    $ g.attack("archery", combat_handler.current_enemy)
                     $ combat_handler.gawain_attack("archery")
             "[str(combat_handler.combat_status_string)]" 
 
@@ -258,9 +362,9 @@ label start:
 
 
     ####**** TAVERN SCENES ****####
+    # skills: charm, mettle
 
-
-    label first_tavern_event:
+    label tavern_first_event:
         "You enter the tavern to see a single drunk man alone at the bar." 
 
         menu:
@@ -325,11 +429,10 @@ label start:
             "No":
                 "The bartender gives you a drink on the house."
 
-                "You gain +2 Charm, -1 Mettle."
+                "You gain +2 Charm"
 
                 # TODO: use a special pop-up screen for skill gains through dialog?
                 $ g.change_stat('charm', 2)
-                $ g.change_stat('mettle', -1)
 
         $ calendar.set_played('tavern', 0)
         jump go_to_town
@@ -393,11 +496,10 @@ label start:
                             "{i}Florian rises to his feet, stumbling out the door and into the street.{/i}"
 
                             f "I MUST FIND ANGLIDES!"
-
             "No":
                 "You have a nice meal at the tavern."
-                "You gain +3 Mettle."
-                $ g.change_stat('mettle', 3)
+        "You gain +3 Charm."
+        $ g.change_stat('charm', 3)
 
         $ calendar.set_played('tavern', 1)
         jump go_to_town
@@ -406,7 +508,7 @@ label start:
         $ r = roll(2, 0)
         if r == 1:
             "The bartender gives you a drink on the house."
-            "You gain +2 Charm, lose 1 Mettle."
+            "You gain +2 Charm."
 
             $ g.change_stat('charm', 2)
             $ g.change_stat('mettle', -1)
@@ -419,8 +521,9 @@ label start:
 
 
     ####**** WASHING WELL SCENES ****####
+    # skills: mettle, swordplay
 
-    label first_wash_event:
+    label wash_first_event:
         o "Excuse me, sir? You look new in town - are you here to find the missing women?"
 
         show gawain at midleft_intro
@@ -486,6 +589,12 @@ label start:
                     $ g.c("Well, I’ll be sure to take note of that, then.")
 
                     "{i}Seems the women are fleeing the town, regardless of what family they leave behind.{/i}"
+
+        "You pass the rest of the afternoon training with your sword."
+
+        "Gain +4 Swordplay."
+
+        $ g.change_stat('swordplay', 4)
 
         $ calendar.set_played('wash', 0)
         jump go_to_town
@@ -601,12 +710,12 @@ label start:
 
         jump go_to_town
 
-    label first_cat_haven_event:
+    label cat_haven_first_event:
         # TODO: add cutscene here
         $ calendar.set_played('cat', 0)
         jump cat_haven_no_event
 
-    label second_cat_haven_event:
+    label cat_haven_second_event:
         s "Sir Meowain, Sir Meowain!!"
 
         show gawain at midleft_intro
@@ -723,7 +832,7 @@ label start:
         jump go_to_town
 
 
-    label third_cat_haven_event:
+    label cat_haven_third_event:
         m "Sir Meowain! Do you have a moment?"
 
         show gawain at midleft_intro
@@ -769,7 +878,7 @@ label start:
 
     ####**** INN SCENES ****####
 
-    label first_inn_event:
+    label inn_first_event:
         lun "Greetings, traveler! Did you have an issue with your room?"
         
         show gawain at midleft_intro
@@ -890,8 +999,164 @@ label start:
         jump go_to_town
 
 
+    ####**** COTTAGES SCENES ****####
+    # skills: archery and intuition
+    label cottages_no_event:
+        $ r = roll(3, 0)
+
+        if r == 1:
+            "Spend the day connecting with the locals."
+
+            "Gain +3 Intuition."
+
+            $ g.change_stat('intuition', 4)
+
+        else:
+            "A local invites you to practice archery with her."
+
+            "Gain +4 archery."
+
+            $ g.change_stat('archery', 5)
+
+    label cottages_first_event:
+        show gawain at midleft_intro
+        $ g.c("Pardon me, I am Sir Gawain and I’m looking to find the missing wives. Are you wed, sir?")
+        hide gawain
+
+        b "Me? No, I am not married yet. I am betrothed to the beautiful Olive, though. We are to be married in Weed Month."
+        
+        show gawain at midleft
+        $ g.c("Well, many blessings be upon you and yours!")
+        hide gawain
+
+        b "You are too kind, Sir. We shall take all the blessings we get. We were to be wed many months ago, but Olive’s mother vanished and left her family completely helpless."
+        
+        show gawain at midleft
+        $ g.c("And did you have any clues as to why she left? Or where she went, mayhaps?")
+        hide gawain
+
+        b "Not the foggiest idea. She had the perfect life - children, a home to lord over, her spinning. What else could she have wanted? Olive was crushed when her mother left."
+        
+        show gawain at midleft
+        $ g.c("Seems this is leaving the families of Hereford in ruins.")
+        hide gawain
+
+        b "Once I marry Olive, our family will befall no such fate. She’s staying put, I’ll make sure of it."
+        
+        show gawain at midleft
+        $ g.c("Then I wish you the wisdom to keep her home and the heart to keep her happy.")
+        hide gawain
+
+        b "Right. Happy. Marriage is not for the faint of heart, not in these times."
+        
+        show gawain at midleft
+        $ g.c("No, it quite certainly is not. Never has been. Good day, Bryan.")
+        hide gawain
+
+        "You pass the rest of the afternoon practicing with your bow. Gain +2 Archery skill."
+
+        $ g.change_stat('archery', 2)
+
+        jump go_to_town
+
+    label cottages_second_event:
+        "You turn a corner to see a man sitting in the dirt by his front door, crying his eyes out. Do you comfort him?"
+
+        menu:
+            "Comfort Him":
+                show gawain at midleft_intro
+                $ g.c("Sir, may I ask why you’re crying? Anything I may assist you with?")
+                hide gawain
+                
+                cm "My Wife! She’s gone! We went to bed side-by-side and by the time I awoke, she was gone!"
+                
+                show gawain at midleft
+                $ g.c("My, that’s quite the misfortune. Any ideas where she may have gone?")
+                
+                "{i}Leaving with the moon so high can only mean a penchant for secrecy.{/i}"
+
+                hide gawain
+                
+                cm "No! I don’t understand! Where is my wife?! And her little kitty, too?!"
+                
+                show gawain at midleft
+
+                $ g.c("I’ll work tirelessly to find her, sir. You have my word.")
+                hide gawain
+                
+                cm "My wife! Where is my wife?!"
+
+            "Walk On":
+                "You walk on, taking a nice stroll through the countryside."
+
+                "You gain +2 intuition."
+
+                $ g.change_stat('intuition', 2)
+        jump go_to_town
+
+    label cottages_third_event:
+        "You happen upon a lovely cottage, kept to perfection. In the front yard picking veggies is a forlorn woman. Do you approach her?"
+
+        menu:
+            "Attempt conversation":
+                show gawain at midleft_intro
+                $ g.c("Ma’am, may I ask why you look so down? Maybe I can assist you.")
+                hide gawain
+                
+                c "Oh, Sir Gawain the True! I’ve heard of you poking about town. I am Crisea, lovely to finally meet you. I’m afraid it’s nothing you can assist with fine knight."
+                if (g.get_stat('intuition') > 20):
+                    menu:
+                        "Persist":
+                            $ g.c("Are you sure? Nothing even a listening ear can help soothe?")
+                            
+                            c "…Well, if you insist. I’ve heard whispers of beasts in the forest on the outskirts of town. I fear I may have been visited one."
+                            
+                            $ g.c("I specialize in beating back ghoulish beasts. Mayhaps if you describe it, I can hunt it down and ensure you will be safe once more?")
+                            
+                            c "No, no, this isn’t a beast like that. She’s smarter than to be tracked like a brainless animal."
+                            
+                            $ g.c("...She?")
+                            
+                            c "She."
+                            
+                            $ g.c("And she is...?")
+                            
+                            c "She is none of your concern. Just leave her be. And me, for that matter. Your ear is no longer required. Good day, Sir Gawain."
+                            
+                            $ g.c("Good day to you too, ma’am...")
+
+                            $ "You pass the rest of the afternoon practicing with your bow. You gain +4 archery."
+
+                            $ g.change_stat('archery', 4)
+                            
+                        "Leave her be":
+                            $ g.c("My apologies for the intrusion. Have a lovely day, ma’am.")
+                            
+                            hide gawain 
+
+                            "She ignores you, heading back inside with her full basket."
+
+                else:
+                    menu:
+                        "Persist (NOT ENOUGH INTUITION)":
+                            "..."
+                        "Leave her be":
+                            $ g.c("My apologies for the intrusion. Have a lovely day, ma’am.")
+                            
+                            hide gawain 
+
+                            "She ignores you, heading back inside with her full basket."
+            "Walk on":
+                "You go for a walk about the countryside instead, leaving the woman be."
+
+                "You gain +4 intuition."
+
+                $ g.change_stat('intuition', 4)
+        jump go_to_town
+                        
+
     label lluds:
-        scene town 
+        # scene town 
 
         ll "Welcome to Llud's Libations!"
 
@@ -901,6 +1166,10 @@ label start:
 
         $ wait_for_status(activities_selected)
 
+    label leaving_lluds:
+        ll "Let’s meet again later, loyal customer!"
+
+        $ wait_for_status(activities_selected)
 
     label visit_lake:
         scene lake with fade
@@ -912,6 +1181,122 @@ label start:
         jump go_to_town
 
         # TODO: wait for user to go back to town? or go back to town ourselves 
+
+    ####**** ENDINGS ****####
+    label morgana_ending:
+        "You race after the sound of beasts echoing through the forest, seeming to come from all around you."
+        
+        "You hear the rhythmic thundering of heavy paws right on your tail, but when you turn, there’s nothing there."
+        
+        "You’re doing your best to follow the trail of sound, hell-bent on finding the source to save Hereford once and for all, but the source seems to be coming from all around you."
+
+        "You chance upon a clearing, a large meadow illuminated with brilliant rays of... moonlight? How long have you been running?"
+        
+        "The meadow is eerily silent, even the birds don’t sing their songs here. You stumble out into the middle of the meadow, breathing heavily."
+
+        "The chase has worn you out, and despite how unsettling the source, any respite is welcome." 
+
+        "After a few moments of peace, the hair on the back of your neck rises - you’re being watched."
+
+        "You desperately search the treeline, but nothing shows its face."
+        
+        "The air takes on a deathly chill, and Ragamuffin shivers on your shoulder."
+
+        $ g.c("Do you see anyone, dear girl?") 
+
+        "Ragamuffin looks around, too, ready to help you. But she finds nothing, and just nuzzles closer to comfort you." 
+        
+        who "Gawaaaaaiiiinnnnn~"
+        
+        "A voice echoes through the clearing, sing-songy and strangely chipper for such a chilling situation." 
+        
+        $ g.c("Who goes there? Reveal yourself now.")
+        
+        who "Gawaaaaaiiiiiiinnnnnnn~"
+        
+        "It almost sounded happier, like it's glad it's getting to you. You clear your throat, doing your best to sound braver." 
+        
+        $ g.c("Reveal yourself, voice. I command you as… uh, a Knight of the Round Table.")
+        
+        "That title used to hold authority, years ago before King Arthur abandoned the throne. It’s the last shred of notoriety you have left - your allegiance to a long-deserted coalition that invokes only wistful memory today." 
+        
+        "You hear the voice giggle, amused by your attempt at showmanship, by your plea to be respected." 
+        
+        who "Sir Gawain the True, are you alone?"
+        
+        "The voice sounds more human, less ghastly and unnerving. It still echoes through the meadow, surrounding you with sound in a way that makes it impossible to find the source. "
+        
+        $ g.c("It’s just Ragamuffin and I.")
+        
+        "You find yourself compelled to tell the truth when in such a vulnerable position. "
+        
+        "Still, you’ve fought many battles with just Ragamuffin by your side. You trust that with her, you can get through anything." 
+        
+        "Ragamuffin perks up, looking towards your left. You follow her gaze just in time to see an ethereal woman emerge from the treeline with a cat on her shoulder."
+        
+        "She smiles warmly at you and opens her arms wide. Arcane magic glows from her fingertips and the meadow seems to bloom around her." 
+        
+        "The sun returns to the sky, casting warm beams down onto your face. The birds resume their songs, fluttering through the air above you. Bees and butterflies meander through the daisies at your feet. "
+        
+        "Ragamuffin leaps off your shoulder to chase the butterflies, enjoying the sudden return of sunshine. The woman’s cat jumps off her shoulder to join Ragamuffin, and the two start playing in the sun together." 
+        
+        morg "Sir Gawain, Ragamuffin, what an honor to meet you both. I am the sorceress Morgana, half-sister of the former king, Arthur, and this is my cat, Teschio. We’ve taken up residence in the forest of Herefordshire. It seems you have finally found me, valiant knight. "
+        
+        "You bow in greeting, watching carefully as Ragamuffin traipses up to Morgana. She leans down to pet her, giggling as Ragamuffin purrs." 
+
+        $ g.c("What have you been doing here in the forest? Any particular reason to be so close to Herefordshire?")
+        
+        "Morgana seems amused by your inquiry as she presses a kiss to the top of Ragamuffin’s head. She gives her one last scratch behind the ear before guiding Ragamuffin to return to you." 
+        
+        "Ragamuffin is quick to leap back up onto your shoulder, snuggling up to you once again. Her fur is warm and extra soft, like Morgana’s pets had made her fur softer." 
+        
+        "Morgana spreads her arms wide, face upturned to the bright sun. Her hands glow with golden energy, like pure sunlight."
+        
+        "She’s smiling, eyes closed and shoulders relaxed. A veil of arcane energy wraps around the treeline until a glowing wall of magic encases you and Morgana in the meadow." 
+        
+        "You’re about to protest when Morgana’s eyes snap open. Her eyes glow gold as she speaks." 
+        
+        morg "Coven, join us!"
+        
+        "Through the wall of light, the missing women of Herefordshire step into the meadow, kitties by their side. Morgana looks around the circle of women, pride shining clear." 
+        
+        morg "This is my coven: the beautiful, talented women of Herefordshire. I gave the Cat Coven the gift of speech to guide these women home to me. They’ve been a great help as I grow my coven of sorceresses and enchantresses."
+        
+        "You look around the circle. Every missing woman is here, smiling placidly at you... very placidly." 
+        
+        $ g.c("And did they want to join you? They weren’t… lured away?")
+        
+        morg "I’d never force a woman to do anything against her will, Gawain. Don’t you see how happy they are?"
+        
+        "The women continue to smile just as placidly, their arms outstretched to form a chain around the meadow. Their kitties sit obediently by their sides, watching you carefully." 
+        
+        morg "Isoude, tell him how happy you are."
+        
+        "A woman who looks familiar blinks at the sound of her name, almost like she was being roused from a daydream. You realize she looks just like Olive in Hereford, and this must be her missing mother." 
+        
+        i "Yes. Happy." 
+        
+        "Isoude’s smile only grows as the kitty beside her rubs against her leg. She looks either dazed by a magic spell or blissfully content to the point of complete peace."
+
+        menu:
+            "Press Morgana for details":
+                $ g.c("These women have homes and families in Herefordshire. They miss their mothers, wives, daughters, and sisters. Why take them? Why the secrecy? Their families would love to know where they went.")
+
+                "Morgana hesitates, like she doesn’t want to reveal her true motives. But, Teschio leaps off her shoulder, rushing to you. He rubs against your legs to show his trust."
+                
+                "You lean down to let Ragamuffin join him, and the two of them resume chasing butterflies and playing in the sun. "
+                
+                morg "Any friend of my darling Teschio is a friend of mine. I must trust you, Sir Gawain, as my and Teschio's bond requires."
+
+                "She lowers her arms, yet the wall of light does not waver."
+                
+                "The women around the circle all have glowing hands, the same way Morgana did. They have arcane magic, likely trained by Morgana."
+
+                morg "Since my brother’s disappearance, the throne of Camelot has remained empty. As Arthur’s sister, I desire to make a bid for queen. Queen Morgana... doesn’t it have a nice ring to it?"
+
+            "Fight Morgana":
+                jump morgana_combat
+
 
     # This ends the game.
 

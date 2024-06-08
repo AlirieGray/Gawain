@@ -1,5 +1,4 @@
 
-# TODO: clean up unused transparent backgrounds... or use im.Scale() isntead of a new image each time?
 screen town_menus:
     use stats_left
     add "gui/custom/transparent_bg_500_150.png" xalign 0.53 yalign .05 
@@ -41,7 +40,7 @@ screen town_menus:
         hover "images/shop_hover.png"
         xpos 1107
         ypos 505
-        action [Function(calendar.add_activity, activity="Visit the Shop")]
+        action [Jump('lluds')]
 
 
     imagebutton:
@@ -54,5 +53,5 @@ screen town_menus:
     text "This week's task:" xalign 0.4 yalign 0.08
     add "gui/custom/square_rectangle_empty.png" xalign 0.6 yalign 0.08
     text calendar.activity_slots[0] xalign 0.6 yalign 0.09
-    # TODO: only allow action if both/all actions are selected
+    # TODO: just replace this with "end month" type button at the end of the month....
     use my_button("Start Week", If(calendar.activity_slots[0] != "*none selected*", [Hide("town_menus"), Jump(calendar.next_jump)]), 585, 150)

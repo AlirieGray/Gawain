@@ -41,5 +41,5 @@ screen shop:
                     textbutton "Purchase" yoffset -20 action If((g.gold >= shop.inventory[shop.item_names[j]]['price'] and shop.inventory[shop.item_names[j]]['stock'] > 0), Function(shop.purchase_item, shop.item_names[j]))
 
 
-        textbutton "Close" xalign 0.95 yoffset -10 action[Hide("shop"), Jump(calendar.next_jump)]
+        textbutton "Close" xalign 0.95 yoffset -10 action[Hide("shop"), Jump("leaving_lluds")]
             

@@ -19,34 +19,34 @@ init python:
             modifier = get_modifier(stat_value)
             return roll(3, modifier)
 
-        def get_outcome(self):
-            # default stats 
-            # TODO: figure out stats for all activities
-            # TODO: the default behavior NOT working, might have to go back to getting outcome first?
-            # TODO: just do pop-up for one skill at a time, forget about "Next Day" and week passing?
-            stats = ['charm', 'intuition']
+        # def get_outcome(self):
+        #     # default stats 
+        #     # TODO: figure out stats for all activities
+        #     # TODO: the default behavior NOT working, might have to go back to getting outcome first?
+        #     # TODO: just do pop-up for one skill at a time, forget about "Next Day" and week passing?
+        #     stats = ['charm', 'intuition']
 
-            if self.name == 'Tavern':
-                stats = ['charm', 'intuition']
-            elif self.name == 'Wash':
-                stats = ['mettle', 'swordplay']
-            elif self.name == 'Inn':
-                stats = ['intuition', 'swordplay']
-            elif self.name == 'Haven':
-                stats = ['archery', 'charm']
-            elif self.name == 'Cottages':
-                stats = ['archery', 'mettle']
+        #     if self.name == 'Tavern':
+        #         stats = ['charm', 'mettle']
+        #     elif self.name == 'Wash':
+        #         stats = ['mettle', 'swordplay']
+        #     elif self.name == 'Inn':
+        #         stats = ['intuition', 'swordplay']
+        #     elif self.name == 'Haven':
+        #         stats = ['archery', 'charm']
+        #     elif self.name == 'Cottages':
+        #         stats = ['archery', 'intuition']
 
-            return [{
-                'skill_gain': self.roll_for_skill(stats[0]),
-                'gold_gain': self.roll_for_gold(stats[0]),
-                'stat_name': stats[0]
-            },
-            {
-                'skill_gain': self.roll_for_skill(stats[1]),
-                'gold_gain': self.roll_for_gold(stats[1]),
-                'stat_name': stats[1]
-            }]
+        #     return [{
+        #         'skill_gain': self.roll_for_skill(stats[0]),
+        #         'gold_gain': self.roll_for_gold(stats[0]),
+        #         'stat_name': stats[0]
+        #     },
+        #     {
+        #         'skill_gain': self.roll_for_skill(stats[1]),
+        #         'gold_gain': self.roll_for_gold(stats[1]),
+        #         'stat_name': stats[1]
+        #     }]
 
     # utility function 
     def ordinal(n):
@@ -122,12 +122,12 @@ init python:
                 return
             if self.activity_slots[0] == 'Visit Tavern': 
                 if not self.scenes_played['tavern'][0]:
-                    self.next_jump = 'first_tavern_event'
+                    self.next_jump = 'tavern_first_event'
                 elif not self.scenes_played['tavern'][1]:
                     self.next_jump = 'second_tavern_event'
             elif self.activity_slots[0] == 'Visit Washing Well': 
                 if not self.scenes_played['wash'][0]:
-                    self.next_jump = 'first_wash_event'
+                    self.next_jump = 'wash_first_event'
                 elif not self.scenes_played['wash'][1]:
                     self.next_jump = 'second_wash_event'
                 elif not self.scenes_played['wash'][2]:
@@ -136,18 +136,18 @@ init python:
                     self.next_jump = 'wash_no_event'
             elif self.activity_slots[0] == 'Hang out at the Inn':
                 if not self.scenes_played['inn'][0]:
-                    self.next_jump = 'first_inn_event'
+                    self.next_jump = 'inn_first_event'
                 elif self.current_month == 4 and not self.scenes_played['inn'][1]:
                     self.next_jump = 'inn_hunters_moon'
                 else:
                     self.next_jump = 'inn_no_event'
             elif self.activity_slots[0] == 'Check out Cat Haven':
                 if not self.scenes_played['cat'][0]:
-                    self.next_jump = 'first_cat_haven_event'
+                    self.next_jump = 'cat_haven_first_event'
                 elif not self.scenes_played['cat'][1]:
-                    self.next_jump = 'second_cat_haven_event'
+                    self.next_jump = 'cat_haven_second_event'
                 elif not self.scenes_played['cat'][2]:
-                    self.next_jump = 'third_cat_haven_event'
+                    self.next_jump = 'cat_haven_third_event'
                 else:
                     self.next_jump = 'cat_no_event'
             elif self.activity_slots[0] == 'Visit the Shop':

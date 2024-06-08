@@ -22,13 +22,13 @@ init python:
                 "charm": dev_default,
                 "intuition": dev_default
             }
-            self.inventory = {
-                'Libation of Liveliness':  0,
-                'Libation of Life': 0,
-                'Libation of Love': 0,
-                'Libation of Leverage': 0,
-                'Libation of Liberation': 0,
-                'Libation of Luck': 0
+            self.inventory = { # TODO DEV VALUE prod all potions 0
+                'Libation of Liveliness':  2,
+                'Libation of Life': 1,
+                'Libation of Love': 1,
+                'Libation of Leverage': 1,
+                'Libation of Liberation': 1,
+                'Libation of Luck': 1
             }
         
 
@@ -39,10 +39,19 @@ init python:
             self.inventory[item] = self.inventory[item] - 1
 
         def change_stat(self, stat, val):
-            self.stats_dict[stat] = self.stats_dict[stat] + val
+            if (self.get_stat(stat) + val) >= 100:
+                self.stats_dict[stat] = 100
 
-            if stat == 'mettle':
-                self.max_hp = 10 + math.floor(self.stats_dict[stat] / 2)
+                if stat == 'mettle':
+                    self.max_hp = 10 + math.floor(self.stats_dict[stat] / 2)
+            
+            # elif self.get_stat(stat) < 100:
+            #     self.stats_dict[stat] = self.stats_dict[stat] + val
+
+            #     if stat == 'mettle':
+            #         self.max_hp = 10 + math.floor(self.stats_dict[stat] / 2)
+
+
 
         def get_stat(self, stat):
             return self.stats_dict[stat]

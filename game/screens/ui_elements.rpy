@@ -62,16 +62,22 @@ screen tooltip(tooltip_text, x_position, y_position, close_button):
             if close_button:
                 textbutton "Close" action Hide("tooltip") xalign 0.9
 
-# TODO should be a way to set modal with a screen parameter?
-screen tooltip_modal(tooltip_text, x_position, y_position): 
+# tutorial is an array of strings, the first string is the title
+# and the next are steps of the tutorial
+# pressing "next" sets the current 
+
+screen tutorial_modal(tutorial, x_position, y_position): 
     modal True
-    if tooltip_text[0] != "":
-        add "gui/custom/transparent_bg_450_300.png" xpos x_position ypos y_position
-        vbox:
-            xsize 390
-            xpos x_position + 30
-            ypos y_position + 20
-            spacing 2
-            text tooltip_text[0].title() style "special_font"
-            text tooltip_text[1] style "medium_text"
-    textbutton "Close" action Hide("tooltip_modal") xpos x_position + 385 ypos y_position + 255
+    default tutorial_index = 1
+    add "gui/custom/transparent_bg_450_300.png" xpos x_position ypos y_position
+    vbox:
+        xsize 390
+        xpos x_position + 30
+        ypos y_position + 20
+        spacing 2
+        text tutorial[0].title() style "special_font"
+        text tutorial[tutorial_index] style "medium_text"
+    if tutorial_index == (len(tutorial) - 1):
+        textbutton "Close" action Hide("tutorial_modal") xpos x_position + 370 ypos y_position + 255
+    else:
+        textbutton "Next" action SetScreenVariable('tutorial_index', tutorial_index + 1) xpos x_position + 370 ypos y_position + 255
