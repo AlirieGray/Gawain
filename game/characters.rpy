@@ -10,12 +10,12 @@ init python:
     class Gawain:
         def __init__(self, character):
             self.c = character
-            self.gold = 100 # TODO DEV VALUE, prod start at 0-10
+            self.gold = 5 # TODO DEV VALUE, prod start at 0-10
             self.max_hp = 10 + math.floor(5 / 2)
             self.current_hp = 10 + math.floor(5 / 2)
             self.stats_dict = {
-                "piety": 1,
-                "honor": 1,
+                # "piety": 1,
+                # "honor": 1,
                 "mettle": dev_default,
                 "archery": dev_default,
                 "swordplay": dev_default,
@@ -113,15 +113,14 @@ init python:
             else:
                 return 0 # miss!
 
-
         def take_damage(self, damage):
             new_hp = self.hp - damage
             if new_hp < 0:
                 self.hp = 0
             else:
                 self.hp = self.hp - damage
-            if self.hp < 1:
-                self.img = "images/monster_dead.png"
+            # if self.hp < 1:
+            #     self.img = "images/monster_dead.png"
     
     # TODO: apply all of these stats in the gameplay...
     stat_descriptions = {

@@ -65,6 +65,7 @@ init python:
                 'wash': [False, False, False, False],
                 'cat': [False, False, False, False, False],
                 'inn': [False, False, False],
+                'cottages': [False, False, False]
             }
             self.months_list = [
                 'Fallow Month', 
@@ -132,7 +133,7 @@ init python:
                 elif self.current_month == 4:
                     self.next_jump = 'fifth_combat'
                 else:
-                    self.next_jump = boss_fight
+                    self.next_jump = blood_month_lake_event
             elif self.activity_slots[0] == 'Visit Tavern': 
                 if not self.scenes_played['tavern'][0]:
                     self.next_jump = 'tavern_first_event'
@@ -163,6 +164,15 @@ init python:
                     self.next_jump = 'cat_haven_third_event'
                 else:
                     self.next_jump = 'cat_no_event'
+            elif self.activity_slots[0] == 'Visit Cottages':
+                if not self.scenes_played['cottages'][0]:
+                    self.next_jump = 'cottages_first_event'
+                elif not self.scenes_played['cottages'][1]:
+                    self.next_jump = 'cottages_second_event'
+                elif not self.scenes_played['cottages'][2]:
+                    self.next_jump = 'cottages_third_event'
+                else:
+                    self.next_jump = 'cottages_no_event'
             elif self.activity_slots[0] == 'Visit the Shop':
                 self.next_jump = 'lluds'      
             else: 

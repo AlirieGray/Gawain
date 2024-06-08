@@ -1,5 +1,5 @@
 ﻿# character creation
-default cc_points = 2 # dev value, change to 30 for release
+default cc_points = 30 # dev value, change to 30 for release
 default activities_selected = False
 default activities_finished = False
 default current_tooltip = ["", ""]
@@ -9,6 +9,7 @@ default end_month_tutorial = [
     "This month is coming to an end. Press the End Month button to return to the lake and seek the counsel of your Lady.",
     "Your time in Hereford has been peaceful so far, but you've heard rumors of foul beasts that show themselves around the full moon.\nIf you wish to stock up on any potions, stop by Llud's Libations before ending the month.",
 ]
+default flirted_with_lady = False
 
 # styles
 transform midleft_intro:
@@ -58,9 +59,11 @@ label start:
 
 
     $ beast_1 = Enemy(Character("Monster"), "Monster", 10, 40, 2, "images/monster.png")
-    $ beast_2 = Enemy(Character("Monster"), "Monster", 10, 40, 2, "images/monster.png")
-    $ beast_3 = Enemy(Character("Monster"), "Monster", 10, 40, 2, "images/monster.png")
-    $ big_boss = Enemy(Character("Monster"), "Monster", 10, 40, 2, "images/monster.png")
+    $ beast_2 = Enemy(Character("Monster"), "Monster", 20, 40, 2, "images/monster.png")
+    $ beast_3 = Enemy(Character("Monster"), "Monster", 35, 40, 2, "images/monster.png")
+    $ beast_4 = Enemy(Character("Monster"), "Monster", 50, 40, 2, "images/monster.png")
+    $ beast_5 = Enemy(Character("Monster"), "Monster", 75, 40, 2, "images/monster.png")
+    $ big_boss = Enemy(Character("Monster"), "Monster", 100, 40, 2, "images/monster.png")
 
     # handlers
     $ calendar = Calendar()
@@ -703,6 +706,10 @@ label start:
             "You gain +2 Mettle and +1 Swordplay skill."
             $ g.change_stat('swordplay', 1)
             $ g.change_stat('mettle', 2)
+        
+        "You pass the week doing odd jobs around town and earn +10 gold."
+
+        $ g.change_gold(5)
 
         $ calendar.increment_week()
         jump go_to_town
@@ -1027,7 +1034,7 @@ label start:
 
 
     ####**** COTTAGES SCENES ****####
-    # skills: archery and intuition
+    # skills: archery and intuition, + gain gold
     label cottages_no_event:
         $ r = roll(3, 0)
 
@@ -1044,6 +1051,10 @@ label start:
             "Gain +4 archery."
 
             $ g.change_stat('archery', 5)
+
+        "You help a local with some tasks and earn +10 gold for your trouble."
+        
+        $ g.change_gold(5)
         $ calendar.increment_week()
 
     label cottages_first_event:
@@ -1085,6 +1096,7 @@ label start:
 
         $ g.change_stat('archery', 2)
 
+        $ calendar.set_played('cottages', 0)
         $ calendar.increment_week()
         jump go_to_town
 
@@ -1121,6 +1133,7 @@ label start:
                 "You gain +2 intuition."
 
                 $ g.change_stat('intuition', 2)
+        $ calendar.set_played('cottages', 1)
         $ calendar.increment_week()
         jump go_to_town
 
@@ -1182,6 +1195,7 @@ label start:
                 "You gain +4 intuition."
 
                 $ g.change_stat('intuition', 4)
+        $ calendar.set_played('cottages', 2)
         $ calendar.increment_week()
         jump go_to_town
                         
@@ -1207,11 +1221,245 @@ label start:
 
         show lady at midright_intro
 
-        $ l.c("Welcome back, Sir Gawain.")
+        if calendar.current_month == 0:
+            $ l.c("Hello, my dearest Gawain. I offer you another blessing to aid you on your quest.")
+
+            # TODO Allow user to pick which stat they want a bonus to
+
+            "You gain +10 Archery."
+
+            $ g.change_stat('archery', 10)
+
+            if g.get_stat('charm') > 10:
+                menu:
+                    "Ask for Advice":
+                        $ l.c("You can visit each location more than once. There are many new people to meet that may have valuable information, dear knight.")
+                        hide lady
+                    "Flirt":
+                        hide lady
+                        show gawain at midleft
+
+                        $ g.c("Your blessings are a kindness I haven’t known in a very long time, my Lady. I am forever in your debt.")
+                        hide gawain
+
+                        show lady at midright
+
+                        $ l.c ("I have little need for debts or payments, dear Gawain. Stay true on your path, that’s all I ask of you.")
+                    "Return to Town":
+                        jump go_to_town
+            else:
+                menu:
+                    "Ask for Advice":
+                        $ l.c("You can visit each location more than once. There are many new people to meet that may have valuable information, dear knight.")
+
+                    "Flirt (NOT ENOUGH CHARM)":
+                        "..."
+                    "Return to town":
+                        jump go_to_town
+        elif calendar.current_month == 1:
+            $ l.c("Hello, my dearest Gawain. I offer you another blessing to aid you on your quest")
+            
+            if g.get_stat('charm') > 15:
+
+                menu:
+                    "Ask for Advice":
+                        $ l.c ("You can buy potions at Lludd’s Libations to increase your stats or aid you in battle!")
+                    "Flirt":
+                        "Ragamuffin leaps off your shoulder to play with Mochi, the Lady of the Lake’s cat. They splash about the shallows, trying to pounce on each other." 
+                        
+                        show gawain at midleft
+                        $ g.c("Seems they’re fast friends. I wonder if this is a sign, my Lady, that our paths were meant to cross this way.")
+                        hide gawain
+
+                        show lady at midright
+
+                        $ l.c("They are quite cute playing so, aren’t they?")
+
+                        hide lady
+                        show gawain at midleft
+                        
+                        $ g.c("I find Ragamuffin has much stronger insight than I. If she’s so close with Mochi, then I feel we are to be close, as well.")
+                        
+                        hide gawain 
+                        show lady at midright
+
+                        $ l.c("Seems so, dearest Gawain. Seems so.")
+                        hide lady
+
+                        $ flirted_with_lady = True
+                    "Return to town":
+                        jump go_to_town
+            else:
+                menu:
+                    "Ask for Advice":
+                        $ l.c ("You can buy potions at Lludd’s Libations to increase your stats or aid you in battle!")
+                    "Flirt (NOT ENOUGH CHARM)":
+                        "..."
+                    "Return to town":
+                        jump go_to_town
+            
+        elif calendar.current_month == 2:
+            $ l.c("Hello, my dearest knight. I offer you yet another blessing to aid you on your quest.")
+
+            "You gain +10 Mettle."
+
+            $ g.change_stat('mettle', 10)
+
+            if flirted_with_lady:
+                menu:
+                    "Ask for Advice":
+                        $ l.c("Some people will approach you for your wisdom on their own, no need to worry about going to them.")
+                    "Flirt":
+                        $ l.c("You seem to be hitting your stride. Are you finding peace in Hereford yet?")
+                        
+                        $ g.c("I am, my Lady, though I find the most respite when I am here in your company.")
+                        
+                        "The Lady of the Lake laughs, hiding her blush behind her hand."  
+                        
+                        $ l.c("Well, I’m glad I can bring you some joy.")
+                        
+                        $ g.c("I assure you, my Lady, it’s not just some. The sigh of relief I breathe the moment I see your face is a more than welcome addition to my routine.")
+                        
+                        "The Lady of the Lake seems stunned, blushing darker still." 
+                        
+                        $ l.c("Well, my dearest Gawain, you may stay until the sun sets, if it brings you such peace to be here. I won’t say no to the company.")
+                        
+                        $ g.c("If it pleases my Lady, then it shall be so.")
+                        
+                        "The Lady of the Lake doesn’t say much else, but the two of you watch the sunset together before you return to town."
+                    "Return to town":
+                        jump go_to_town
+            else:
+                menu:
+                    "Ask for advice":
+                        $ l.c("Some people will approach you for your wisdom on their own, no need to worry about going to them.")
+                    "Return to town":
+                        jump go_to_town
+        elif calendar.current_month == 3:
+            show lady at midright_intro
+            $ l.c("Hello, my dearest knight. I offer you yet another blessing to aid you on your quest.")
+            
+            if flirted_with_lady:
+                menu:
+                    "Ask for Advice":
+                        $ l.c("Keep your stats balanced, dearest Gawain. You’ll never know when you need high " + g.get_min_stat() + ".")
+                    "Flirt":
+                        hide lady
+                        show gawain at midleft
+
+                        $ g.c("My Lady, I’ve brought you a flower. It’s a simple daisy, nothing as illustrious as the flowers of your blessings, but something to show my eternal gratitude for your aid.")
+                        hide gawain
+
+                        show lady at midright
+                        $ l.c("My, dear Gawain, aren’t you quite the charmer.")
+                        hide lady
+                        
+                        show gawain at midleft
+                        
+                        $ g.c("With you, my Lady, it comes easy. I find I desire nothing more than to charm you.")
+                        hide gawain
+                        
+                        show lady at midright
+                        "She laughs, blush returning to her cheeks as it so often seems to when you are around. "
+                        
+                        $ l.c("Well, rest assured I am quite charmed. I enjoy your company, my dearest knight. I’m quite glad you’ve chosen to be on this journey with me.")
+                        
+                        $ l.c("Care to watch the sunset again? I find I’ve quite missed your company.")
+
+                        "The two of you watch the sunset, talking still even as the moon is high. You don’t make your way back to town until the wee hours of the morning, heart full and smile broad."
+
+                        hide lady
+                    "Return to town":
+                        jump go_to_town
+            else:
+                menu:
+                    "Ask for Advice":
+                        "Keep your stats balanced, dearest Gawain. You’ll never know when you need high " + g.get_min_stat() + "."
+                    "Return to town":
+                        jump go_to_town
+        elif calendar.current_month == 4:
+            show lady at midright_intro
+            $ l.c("Hello, my dearest knight. I offer you yet another blessing to aid you on your quest.")
+
+            if flirted_with_lady:
+                menu:
+                    "Ask for Advice":
+                        $ l.c("Those cats down at the Cat Haven seem to have a lot to say. Have you visited them lately?")
+                    "Flirt":
+                        $ g.c("My Lady, I’ve brought you a full bouquet of daisies this time, since you liked the last flower so much.")
+                        
+                        $ g.c("Anything that brings you joy is something I’ll always find time to do for you.")
+                        
+                        "The Lady of the Lake accepts your bouquet, smiling affectionately at the delicate flowers. She waves her hand over them and they turn to the same glowing gold as the blessings she gives you each month." 
+                        
+                        $ l.c("There, now they shall last forever.")
+                        
+                        This gives you pause - little in your life has ever lasted “forever”. No matter how many times you shared your heart, it seems the life of a knight is rife with instability and solitude. 
+                        
+                        $ l.c("My dearest Gawain, you seem a bit down. Did I say something to upset you?")
+                        
+                        $ g.c("No, my Lady, it’s just… I am a lonely, broken man. It’s been me, my son, and Ragamuffin for a very long while. ")
+                        
+                        $ g.c("I fear letting you in reminds me of how long it truly has been since I’ve loved another so true.")
+                        
+                        $ l.c("...You love me?")
+                        
+                        $ g.c("I find I do, yes. I haven’t felt this way since Ragnell passed, and it scares me to be this... vulnerable. ")
+                        
+                        $ l.c("Why does this scare you so, dear knight? Are you afraid of me?")
+                        
+                        $ g.c("Heavens no, my Lady. I’m scared to lose you, is all. I’m scared to give you my heart and lose you just as I did Ragnell. ")
+                        
+                        $ l.c("Well, if it’s any consolation, dear Gawain, I’m much harder to kill than Ragnell.")
+                        
+                        "Her light-hearted joke makes you both laugh. She had a way of easing your woe with such ease." 
+                        
+                        $ g.c("I guess that does ease my worries, then. Consider my heart light once more. ")
+                        
+                        "She laughs again, bright as birdsong on a summer’s day. You wish you could hear that sound every moment of every day - and it would still never be enough". 
+                        
+                        $ l.c("Watch the sunset with me again?")
+                        
+                        $ g.c("Always, my Lady.")
+                    "Return to town":
+                        jump go_to_town
+            else:
+                menu:
+                    "Ask for Advice":
+                        $ l.c("Those cats down at the Cat Haven seem to have a lot to say. Have you visited them lately?")
+                    "Return to town":
+                        jump go_to_town
+
+
+
+
+
+
+#####
+                menu:
+                    "Ask for Advice":
+                        "..."
+                    "Flirt":
+                        "..."
+                    "Return to town":
+                        jump go_to_town
+
+                menu:
+                    "Ask for Advice":
+                        "..."
+                    "Return to town":
+                        jump go_to_town
+
+
 
         jump go_to_town
 
         # TODO: wait for user to go back to town? or go back to town ourselves 
+
+
+    label blood_month_lake_event:
+        scene lake
+        jump boss_fight
 
     ####**** ENDINGS ****####
     label morgana_ending:
