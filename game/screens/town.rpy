@@ -1,7 +1,7 @@
 
 screen town_menus:
-    use stats_left
     add "gui/custom/transparent_bg_500_150.png" xalign 0.53 yalign .05 
+    use stats_left
     use hud
 
     imagebutton:
@@ -53,5 +53,21 @@ screen town_menus:
     text "This week's task:" xalign 0.4 yalign 0.08
     add "gui/custom/square_rectangle_empty.png" xalign 0.6 yalign 0.08
     text calendar.activity_slots[0] xalign 0.6 yalign 0.09
-    # TODO: just replace this with "end month" type button at the end of the month....
+
     use my_button("Start Week", If(calendar.activity_slots[0] != "*none selected*", [Hide("town_menus"), Jump(calendar.next_jump)]), 585, 150)
+
+
+screen town_menus_month_end:
+    add "gui/custom/transparent_bg_500_100.png" xalign 0.53 yalign .05 
+    use stats_left
+    use hud
+
+    imagebutton:
+        idle "images/shop_idle.png"
+        hover "images/shop_hover.png"
+        xpos 1107
+        ypos 505
+        action [Jump('lluds')]
+
+
+    use my_button("End Month", Jump(calendar.next_jump), 585, 100)

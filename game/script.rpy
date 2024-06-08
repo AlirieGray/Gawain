@@ -4,6 +4,11 @@ default activities_selected = False
 default activities_finished = False
 default current_tooltip = ["", ""]
 default town_tutorial = ["Selecting Activities", "Each week you can visit one location to visit to learn more about the mysteries surrounding Hereford, as well as earn gold and increase your skills.", "You can also visit Llud's Libations at any time to buy potions that will help you in battle.", "Hover over a building to see what skills you can improve by spending the week at that location.", "Click on a building to set this week's activity, then press the Start Week button."]
+default end_month_tutorial = [
+    "Ending the Month",
+    "This month is coming to an end. Press the End Month button to return to the lake and seek the counsel of your Lady.",
+    "Your time in Hereford has been peaceful so far, but you've heard rumors of foul beasts that show themselves around the full moon.\nIf you wish to stock up on any potions, stop by Llud's Libations before ending the month.",
+]
 
 # styles
 transform midleft_intro:
@@ -167,8 +172,6 @@ label start:
 
     #####***** END CUTSCENE *****#####
 
-    # TODO: show tutorial 
-
     # TODO: disable skip when in certain menus
 
     show screen cc_screen
@@ -209,13 +212,9 @@ label start:
 
         $ _window_hide()
 
-        # TODO: tutorial
-
         show screen town_menus
-        
-        # show screen tooltip(current_tooltip, 430, 200, True, True)
 
-        show screen tutorial_modal(town_tutorial, 430, 200)
+        show screen tutorial_modal(town_tutorial)
 
         $ wait_for_status(activities_selected)
     
@@ -223,13 +222,26 @@ label start:
         $ calendar.set_next_jump()
 
         scene town
-        
-        # TODO: different "bark" for each week/month
-        show gawain at midleft
-        $ g.c("Another week in Hereford. What should I do this week?")
-        hide gawain
 
-        show screen town_menus
+        if calendar.current_week == 4:
+            if calendar.current_month == 0:
+                "Another month comes to an end..."
+
+                show screen tutorial_modal(end_month_tutorial)
+
+            else:
+                "Another month comes to an end..."
+
+            show screen town_menus_month_end
+
+        else:
+        
+            # TODO: different "bark" for each week/month
+            show gawain at midleft
+            $ g.c("Another week in Hereford. What should I do this week?")
+            hide gawain
+
+            show screen town_menus
 
         $ wait_for_status(activities_selected)
 
@@ -241,15 +253,15 @@ label start:
         
         "You see Lunete, the Innkeeper, run up to you as you’re on an evening stroll." 
         
-        l "Sir Gawain! There’s a beast eating Enid’s cows! You have to come protect them!"
+        lun "Sir Gawain! There’s a beast eating Enid’s cows! You have to come protect them!"
         
         "Just as you’re about to rush off, Lunete reaches to catch your arm." 
         
-        l "Do you need me to watch Ragamuffin while you do so? I’d hate for her to get hurt."
+        lun "Do you need me to watch Ragamuffin while you do so? I’d hate for her to get hurt."
         
         $ g.c("Thank you, Lunete, but she’s my trusted companion. We’ve faced many beasts together; I watch her back and she watches mine. I need her by my side.")
         
-        l "That’s… really adorable. Good luck, Sir Gawain and Ragamuffin."
+        lun "That’s… really adorable. Good luck, Sir Gawain and Ragamuffin."
 
         $ combat_handler.set_enemy(beast_1)
 
@@ -435,6 +447,7 @@ label start:
                 $ g.change_stat('charm', 2)
 
         $ calendar.set_played('tavern', 0)
+        $ calendar.increment_week()
         jump go_to_town
 
     label second_tavern_event:
@@ -502,6 +515,7 @@ label start:
         $ g.change_stat('charm', 3)
 
         $ calendar.set_played('tavern', 1)
+        $ calendar.increment_week()
         jump go_to_town
 
     label tavern_no_event:
@@ -516,7 +530,7 @@ label start:
             "You have a nice meal at the tavern."
             "You gain +3 Mettle."
             $ g.change_stat('mettle', 3)
-
+        $ calendar.increment_week()
         jump go_to_town
 
 
@@ -597,6 +611,7 @@ label start:
         $ g.change_stat('swordplay', 4)
 
         $ calendar.set_played('wash', 0)
+        $ calendar.increment_week()
         jump go_to_town
            
     label second_wash_event:
@@ -605,6 +620,7 @@ label start:
             "There are more cats roaming the city than just the ones you’ve met at the Cat Haven, and they all seem to know you."
 
         $ calendar.set_played('wash', 1)
+        $ calendar.increment_week()
         jump go_to_town
 
     label third_wash_event:
@@ -651,6 +667,7 @@ label start:
         hide gawain
 
         $ calendar.set_played('wash', 2)
+        $ calendar.increment_week()
         jump go_to_town
 
     label fourth_wash_event:
@@ -671,6 +688,7 @@ label start:
                 $ g.change_stat('mettle', 5)
 
         $ calendar.set_played('wash', 3)
+        $ calendar.increment_week()
         jump go_to_town
 
     label wash_no_event:
@@ -686,6 +704,7 @@ label start:
             $ g.change_stat('swordplay', 1)
             $ g.change_stat('mettle', 2)
 
+        $ calendar.increment_week()
         jump go_to_town
 
     # TODO: need some dialogs that increase archery skill
@@ -707,12 +726,13 @@ label start:
             "Have a tea party with Mittens and Shrimp!"
             "Gain +3 Mettle."
             $ g.change_stat('mettle', 3)
-
+        $ calendar.increment_week()
         jump go_to_town
 
     label cat_haven_first_event:
         # TODO: add cutscene here
         $ calendar.set_played('cat', 0)
+        
         jump cat_haven_no_event
 
     label cat_haven_second_event:
@@ -790,6 +810,7 @@ label start:
                     jump decline_shrimps_quest
 
         $ calendar.set_played('cat', 1)
+        $ calendar.increment_week()
         jump go_to_town
 
     label accept_shrimps_quest:
@@ -816,6 +837,7 @@ label start:
             # TODO: go fishing? or decline quest
 
         $ calendar.set_played('cat', 1)
+        $ calendar.increment_week()
         jump go_to_town
 
     label decline_shrimps_quest:
@@ -829,6 +851,7 @@ label start:
         $ g.change_stat('intuition', -5)
         $ g.change_stat('charm', -5)
         $ calendar.set_played('cat', 1)
+        $ calendar.increment_week()
         jump go_to_town
 
 
@@ -873,6 +896,7 @@ label start:
                 $ g.change_stat('charm', -2)                
 
         $ calendar.set_played('cat', 2)
+        $ calendar.increment_week()
         jump go_to_town
 
 
@@ -928,6 +952,7 @@ label start:
         hide gawain
 
         $ calendar.set_played('inn', 0)
+        $ calendar.increment_week()
         jump go_to_town
 
     label inn_hunters_moon:
@@ -987,6 +1012,7 @@ label start:
         hide gawain
 
         $ calendar.set_played('inn', 1)
+        $ calendar.increment_week()
         jump go_to_town
 
 
@@ -996,6 +1022,7 @@ label start:
         "You gain +1 Mettle."
         $ g.change_stat('mettle', 1)
 
+        $ calendar.increment_week()
         jump go_to_town
 
 
@@ -1017,6 +1044,7 @@ label start:
             "Gain +4 archery."
 
             $ g.change_stat('archery', 5)
+        $ calendar.increment_week()
 
     label cottages_first_event:
         show gawain at midleft_intro
@@ -1057,6 +1085,7 @@ label start:
 
         $ g.change_stat('archery', 2)
 
+        $ calendar.increment_week()
         jump go_to_town
 
     label cottages_second_event:
@@ -1092,6 +1121,7 @@ label start:
                 "You gain +2 intuition."
 
                 $ g.change_stat('intuition', 2)
+        $ calendar.increment_week()
         jump go_to_town
 
     label cottages_third_event:
@@ -1152,6 +1182,7 @@ label start:
                 "You gain +4 intuition."
 
                 $ g.change_stat('intuition', 4)
+        $ calendar.increment_week()
         jump go_to_town
                         
 

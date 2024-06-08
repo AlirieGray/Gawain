@@ -80,7 +80,7 @@ init python:
 
         def set_played(self, location, scene_number):
             self.scenes_played[location][scene_number] = True
-            self.increment_week()
+            # self.increment_week()
 
         def get_day_number(self):
             if self.current_week == 1:
@@ -120,7 +120,20 @@ init python:
             if jump:
                 self.next_jump = jump
                 return
-            if self.activity_slots[0] == 'Visit Tavern': 
+            if self.current_week == 4:
+                if self.current_month == 0:
+                    self.next_jump = 'first_combat'
+                elif self.current_month == 1:
+                    self.next_jump = 'second_combat'
+                elif self.current_month == 2:
+                    self.next_jump = 'third_combat'
+                elif self.current_month == 3:
+                    self.next_jump = 'fourth_combat'
+                elif self.current_month == 4:
+                    self.next_jump = 'fifth_combat'
+                else:
+                    self.next_jump = boss_fight
+            elif self.activity_slots[0] == 'Visit Tavern': 
                 if not self.scenes_played['tavern'][0]:
                     self.next_jump = 'tavern_first_event'
                 elif not self.scenes_played['tavern'][1]:
@@ -151,8 +164,6 @@ init python:
                 else:
                     self.next_jump = 'cat_no_event'
             elif self.activity_slots[0] == 'Visit the Shop':
-                self.next_jump = 'lluds'
-            elif self.current_month == 0 and self.current_week == 4:
-                self.next_jump = 'first_combat_time'      
+                self.next_jump = 'lluds'      
             else: 
                 self.next_jump = 'go_to_town'

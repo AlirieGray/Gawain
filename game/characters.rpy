@@ -44,12 +44,12 @@ init python:
 
                 if stat == 'mettle':
                     self.max_hp = 10 + math.floor(self.stats_dict[stat] / 2)
+                return
             
-            # elif self.get_stat(stat) < 100:
-            #     self.stats_dict[stat] = self.stats_dict[stat] + val
+            self.stats_dict[stat] = self.stats_dict[stat] + val
 
-            #     if stat == 'mettle':
-            #         self.max_hp = 10 + math.floor(self.stats_dict[stat] / 2)
+            if stat == 'mettle':
+                self.max_hp = 10 + math.floor(self.stats_dict[stat] / 2)
 
 
 

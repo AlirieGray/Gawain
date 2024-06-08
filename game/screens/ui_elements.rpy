@@ -66,18 +66,18 @@ screen tooltip(tooltip_text, x_position, y_position, close_button):
 # and the next are steps of the tutorial
 # pressing "next" sets the current 
 
-screen tutorial_modal(tutorial, x_position, y_position): 
+screen tutorial_modal(tutorial): 
     modal True
     default tutorial_index = 1
-    add "gui/custom/transparent_bg_450_300.png" xpos x_position ypos y_position
+    add "gui/custom/tutorial_modal.png"
     vbox:
         xsize 390
-        xpos x_position + 30
-        ypos y_position + 20
+        xpos 470
+        ypos 220
         spacing 2
         text tutorial[0].title() style "special_font"
         text tutorial[tutorial_index] style "medium_text"
     if tutorial_index == (len(tutorial) - 1):
-        textbutton "Close" action Hide("tutorial_modal") xpos x_position + 370 ypos y_position + 255
+        textbutton "Close" action Hide("tutorial_modal") xpos 810 ypos 455
     else:
-        textbutton "Next" action SetScreenVariable('tutorial_index', tutorial_index + 1) xpos x_position + 370 ypos y_position + 255
+        textbutton "Next" action SetScreenVariable('tutorial_index', tutorial_index + 1) xpos 810 ypos 455
