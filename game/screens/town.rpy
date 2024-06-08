@@ -70,4 +70,4 @@ screen town_menus_month_end:
         action [Jump('lluds')]
 
 
-    use my_button("End Month", Jump(calendar.next_jump), 585, 100)
+    use my_button("End Month", [Hide('town_menus_month_end'), Jump(calendar.next_jump)], 585, 100)

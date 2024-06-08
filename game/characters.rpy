@@ -5,32 +5,35 @@ init python:
     dev_default = 9
     prod_default = 5
 
-    # TODO: max out stats (at 100?)
-
     class Gawain:
         def __init__(self, character):
             self.c = character
-            self.gold = 5 # TODO DEV VALUE, prod start at 0-10
-            self.max_hp = 10 + math.floor(5 / 2)
-            self.current_hp = 10 + math.floor(5 / 2)
+            self.gold = 5
+            self.max_hp = 10 + math.floor(prod_default / 2)
+            self.current_hp = 10 + math.floor(prod_default / 2)
             self.stats_dict = {
                 # "piety": 1,
                 # "honor": 1,
-                "mettle": dev_default,
-                "archery": dev_default,
-                "swordplay": dev_default,
-                "charm": dev_default,
-                "intuition": dev_default
+                "mettle": prod_default,
+                "archery": prod_default,
+                "swordplay": prod_default,
+                "charm": prod_default,
+                "intuition": prod_default
             }
-            self.inventory = { # TODO DEV VALUE prod all potions 0
-                'Libation of Liveliness':  2,
-                'Libation of Life': 1,
-                'Libation of Love': 1,
-                'Libation of Leverage': 1,
-                'Libation of Liberation': 1,
-                'Libation of Luck': 1
+            self.inventory = {
+                'Libation of Liveliness': 0,
+                'Libation of Life': 0,
+                'Libation of Love': 0,
+                'Libation of Leverage': 0,
+                'Libation of Liberation': 0,
+                'Libation of Luck': 0
             }
+
+        def get_min_stat(self):
+            return min(self.stats_dict, key = self.stats_dict.get)
         
+        def reset_health(self):
+            g.current_hp = g.max_hp
 
         def add_inventory(self, item):
             self.inventory[item] = self.inventory[item] + 1

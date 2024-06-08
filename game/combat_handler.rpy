@@ -12,13 +12,13 @@ init python:
             self.combat_status_string = "Your foe is vanquished!\n You receive +10 gold. Feel free to spend it all in one place."
             g.change_gold(10)
             self.current_enemy = None
-            calendar.increment_day()
+            calendar.increment_week()
             calendar.set_next_jump()
 
         def gawain_defeated(self):
             self.combat_status_string = "You have been defeated, you must retreat!"
             self.current_enemy = None
-            calendar.increment_day()
+            calendar.increment_week()
             calendar.set_next_jump()
 
         def enemy_attack(self):
