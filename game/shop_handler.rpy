@@ -7,8 +7,8 @@ init python:
                 'Libation of Life': {'stock': 2, 'default_price': 12,'price': 12, 'description': '+25 HP, one-time', 'image': 'images/red_potion.png'},
                 'Libation of Love': {'stock': 1, 'default_price': 15, 'price': 15, 'description': '+5 max HP', 'image': 'images/red_potion.png'},
                 'Libation of Leverage': {'stock': 2, 'default_price': 12, 'price': 12, 'description': 'All stats +1', 'image': 'images/red_potion.png'},
-                'Libation of Luck': {'stock': 3, 'default_price': 15, 'price': 15, 'description': 'Increase rewards from next battle', 'image': 'images/red_potion.png'},
-                'Libation of Liberation': {'stock': 1, 'default_price': 25, 'price': 25, 'description': 'Increase chance to dodge attacks', 'image': 'images/red_potion.png'},
+                'Libation of Luck': {'stock': 3, 'default_price': 15, 'price': 15, 'description': 'Increase next fight rewards', 'image': 'images/red_potion.png'},
+                'Libation of Liberation': {'stock': 1, 'default_price': 25, 'price': 25, 'description': 'Increase chance to dodge', 'image': 'images/red_potion.png'},
                 # not using stamina this iteration
                 # 'Libation of Longevity': {'stock': 3, 'price': 3, 'description': '+5 stamina, one-time use'},
             }

@@ -35,7 +35,7 @@ screen shop:
                 vbox:
                     add "images/red_potion.png" xalign 0.5
                     text shop.item_names[j] style "medium_text"
-                    text shop.inventory[shop.item_names[i]]['description'] style "little_font" yoffset -10
+                    text shop.inventory[shop.item_names[j]]['description'] style "little_font" yoffset -10
                     text "Price: " + str(shop.inventory[shop.item_names[j]]['price']) style "little_font" yoffset -20
                     text "Stock: " + str(shop.inventory[shop.item_names[j]]['stock']) style "little_font" yoffset -30
                     textbutton "Purchase" yoffset -45 xalign 0.5 action If((g.gold >= shop.inventory[shop.item_names[j]]['price'] and shop.inventory[shop.item_names[j]]['stock'] > 0), Function(shop.purchase_item, shop.item_names[j]))

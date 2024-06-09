@@ -7,6 +7,7 @@ default activities_finished = False
 default flirted_with_lady = False
 default romance_ending = False
 default fought_morgana = False
+default boss_time = False
 default chose_balk = False
 
 # tutorials/tooltips
@@ -73,12 +74,12 @@ label start:
     define v = Character("Viviane")
 
 
-    $ beast_1 = Enemy(Character("Monster"), "Monster", 10, 40, 2, 10, "images/monster_small.png")
-    $ beast_2 = Enemy(Character("Monster"), "Monster", 20, 40, 2, 15, "images/monster_small.png")
-    $ beast_3 = Enemy(Character("Monster"), "Monster", 35, 50, 5, 20, "images/monster_small.png")
-    $ beast_4 = Enemy(Character("Monster"), "Monster", 50, 50, 7, 20, "images/monster_small.png")
-    $ beast_5 = Enemy(Character("Monster"), "Monster", 60, 60, 10, 30, "images/monster_small.png")
-    $ big_boss = Enemy(Character("Monster"), "Monster", 75, 70, 15, 25, "images/monster_small.png")
+    $ beast_1 = Enemy(Character("Monster"), "Creature", 10, 40, 2, 10, "images/monster_small.png")
+    $ beast_2 = Enemy(Character("Monster"), "Creature", 20, 40, 2, 15, "images/monster_small.png")
+    $ beast_3 = Enemy(Character("Monster"), "Creature", 35, 50, 5, 20, "images/monster_small.png")
+    $ beast_4 = Enemy(Character("Monster"), "Creature", 40, 50, 7, 20, "images/monster_small.png")
+    $ beast_5 = Enemy(Character("Monster"), "Creature", 60, 60, 8, 30, "images/monster_small.png")
+    $ big_boss = Enemy(Character("Monster"), "Monster", 75, 50, 9, 25, "images/monster_small.png")
     $ morgana_boss = Enemy(morg, "Morgana", 100, 65, 10, 0, "images/morgana.png")
 
     # handlers
@@ -339,6 +340,8 @@ label start:
 
         play music tokyo_drift fadein 2.0 fadeout 2.0
 
+        $ boss_time = True
+
         show monster
         "A young girl alone picking flowers on the edge of town screams once she sees she’s in the cat’s sights, scrambling to her feet as she desperately tries to get away."
         
@@ -382,6 +385,22 @@ label start:
         "You rise to your full height, tuck your flower behind your ear to match Ragamuffin, and with one last, longing look over the town you’ve been residing in for so long, you head deeper into the forests surrounding Hereford."
 
         jump morgana_ending
+
+    label lost_big_boss_battle:
+        "You manage to get a wound on the beast, and it retreats into the forest."
+        
+        "You look over your shoulder to the little girl."
+        
+        "The little girl hesitates before tugging her arm out of her sister’s grasp and walks up to you, offering you two flowers. You lean down to take the first flower and the action only serves to bring Ragamuffin closer to the little girl."
+        
+        "She smiles sweetly, tucking the second flower behind Ragamuffin’s fluffy ear. The cat purrs her thanks, making the little girl giggle." 
+        
+        "You know what you must do to protect these people: you must venture into the forest, slaying any beasts that threaten this beautiful, struggling town any further."
+        
+        "You rise to your full height, tuck your flower behind your ear to match Ragamuffin, and with one last, longing look over the town you’ve been residing in for so long, you head deeper into the forests surrounding Hereford."
+
+        jump morgana_ending
+
 
     label morgana_combat:
         $ fought_morgana = True
@@ -1460,7 +1479,7 @@ label start:
 
         "You help a local with some tasks and earn +10 gold for your trouble."
         
-        $ g.change_gold(5)
+        $ g.change_gold(10)
         $ calendar.increment_week()
         jump go_to_town
 
@@ -1499,9 +1518,9 @@ label start:
         $ g.c("No, it quite certainly is not. Never has been. Good day, Bryan.")
         hide gawain
 
-        "You pass the rest of the afternoon practicing with your bow. Gain +2 Archery skill."
+        "You pass the rest of the afternoon practicing with your bow. Gain +6 Archery skill."
 
-        $ g.change_stat('archery', 2)
+        $ g.change_stat('archery', 6)
 
         $ calendar.set_played('cottages', 0)
         $ calendar.increment_week()
@@ -1537,9 +1556,9 @@ label start:
             "Walk On":
                 "You walk on, taking a nice stroll through the countryside."
 
-                "You gain +2 intuition."
+                "You gain +6 intuition."
 
-                $ g.change_stat('intuition', 2)
+                $ g.change_stat('intuition', 6)
         $ calendar.set_played('cottages', 1)
         $ calendar.increment_week()
         jump go_to_town
@@ -1575,9 +1594,9 @@ label start:
                             
                             $ g.c("Good day to you too, ma’am...")
 
-                            $ "You pass the rest of the afternoon practicing with your bow. You gain +4 archery."
+                            $ "You pass the rest of the afternoon practicing with your bow. You gain +6 archery."
 
-                            $ g.change_stat('archery', 4)
+                            $ g.change_stat('archery', 6)
                             
                         "Leave her be":
                             $ g.c("My apologies for the intrusion. Have a lovely day, ma’am.")
@@ -1599,9 +1618,9 @@ label start:
             "Walk on":
                 "You go for a walk about the countryside instead, leaving the woman be."
 
-                "You gain +4 intuition."
+                "You gain +6 intuition."
 
-                $ g.change_stat('intuition', 4)
+                $ g.change_stat('intuition', 6)
         $ calendar.set_played('cottages', 2)
         $ calendar.increment_week()
         jump go_to_town

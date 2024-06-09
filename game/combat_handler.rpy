@@ -27,6 +27,11 @@ init python:
         def gawain_defeated(self):
             if fought_morgana:
                 renpy.jump("lost_morgana_battle")
+            elif boss_time:
+                self.combat_status_string = "This foe is beyond you!"
+                renpy.jump("lost_big_boss_battle")
+                calendar.increment_week()
+                self.current_enemy = None
             else:
                 self.combat_status_string = "You have been defeated, you must retreat!"
                 self.current_enemy = None

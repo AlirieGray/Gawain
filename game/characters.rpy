@@ -50,13 +50,15 @@ init python:
                     self.current_hp = self.current_hp + 10
                 renpy.notify("You feel a burst of life and vigor, your wounds mending! You have recoverd +25 HP.")
             elif potion == 'Libation of Love':
+                new_max = self.max_hp + 5
                 if self.current_hp == self.max_hp:
-                    self.max_hp = self.max_hp + 5
-                    self.current_hp = self.max_hp + 5
+                    self.max_hp = new_max
+                    self.current_hp = new_max
                 else:
-                    self.max_hp = self.max_hp + 5
+                    self.max_hp = new_max
                 self.hp_bonus = self.hp_bonus + 5
                 renpy.notify("You feel the power of love beating in your heart. Your maximum HP has permanently increased by 5.")
+            
             elif potion == 'Libation of Luck':
                 self.luck_potion_active = True
                 renpy.notify("It's your lucky week! The spoils of your next battle will get a boost.")
