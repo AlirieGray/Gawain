@@ -1237,8 +1237,9 @@ label start:
             "Let her play":
                 "Ragamuffin hops off your shoulder to play with Mittens. They spend the afternoon chasing butterflies and playing with balls of yarn."
                 hide mittens
-                "You gain +4 Charm."
+                "You gain +4 Charm and +2 Archery."
                 $ g.change_stat('charm', 4)
+                $ g.change_stat('archery', 2)
             "Leave":
                 hide mittens
                 "You choose not to trust Mittens. She is a talking cat, after all. Who knows what kind of magic is afoot? You keep on walking instead."
