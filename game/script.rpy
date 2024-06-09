@@ -89,7 +89,7 @@ label start:
 
     scene lake
 
-    play music ballad loop fadein 2.0 fadeout 1.0
+    play music ballad loop fadein 1.0 fadeout 1.0
 
     #####***** INTRO CUTSCENE *****#####
 
@@ -125,7 +125,7 @@ label start:
 
     $ l.c("Sir Gawain the True. Fortune smiles upon you on this fine day. What wisdom do you seek?")
 
-    show gawain at midleft
+    show gawain at midleft_intro
     hide lady
 
     $ g.c("My Lady, I seek your sage advice, some I hope you can provide.")
@@ -429,6 +429,8 @@ label start:
         "You pant for breath, bloody sword hanging limply by your side, when you feel a gentle hand on your shoulder." 
         
         "It’s Isoude, Olive’s mother." 
+
+        play music ballad fadein 1.0 fadeout 1.0
         
         i "Come now, Gawain. Let’s get you home."
         

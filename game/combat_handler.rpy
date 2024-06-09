@@ -19,7 +19,7 @@ init python:
                         g.luck_potion_active = False
                     self.combat_status_string = "Your foe is vanquished!\n You receive +" + str(self.current_reward) + " gold. Feel free to spend it all in one place."
                 
-                g.change_gold(current_reward) # TODO + bonus from potion...
+                g.change_gold(self.current_reward) # TODO + bonus from potion...
                 self.current_enemy = None
                 calendar.increment_week()
                 calendar.set_next_jump()
