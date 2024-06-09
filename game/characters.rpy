@@ -3,7 +3,7 @@ init python:
     import time
 
     dev_default = 20
-    prod_default = 5
+    prod_default = 10
 
     class Gawain:
         def __init__(self, character):

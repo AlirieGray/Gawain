@@ -79,8 +79,8 @@ label start:
     $ beast_3 = Enemy(Character("Monster"), "Creature", 35, 50, 5, 20, "images/monster_small.png")
     $ beast_4 = Enemy(Character("Monster"), "Creature", 40, 50, 7, 20, "images/monster_small.png")
     $ beast_5 = Enemy(Character("Monster"), "Creature", 60, 60, 8, 30, "images/monster_small.png")
-    $ big_boss = Enemy(Character("Monster"), "Monster", 75, 50, 9, 25, "images/monster_small.png")
-    $ morgana_boss = Enemy(morg, "Morgana", 100, 65, 10, 0, "images/morgana.png")
+    $ big_boss = Enemy(Character("Monster"), "Monster", 75, 50, 9, 0, "images/monster_small.png")
+    $ morgana_boss = Enemy(morg, "Morgana", 100, 65, 10, 0, "images/morgana_small.png")
 
     # handlers
     $ calendar = Calendar()
@@ -103,7 +103,7 @@ label start:
     # jump first_combat
     # $ calendar.current_month = 4
     # jump go_to_town
-    # jump boss_fight
+    jump boss_fight
     # jump first_time_in_town
     # jump lludds
 
@@ -387,7 +387,10 @@ label start:
         jump morgana_ending
 
     label lost_big_boss_battle:
-        "You manage to get a wound on the beast, and it retreats into the forest."
+
+        hide screen combat_menus
+
+        "You failed to kill the beast, but you manage to get a wound on it, and it retreats into the forest."
         
         "You look over your shoulder to the little girl."
         
@@ -405,15 +408,31 @@ label start:
     label morgana_combat:
         $ fought_morgana = True
 
+        show gawain at midleft
+
         $ g.c("No, I refuse to believe these dedicated women would abandon their families so callously. You must have them enchanted, under some spell, Morgana")
+
+        hide gawain
+
+        show morgana at midright
 
         morg "Me? Spell? I would never."
         
         "She’s teasing you now, challenging you outright. "
         
+        hide morgana
+
+        show gawain at midleft
+        
         $ g.c("Prepare to be vanquished, foul sorceress. I will set these women free and return them to their proper homes.")
         
+        hide gawain
+
+        show morgana at midright
+
         morg "Make this quick, Sir Gawain. I have little time for such humorous outbursts."
+
+        hide morgana
 
         # TODO add fight and win/lose conditions
 
@@ -440,6 +459,8 @@ label start:
 
     label won_morgana_battle:
         scene forest
+
+        hide screen combat_menus
 
         "Morgana’s corpse lays bloody at your feet." 
         
@@ -2125,6 +2146,8 @@ label start:
         morg "Sir Gawain, Ragamuffin, what an honor to meet you both. I am the sorceress Morgana, half-sister of the former king, Arthur, and this is my cat, Teschio."
         
         morg "We’ve taken up residence in the forest of Herefordshire. It seems you have finally found me, valiant knight."
+
+        hide morgana
 
         "You bow in greeting, watching carefully as Ragamuffin traipses up to Morgana. She leans down to pet her, giggling as Ragamuffin purrs." 
 

@@ -18,6 +18,13 @@ init python:
                         self.current_reward = self.current_reward + 5
                         g.luck_potion_active = False
                     self.combat_status_string = "Your foe is vanquished!\n You receive +" + str(self.current_reward) + " gold. Feel free to spend it all in one place."
+                elif boss_time and not fought_morgana:
+                    self.combat_status_string = "You receive a +10 bonus to all stats."
+                    g.change_stat('mettle', 10)
+                    g.change_stat('intuition', 10)
+                    g.change_stat('charm', 10)
+                    g.change_stat('archery', 10)
+                    g.change_stat('swordplay', 10)
                 
                 g.change_gold(self.current_reward) # TODO + bonus from potion...
                 self.current_enemy = None
@@ -26,12 +33,13 @@ init python:
 
         def gawain_defeated(self):
             if fought_morgana:
+                self.current_enemy = None
                 renpy.jump("lost_morgana_battle")
             elif boss_time:
                 self.combat_status_string = "This foe is beyond you!"
+                self.current_enemy = None
                 renpy.jump("lost_big_boss_battle")
                 calendar.increment_week()
-                self.current_enemy = None
             else:
                 self.combat_status_string = "You have been defeated, you must retreat!"
                 self.current_enemy = None
