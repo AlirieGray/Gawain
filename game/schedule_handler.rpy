@@ -133,7 +133,7 @@ init python:
                 elif self.current_month == 4:
                     self.next_jump = 'fifth_combat'
                 elif self.current_month == 5:
-                    self.next_jump = 'visit_lake'
+                    self.next_jump = 'sixth_month'
             elif self.activity_slots[0] == 'Visit Tavern': 
                 if not self.scenes_played['tavern'][0]:
                     self.next_jump = 'tavern_first_event'
