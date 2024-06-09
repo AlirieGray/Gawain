@@ -73,12 +73,12 @@ label start:
     define v = Character("Viviane")
 
 
-    $ beast_1 = Enemy(Character("Monster"), "Monster", 10, 40, 2, "images/monster.png")
-    $ beast_2 = Enemy(Character("Monster"), "Monster", 20, 40, 2, "images/monster.png")
-    $ beast_3 = Enemy(Character("Monster"), "Monster", 35, 50, 3, "images/monster.png")
-    $ beast_4 = Enemy(Character("Monster"), "Monster", 50, 50, 3, "images/monster.png")
-    $ beast_5 = Enemy(Character("Monster"), "Monster", 60, 60, 4, "images/monster.png")
-    $ big_boss = Enemy(Character("Monster"), "Monster", 75, 60, 5, "images/monster.png")
+    $ beast_1 = Enemy(Character("Monster"), "Monster", 10, 40, 2, "images/monster_small.png")
+    $ beast_2 = Enemy(Character("Monster"), "Monster", 20, 40, 2, "images/monster_small.png")
+    $ beast_3 = Enemy(Character("Monster"), "Monster", 35, 50, 3, "images/monster_small.png")
+    $ beast_4 = Enemy(Character("Monster"), "Monster", 50, 50, 3, "images/monster_small.png")
+    $ beast_5 = Enemy(Character("Monster"), "Monster", 60, 60, 4, "images/monster_small.png")
+    $ big_boss = Enemy(Character("Monster"), "Monster", 75, 60, 5, "images/monster_small.png")
     $ morgana_boss = Enemy(morg, "Morgana", 100, 65, 10, "images/morgana.png")
 
     # handlers
@@ -99,7 +99,7 @@ label start:
     
     # TODO: DEV JUMP ONLY
     # REMOVE FOR BUILD
-    jump first_combat
+    # jump first_combat
     # $ calendar.current_month = 4
     # jump go_to_town
     # jump boss_fight
@@ -336,6 +336,8 @@ label start:
 
     label boss_fight:
         scene forest with fade
+
+        show monster
         "A young girl alone picking flowers on the edge of town screams once she sees she’s in the cat’s sights, scrambling to her feet as she desperately tries to get away."
         
         "You draw your sword; you don't even hesitate for a moment before you’re charging into the fray, sprinting forward to put yourself between the giant cat and the innocent little child." 

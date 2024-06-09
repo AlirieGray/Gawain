@@ -227,9 +227,10 @@ screen choice(items):
 
     # special menu for combat choices
     if (combat_handler.current_enemy):
+        add "gui/custom/transparent_bg_600_150.png" xalign .57 ypos 550
         hbox:
-            xalign .6
-            yalign .65
+            xalign .57 
+            ypos 600
             for i in items:
                 button:
                     idle_background "gui/custom/button.png"
@@ -241,10 +242,11 @@ screen choice(items):
 
         hbox:
             xalign .6 
-            yalign .68
-            xsize 250
-            text "+" + str(get_attack_modifier(g.get_stat("swordplay"))) + " from Swordplay"  style "little_font" xoffset -60
-            text "+" + str(get_attack_modifier(g.get_stat("archery"))) + " from Archery"  style "little_font" xoffset -20
+            ypos 650
+            xsize 400
+            xfill True
+            text "+" + str(get_attack_modifier(g.get_stat("swordplay"))) + " from Swordplay"  style "little_font"
+            text "+" + str(get_attack_modifier(g.get_stat("archery"))) + " from Archery"  style "little_font"
     else:
         vbox:
             for i in items:

@@ -1,6 +1,6 @@
 screen combat_menus(enemy):
     add "gui/custom/transparent_bg_600_500.png" xalign .57 yalign .05
-    # use hud
+    use combat_inventory
     use stats_left
 
     vbox:
@@ -27,15 +27,25 @@ screen combat_menus(enemy):
                         left_bar Frame('gui/custom/health_bar_full.png', 10, 0)
                         right_bar Frame('gui/custom/health_bar_empty.png', 10, 0)
                     text str(g.current_hp) + "/" + str(g.max_hp)
+        add enemy.get_image() xpos 150 ypos 80
+
+
+screen combat_inventory:
+    imagebutton:
+        idle "gui/custom/transparent_bg_100_100.png"
+        hover "gui/custom/transparent_bg_100_100.png" 
+        xpos 1080 
+        ypos 550
+        action Show('inventory')
+    vbox:
+        xpos 1080 
+        ypos 550
         imagebutton:
             idle "images/backpack.png"
             hover "images/backpack.png"
             action Show('inventory')
-        textbutton "Inventory" action Show('inventory')
-        add enemy.get_image() xpos 150
+            ypos 50
+            xpos 60
+        textbutton "Inventory" action Show('inventory') ypos 70 xpos 30
 
 
-
-                #     vbox:
-                # text "Gawain: "
-                # bar value VariableValue(g.current_hp, g.max_hp)
