@@ -8,22 +8,31 @@ init python:
             self.player_turn = not self.player_turn
 
         def enemy_defeated(self):
-            # TODO: reward depends on difficulty of enemy. reward stat on enemy class
-            self.combat_status_string = "Your foe is vanquished!\n You receive +10 gold. Feel free to spend it all in one place."
-            g.change_gold(10)
-            self.current_enemy = None
-            calendar.increment_week()
-            calendar.set_next_jump()
+            if fought_morgana:
+                renpy.jump("won_morgana_battle")
+            else:
+                # TODO: reward depends on difficulty of enemy. reward stat on enemy class
+                self.combat_status_string = "Your foe is vanquished!\n You receive +10 gold. Feel free to spend it all in one place."
+                g.change_gold(10) # TODO + bonus from potion...
+                self.current_enemy = None
+                calendar.increment_week()
+                calendar.set_next_jump()
 
         def gawain_defeated(self):
-            self.combat_status_string = "You have been defeated, you must retreat!"
-            self.current_enemy = None
-            calendar.increment_week()
-            calendar.set_next_jump()
+            if fought_morgana:
+                renpy.jump("lost_morgana_battle")
+            else:
+                self.combat_status_string = "You have been defeated, you must retreat!"
+                self.current_enemy = None
+                calendar.increment_week()
+                calendar.set_next_jump()
 
         def enemy_attack(self):
             dmg = self.current_enemy.attack()
-            self.combat_status_string = "The enemy strikes at you..."
+            if fought_morgana:
+                self.combat_status_string = "Morgana lashes out with her magic..."
+            else:
+                self.combat_status_string = "The beast strikes at you..."
             if dmg == 0:
                 self.combat_status_string = self.combat_status_string + "\nAnd misses!"
             else:

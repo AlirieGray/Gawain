@@ -71,10 +71,11 @@ label start:
 
     $ beast_1 = Enemy(Character("Monster"), "Monster", 10, 40, 2, "images/monster.png")
     $ beast_2 = Enemy(Character("Monster"), "Monster", 20, 40, 2, "images/monster.png")
-    $ beast_3 = Enemy(Character("Monster"), "Monster", 35, 50, 2, "images/monster.png")
-    $ beast_4 = Enemy(Character("Monster"), "Monster", 50, 50, 2, "images/monster.png")
-    $ beast_5 = Enemy(Character("Monster"), "Monster", 75, 60, 2, "images/monster.png")
-    $ big_boss = Enemy(Character("Monster"), "Monster", 100, 60, 2, "images/monster.png")
+    $ beast_3 = Enemy(Character("Monster"), "Monster", 35, 50, 3, "images/monster.png")
+    $ beast_4 = Enemy(Character("Monster"), "Monster", 50, 50, 3, "images/monster.png")
+    $ beast_5 = Enemy(Character("Monster"), "Monster", 60, 60, 4, "images/monster.png")
+    $ big_boss = Enemy(Character("Monster"), "Monster", 75, 60, 5, "images/monster.png")
+    $ morgana_boss = Enemy(morg, "Morgana", 100, 65, 10, "images/morgana.png")
 
     # handlers
     $ calendar = Calendar()
@@ -92,10 +93,10 @@ label start:
     
     # TODO: DEV JUMP ONLY
     # REMOVE FOR BUILD
-    # jump first_combat_time
+    jump first_combat
     # $ calendar.current_month = 4
     # jump go_to_town
-    jump boss_fight
+    # jump boss_fight
     # jump first_time_in_town
     # jump lludds
 
@@ -267,6 +268,8 @@ label start:
 
     ####**** COMBATS/BATTLES ****####
 
+    # TODO tutorial for first combat
+
     label first_combat:
 
         scene town
@@ -372,6 +375,7 @@ label start:
 
     label morgana_combat:
         $ fought_morgana = True
+
         $ g.c("No, I refuse to believe these dedicated women would abandon their families so callously. You must have them enchanted, under some spell, Morgana")
 
         morg "Me? Spell? I would never."
@@ -384,6 +388,112 @@ label start:
 
         # TODO add fight and win/lose conditions
 
+        $ combat_handler.set_enemy(morgana_boss)
+        
+        show screen combat_menus(combat_handler.current_enemy)
+
+        while g.current_hp > 0 and combat_handler.current_enemy:
+            menu:
+                "Sword Attack":
+                    $ combat_handler.gawain_attack("swordplay")
+                "Bow and Arrow":
+                    $ g.attack("archery", combat_handler.current_enemy)
+                    $ combat_handler.gawain_attack("archery")
+            "[str(combat_handler.combat_status_string)]" 
+
+            if combat_handler.current_enemy:
+
+                $ combat_handler.enemy_attack()
+
+                "[str(combat_handler.combat_status_string)]"
+
+        hide screen combat_menus
+
+    label won_morgana_battle:
+        scene forest
+
+        "Morgana’s corpse lays bloody at your feet." 
+        
+        "Teschio curls up by her side, yowling in agony at the loss of his master. The sight is painful to see, but the women of Herefordshire are safe." 
+        
+        "You pant for breath, bloody sword hanging limply by your side, when you feel a gentle hand on your shoulder." 
+        
+        "It’s Isoude, Olive’s mother." 
+        
+        i "Come now, Gawain. Let’s get you home."
+        
+        "Like a true mother would, Isoude wraps an arm around your shoulders and urges you onward, guiding you back into the forest." 
+        
+        "The journey back to Hereford is a somber one, the heartbroken cries of Teschio echoing through the trees." 
+        
+        "The women rally around you, comforting you, murmuring their thanks, and petting Ragamuffin where she’s perched on your shoulder." 
+        
+        "The women’s kitties are also in tow, though most notably, they no longer talk. Even Lady Lotus, who you recognize in the crowd, doesn’t seem to remember you when you look over at her." 
+        
+        "Even the Cat Coven were under her spell - normal cats recruited for the purpose of stealing women from their homes." 
+
+        show gawain at midleft
+        
+        $ g.c("I’m sorry I didn’t find you all sooner.")
+
+        hide gawain
+        
+        i "Hush now, Sir Gawain. You found us in due time." 
+
+        scene town 
+
+        show gawain at midleft
+        
+        "Back in Hereford, you are met with a huge crowd in the town square. Everyone is overjoyed to see their wives, mothers, sisters, and friends again." 
+        
+        "Many tears, kisses, and hugs are shared, and everyone celebrates the name of Sir Gawain and the great gift he gave to Hereford." 
+        
+        "You break off from the party when you can. You miss your son, Gyngolyn, and the reunion of wives with their families only serves to worsen the ache in your heart." 
+        
+        "Your true love, Ragnell, was long dead. You’d never have a reunion like this until you followed suit and joined her in the grave." 
+        
+        "Your journey will be over soon, leaving you free to return home to Gyngolyn. You reach up to pet Ragamuffin, who nuzzles against your cheek to comfort you." 
+        
+        "Gathering up your things to the inn, you resolve to visit the Lady of the Lake once more to see this journey to a proper close."
+
+        jump final_lady_cutscenes
+
+    label lost_morgana_battle:
+        "You’re beaten within an inch of your life, left broken and bleeding in the dirt of the meadow. Ragamuffin is crumpled beside you, looking still as death." 
+        
+        $ g.c("You’ll never get away with this Morgana. Fate will punish you yet. ")
+        
+        "Morgana just laughs, kneeling down so she can caress your cheek."  
+        
+        morg "It’s a shame you’re so steadfast in your knighthood, Sir Gawain. It would have been lovely to have you by my side."
+        
+        "Morgana pulls back her fist, fingers glowing gold, and with one final punch, your life ends, left in the meadow in the forests of Herefordshire to become one with the daisies." 
+        
+        "Your son, Gyngolyn, eventually finds you and Ragamuffin’s graves after many years of searching, his once-promising future squandered to search after his missing father." 
+        
+        "He takes up your bones and buries them next to your true love, Ragnell, and at last, you can sleep in peace." 
+        
+        "Many moons pass, and Camelot seems to forget the name of Sir Gawain altogether." 
+        
+        "Morgana rises to power and falls, Isoude rises to power and falls, until Gyngolyn, lost and sad, visits the Lady of the Lake for wisdom after losing years to melancholy." 
+        
+        "With the Lady of the Lake to guide him, Gyngolyn rises to power and ascends the throne of Camelot. He rules with iron will and a kind heart, leading all his subjects to peace and prosperity." 
+        
+        "In the name of his fallen father, he reinstates the Round Table, seeking to bring honor back to the title of Knight after decades of corruption, weakness, and dissolution." 
+        
+        "The citizens of Camelot have never been happier, and Gyngolyn, now old, wizened, and a father himself, continues to visit your grave like he always does each evening." 
+        
+        "You, Ragnell, and Ragamuffin lay together in your graves, bones entwined just like your souls. A bouquet of ever-golden flowers rests in a ceramic vase beside your headstone, a sign the Lady of the Lake has visited and blessed you with eternal peace and rest." 
+        
+        "You fought valiantly, Sir Gawain. Your life has inspired countless others to pursue paths of healing, honor, and mettle." 
+        
+        "Gyngolyn carries your memory with him always, and your death brought a peace to Camelot the land has never before known." 
+       
+        "Sometimes, the truest paths are the hardest to take. You raised Gyngolyn well, fought hard to get home to him, and though Morgana wasn’t defeated by your hand, the example you set for your son is invaluable." 
+        
+        "The Lady of the Lake is watching over him now, protecting and guiding him just as she did for you. Rest easy, Sir Gawain. May the next life be kinder to you."
+
+        jump credits
 
     label sixth_month:
         $ calendar.increment_week()
@@ -1432,16 +1542,16 @@ label start:
     label lludds:
         # scene town 
 
-        ll "Welcome to Llud's Libations!"
+        # ll "Welcome to Llud's Libations!"
 
-        $ _window_hide()
+        # $ _window_hide()
 
         show screen shop
 
         $ wait_for_status(activities_selected)
 
     label leaving_lludds:
-        ll "Let’s meet again later, loyal customer!"
+        # ll "Let’s meet again later, loyal customer!"
 
         $ wait_for_status(activities_selected)
 
@@ -1891,7 +2001,9 @@ label start:
 
         hide gawain
         
-        "That title used to hold authority, years ago before King Arthur abandoned the throne. It’s the last shred of notoriety you have left - your allegiance to a long-deserted coalition that invokes only wistful memory today." 
+        "That title used to hold authority, years ago before King Arthur abandoned the throne."
+        
+        "It’s the last shred of notoriety you have left - your allegiance to a long-deserted coalition that invokes only wistful memory today." 
         
         "You hear the voice giggle, amused by your attempt at showmanship, by your plea to be respected." 
         
@@ -1909,7 +2021,11 @@ label start:
         
         "Still, you’ve fought many battles with just Ragamuffin by your side. You trust that with her, you can get through anything." 
         
-        "Ragamuffin perks up, looking towards your left. You follow her gaze just in time to see an ethereal woman emerge from the treeline with a cat on her shoulder."
+        "Ragamuffin perks up, looking towards your left."
+
+        show morgana at midright_intro
+        
+        "You follow her gaze just in time to see an ethereal woman emerge from the treeline with a cat on her shoulder."
         
         "She smiles warmly at you and opens her arms wide. Arcane magic glows from her fingertips and the meadow seems to bloom around her." 
         
@@ -1917,9 +2033,11 @@ label start:
         
         "Ragamuffin leaps off your shoulder to chase the butterflies, enjoying the sudden return of sunshine. The woman’s cat jumps off her shoulder to join Ragamuffin, and the two start playing in the sun together." 
         
-        show morgana at midright_intro
+        show morgana at midright
         
-        morg "Sir Gawain, Ragamuffin, what an honor to meet you both. I am the sorceress Morgana, half-sister of the former king, Arthur, and this is my cat, Teschio. We’ve taken up residence in the forest of Herefordshire. It seems you have finally found me, valiant knight. "
+        morg "Sir Gawain, Ragamuffin, what an honor to meet you both. I am the sorceress Morgana, half-sister of the former king, Arthur, and this is my cat, Teschio."
+        
+        morg "We’ve taken up residence in the forest of Herefordshire. It seems you have finally found me, valiant knight."
 
         "You bow in greeting, watching carefully as Ragamuffin traipses up to Morgana. She leans down to pet her, giggling as Ragamuffin purrs." 
 
@@ -1945,7 +2063,9 @@ label start:
         
         "Through the wall of light, the missing women of Herefordshire step into the meadow, kitties by their side. Morgana looks around the circle of women, pride shining clear." 
         
-        morg "This is my coven: the beautiful, talented women of Herefordshire. I gave the Cat Coven the gift of speech to guide these women home to me. They’ve been a great help as I grow my coven of sorceresses and enchantresses."
+        morg "This is my coven: the beautiful, talented women of Herefordshire."
+        
+        morg "I gave the Cat Coven the gift of speech to guide these women home to me. They’ve been a great help as I grow my coven of sorceresses and enchantresses."
         
         "You look around the circle. Every missing woman is here, smiling placidly at you... very placidly." 
         
@@ -1976,7 +2096,9 @@ label start:
         menu:
             "Press Morgana for details":
                 show gawain at midleft
-                $ g.c("These women have homes and families in Herefordshire. They miss their mothers, wives, daughters, and sisters. Why take them? Why the secrecy? Their families would love to know where they went.")
+                $ g.c("These women have homes and families in Herefordshire. They miss their mothers, wives, daughters, and sisters.")
+
+                $ g.c("Why take them? Why the secrecy? Their families would love to know where they went.")
 
                 "Morgana hesitates, like she doesn’t want to reveal her true motives. But, Teschio leaps off her shoulder, rushing to you. He rubs against your legs to show his trust."
                 
@@ -2003,19 +2125,23 @@ label start:
 
                 hide gawain
                 
-                morg "Could I have? Potentially, but did Arthur not have his Round Table? I desired a coven of powerful women to work alongside me and keep the peace of Camelot. You know exactly the kind of havoc beasts, fae, and mortals alike wreak on this kingdom."
+                morg "Could I have? Potentially, but did Arthur not have his Round Table? I desired a coven of powerful women to work alongside me and keep the peace of Camelot."
+                
+                morg "You know exactly the kind of havoc beasts, fae, and mortals alike wreak on this kingdom."
                 
                 "Morgana turns to look around the circle, gazing upon the women with a proud smile." 
                 
                 morg "Look how far they’ve come, how much of their power they’ve tapped into. I was on my way through the kingdom when I happened upon Herefordshire."
                 
-                morg "These poor women, reduced to simply being wives, mothers, sisters, grandmothers… they were stripped of any identity, any power."
+                morg "These poor women, reduced to simply being wives, mothers, sisters, grandmothers... they were stripped of any identity, any power."
                 
                 morg "I sent out the Cat Coven to enlighten them to their situations and encourage them to come into their power. Look at how strong and beautiful they are, how happy they are to be free of the confines of Herefordshire."
                 
                 "The women do look content, faces upturned to the sun. Each of them has a smile on their face. The women have hair braided with flowers, their gowns are brilliant shades of silk, their show of arcane power is admirable and undeniable." 
                 
-                morg "The people of Herefordshire will likely hate you for it and you’ll lose any semblance of respect you’ve still maintained since the dissolution of the Round Table, but I implore you to leave them be. Let them stay with me, where they’re content and cared for"
+                morg "The people of Herefordshire will likely hate you for it and you’ll lose any semblance of respect you’ve still maintained since the dissolution of the Round Table, but I implore you to leave them be."
+                
+                morg "Let them stay with me, where they’re content and cared for."
                 
                 hide morgana
 
@@ -2118,6 +2244,8 @@ label start:
             jump romance_ending
         elif romance_ending and fought_morgana:
             jump romance_ending_morgana_fight
+        elif not romance_ending and fought_morgan:
+            jump friendship_ending_morgana_fight
         else:
             jump friendship_ending
 
@@ -2126,13 +2254,16 @@ label start:
         show gawain at midleft
 
         $ g.c("My Lady, I do not wish to trouble you with my struggles. May we just sit in each other’s presence for a while?")
+        
         "The Lady of the Lake concedes, sitting on the edge of the lake and patting the moss beside her for you to come sit. When you join her, she rests her head on her shoulder, wrapping herself around your arm." 
+        
         $ l.c("I assume you let Morgana go? Is that what is troubling you so?")
+        
         show gawain at midleft
 
         $ g.c("Yes, I did- Wait, how did you know Morgana was behind all this?")
         
-        "The Lady of the Lake just laughs, holding onto you tighter with how endeared she is. "
+        "The Lady of the Lake just laughs, holding onto you tighter with how endeared she is."
 
         $ l.c("I know a great deal, dear Gawain. I thought you would have learned that by now.")
         
@@ -2250,8 +2381,84 @@ label start:
         
         "Gyngolyn even follows in your footsteps, becoming the first knight anointed under Queen Morgana’s rule, and the two of you spend the rest of your days serving Viviane and Queen Morgana to keep Camelot safe and united once and for all."
         
-        # TODO jump credits
+        jump credits
+
+    label friendship_ending_morgana_fight:
+        scene lake with fade
+
+        "As you approach the Lady of the Lake, she’s visibly fuming."
+
+        show lady at midright_intro  
+        
+        $ l.c("Gawain! You killed Morgana?")
+
+        hide lady
+
+        show gawain at midleft
+        
+        $ g.c("...Yes? She was kidnapping the women of Herefordshire. Was this not my quest, my Lady?")
+
+        hide gawain
+
+        show lady at midright
+        
+        $ l.c("I am no longer “your Lady”. You’ve destroyed every plan I’ve carefully orchestrated for the past decade! Morgana deserved her coven.")
+
+        hide lady
+        
+        "You think of the reunion of Olive and Isoude, how tearful it had been and how tightly they had embraced." 
+        
+        "Seeing Isoude cradle Olive’s head against her chest, both women sobbing with the weight of their relief had forever changed you. You see red." 
+
+        show gawain at midleft
+        
+        $ g.c("Deserved her coven?! She forced those women to join her! She is but a foul sorceress! I’m glad I felled her so she cannot threaten any other families. And to find you orchestrated this?! You disgust me. I regret ever serving you")
+        
+        hide gawain
+
+        show lady at midright 
+        
+        $ l.c("You think you were serving me?! You think you were ever any help while I gave you my blessings and advice?!")
+        
+        $ l.c ("I have wasted my time with you, clearly. Get out of my sight. You are a sad, pitiful man stuck in the past, clinging onto a Round Table that will never be reunited! I have no desire to see you ever again.")
+        
+        hide lady
+
+        show gawain at midleft
+        
+        $ g.c("Gladly, vile sorceress. I have no desire to ever serve a woman as cold-hearted as you.")
+
+        hide gawain
+
+        scene black_bg with fade
+        
+        "You head home to your son, Gyngolyn, instead, having been away from him for far too long. He’s a moody teen now, though his love for you is still clear and strong." 
+        
+        "You take time to hold him close, hugging him long and tight." 
+        
+        "Seeing Olive and Isoude’s reunion had shaken you to your core - you remembered how much of a wreck both you and Gyngolyn had been when his mother passed." 
+        
+        "Even as Gyngolyn protests, you hold him closer still. Your family had taken a hit with Ragnell’s passing, but you would always fight to be there for him." 
+        
+        $ g.c("I love you, son. More than anything on this Earth.")
+        
+        "Gyngolyn doesn’t say it back, too overcome with emotion as he finally, mercifully hugs you back just as tightly as you’ve craved since seeing Olive and Isoude." 
+        
+        "You are safe, home with your son, and despite the Lady of the Lake’s complete and utter betrayal, you’d reunited at least a dozen families and prevented the dissolution of countless others by foiling her plans." 
+        
+        "You have Gyngolyn: come what may, your heart is strong and full, your child you would move heaven and earth to return home to after each quest." 
+        
+        "You had your son. What a beautiful blessing."
+
+        jump credits
+
 
     # This ends the game.
+
+    label credits:
+        scene black_bg with fade
+        show screen credits
+
+        return
 
     return

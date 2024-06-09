@@ -1,11 +1,11 @@
 screen shop:
     add "images/town.png"
-    add "gui/custom/transparent_bg_600_500.png" xalign .52 yalign .05
+    add "gui/custom/transparent_bg_600_500.png" xalign .57 yalign .05
     use stats_left
     use hud
 
     vbox:
-        xalign .55 yalign .165
+        xalign .6 yalign .165
         spacing 12
         xsize 580
         xfill True

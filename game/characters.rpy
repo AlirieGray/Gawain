@@ -9,17 +9,20 @@ init python:
         def __init__(self, character):
             self.c = character
             self.gold = 5
-            self.max_hp = 10 + math.floor(dev_default / 2)
-            self.current_hp = 10 + math.floor(dev_default / 2)
+            self.max_hp = 10 + math.floor(prod_default / 2)
+            self.current_hp = 10 + math.floor(prod_default / 2)
+            self.luck_potion_active = False
+            self.ac_bonus = 0
+            self.hp_bonus = 0
             self.ac = 50
             self.stats_dict = {
                 # "piety": 1,
                 # "honor": 1,
-                "mettle": dev_default,
-                "archery": dev_default,
-                "swordplay": dev_default,
-                "charm": dev_default,
-                "intuition": dev_default
+                "mettle": prod_default,
+                "archery": prod_default,
+                "swordplay": prod_default,
+                "charm": prod_default,
+                "intuition": prod_default
             }
             self.inventory = {
                 'Libation of Liveliness': 0,
@@ -32,6 +35,34 @@ init python:
 
         def drink(self, potion):
             self.inventory[potion] = self.inventory[potion] - 1
+
+            if potion == 'Libation of Liveliness':
+                if self.current_hp + 10 > self.max_hp:
+                    self.current_hp = self.max_hp
+                else:
+                    self.current_hp = self.current_hp + 10
+                renpy.show_display_say(None, "You feel the liveliness course through you, your bruises and aches fade away! You have recovered +10 Hp.")
+
+            elif potion == 'Libation of Life':
+                if self.current_hp + 25 > self.max_hp:
+                    self.current_hp = self.max_hp
+                else:
+                    self.current_hp = self.current_hp + 10
+                renpy.show_display_say(None, "You feel a burst of life and vigor, your wounds mending! You have recoverd +25 HP.")
+            elif potion == 'Libation of Love':
+                if self.current_hp == self.max_hp:
+                    self.max_hp = self.max_hp + 5
+                    self.current_hp = self.max_hp + 5
+                else:
+                    self.max_hp = self.max_hp + 5
+                self.hp_bonus = self.hp_bonus + 5
+                renpy.show_display_say(None, "You feel the power of love beating in your heart. Your maximum HP has permanently increased by 5.")
+            elif potion == 'Libation of Luck':
+                self.luck_potion_active = True
+                renpy.show_display_say(None, "It's your lucky week! The spoils of your next battle will get a boost.")
+            elif potion == 'Libation of Liberation':
+                self.ac_bonus = self.ac_bonus +5
+                renpy.show_display_say(None, "The sensation of liberation opens your mind and your heart. You now have an increased chance to dodge enemy attacks!")
 
         def get_min_stat(self):
             return min(self.stats_dict, key = self.stats_dict.get)
@@ -50,23 +81,21 @@ init python:
                 self.stats_dict[stat] = 100
 
                 if stat == 'mettle':
-                    new_max = 10 + math.floor(self.stats_dict[stat] / 2)
+                    new_max = 10 + math.floor(self.stats_dict[stat] / 2) + self.hp_bonus
                     self.max_hp = new_max
                     self.current_hp = new_max
                 elif stat == 'intuition': 
-                    self.ac = 50 + math.floor(self.stats_dict[stat] / 4)
+                    self.ac = 50 + math.floor(self.stats_dict[stat] / 4) + self.ac_bonus
                 return
             
             self.stats_dict[stat] = self.stats_dict[stat] + val
 
             if stat == 'mettle':
-                new_max = 10 + math.floor(self.stats_dict[stat] / 2)
+                new_max = 10 + math.floor(self.stats_dict[stat] / 2) + self.hp_bonus
                 self.max_hp = new_max
                 self.current_hp = new_max
             elif stat == 'intuition': 
-                self.ac = 50 + math.floor(self.stats_dict[stat] / 4)
-
-
+                self.ac = 50 + math.floor(self.stats_dict[stat] / 4) + self.ac_bonus
 
         def get_stat(self, stat):
             return self.stats_dict[stat]
@@ -140,7 +169,7 @@ init python:
     # TODO: apply all of these stats in the gameplay...
     stat_descriptions = {
         "mettle": "A knight's duty is often arduous and grueling, he must therefore possess the mettle to stand courageously in the face of danger and hardship.\nThis attribute increases your total health point maximum.",
-        "intuition": "There is much in this world that lies beneath the surface, hidden to all but those with a trained eye and a still mind.\nThis attribute increases your chance of dodging incoming attacks.",
+        "intuition": "There is much in this world that lies beneath the surface, hidden to all but those with a trained eye and a still mind.\nThis attribute increases your chance of dodging incoming attacks and helps you in some social scenarios.",
         "charm": "A knight must comport himself with charm and courtesy, in accordance with the chivalric virtues.\nThis attribute increased your chance of success in social scenarios and lowers the cost of items in the shop.",
         "archery": "From a young age, a knight trains his skill with a bow for both sport and warfare.\nThis skill increases your damage and chance to hit with a bow and arrow attack.",
         "swordplay": "A knight's weapon is his life. You have studied the blade since you were a young page.\nThis skill increases your damage and chance to hit with a sword attack.",

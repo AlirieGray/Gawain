@@ -1,17 +1,21 @@
 screen combat_menus(enemy):
-    # TODO: use scary forest image
-    # add "images/town.png"
-    add "gui/custom/transparent_bg_800_500.png" xalign .8 yalign .04
+    add "gui/custom/transparent_bg_600_500.png" xalign .57 yalign .05
     # use hud
     use stats_left
 
-    # enemy name and health bar
     vbox:
-        xalign 0.7
+        xalign .42
         yalign 0.05
         hbox:
             text enemy.get_name()
             text " HP: " + str(enemy.hp)
-            text "                  Gawain "
+        hbox:
+            text " Gawain "
             text "HP: " + str(g.current_hp)
-        add enemy.get_image()
+        imagebutton:
+
+            idle "images/backpack.png"
+            hover "images/backpack.png"
+            action Show('inventory')
+        textbutton "Inventory" action Show('inventory')
+        add enemy.get_image() xalign .75

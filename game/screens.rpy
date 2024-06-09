@@ -228,7 +228,7 @@ screen choice(items):
     # special menu for combat choices
     if (combat_handler.current_enemy):
         hbox:
-            xalign .75
+            xalign .6
             yalign .65
             for i in items:
                 button:
@@ -240,11 +240,11 @@ screen choice(items):
                     action i.action 
 
         hbox:
-            xalign .7 
+            xalign .65 
             yalign .68
             xsize 250
-            text "+" + str(get_attack_modifier(g.get_stat("swordplay"))) + " from Swordplay"  style "little_font" xoffset -45
-            text "+" + str(get_attack_modifier(g.get_stat("archery"))) + " from Archery"  style "little_font" xoffset 35
+            text "+" + str(get_attack_modifier(g.get_stat("swordplay"))) + " from Swordplay"  style "little_font" 
+            text "+" + str(get_attack_modifier(g.get_stat("archery"))) + " from Archery"  style "little_font" xoffset 10
     else:
         vbox:
             for i in items:
@@ -342,38 +342,38 @@ screen navigation():
 
         if main_menu:
 
-            textbutton _("Start") action Start()
+            textbutton _("Start") action Start() text_size 30
 
         else:
 
-            textbutton _("History") action ShowMenu("history")
+            textbutton _("History") action ShowMenu("history") text_size 30
 
-            textbutton _("Save") action ShowMenu("save")
+            textbutton _("Save") action ShowMenu("save") text_size 30
 
-        textbutton _("Load") action ShowMenu("load")
+        textbutton _("Load") action ShowMenu("load") text_size 30
 
-        textbutton _("Preferences") action ShowMenu("preferences")
+        textbutton _("Preferences") action ShowMenu("preferences") text_size 30
 
         if _in_replay:
 
-            textbutton _("End Replay") action EndReplay(confirm=True)
+            textbutton _("End Replay") action EndReplay(confirm=True) text_size 30
 
         elif not main_menu:
 
-            textbutton _("Main Menu") action MainMenu()
+            textbutton _("Main Menu") action MainMenu() text_size 30
 
-        textbutton _("About") action ShowMenu("about")
+        textbutton _("About") action ShowMenu("about") text_size 30
 
         if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
 
             ## Help isn't necessary or relevant to mobile devices.
-            textbutton _("Help") action ShowMenu("help")
+            textbutton _("Help") action ShowMenu("help") text_size 30
 
         if renpy.variant("pc"):
 
             ## The quit button is banned on iOS and unnecessary on Android and
             ## Web.
-            textbutton _("Quit") action Quit(confirm=not main_menu)
+            textbutton _("Quit") action Quit(confirm=not main_menu) text_size 30
 
 
 style navigation_button is gui_button

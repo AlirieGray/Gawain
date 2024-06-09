@@ -1,10 +1,10 @@
 screen inventory:
-    add "gui/custom/transparent_bg_600_500.png" xalign .52 yalign .05
+    add "gui/custom/transparent_bg_600_500.png" xalign .57 yalign .05
     modal True
     text "Inventory" style "special_font" xalign .5 yalign .06
 
     grid 2 3:
-        xalign .52
+        xalign .6
         top_margin 90
         xspacing 50
         yspacing 50
