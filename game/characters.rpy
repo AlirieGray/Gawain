@@ -41,14 +41,14 @@ init python:
                     self.current_hp = self.max_hp
                 else:
                     self.current_hp = self.current_hp + 10
-                renpy.show_display_say(None, "You feel the liveliness course through you, your bruises and aches fade away! You have recovered +10 Hp.")
+                renpy.say(None, "You feel the liveliness course through you, your bruises and aches fade away! You have recovered +10 Hp.")
 
             elif potion == 'Libation of Life':
                 if self.current_hp + 25 > self.max_hp:
                     self.current_hp = self.max_hp
                 else:
                     self.current_hp = self.current_hp + 10
-                renpy.show_display_say(None, "You feel a burst of life and vigor, your wounds mending! You have recoverd +25 HP.")
+                renpy.say(None, "You feel a burst of life and vigor, your wounds mending! You have recoverd +25 HP.")
             elif potion == 'Libation of Love':
                 if self.current_hp == self.max_hp:
                     self.max_hp = self.max_hp + 5
@@ -56,13 +56,13 @@ init python:
                 else:
                     self.max_hp = self.max_hp + 5
                 self.hp_bonus = self.hp_bonus + 5
-                renpy.show_display_say(None, "You feel the power of love beating in your heart. Your maximum HP has permanently increased by 5.")
+                renpy.say(None, "You feel the power of love beating in your heart. Your maximum HP has permanently increased by 5.")
             elif potion == 'Libation of Luck':
                 self.luck_potion_active = True
-                renpy.show_display_say(None, "It's your lucky week! The spoils of your next battle will get a boost.")
+                renpy.say(None, "It's your lucky week! The spoils of your next battle will get a boost.")
             elif potion == 'Libation of Liberation':
                 self.ac_bonus = self.ac_bonus +5
-                renpy.show_display_say(None, "The sensation of liberation opens your mind and your heart. You now have an increased chance to dodge enemy attacks!")
+                renpy.say(None, "The sensation of liberation opens your mind and your heart. You now have an increased chance to dodge enemy attacks!")
 
         def get_min_stat(self):
             return min(self.stats_dict, key = self.stats_dict.get)
@@ -96,6 +96,9 @@ init python:
                 self.current_hp = new_max
             elif stat == 'intuition': 
                 self.ac = 50 + math.floor(self.stats_dict[stat] / 4) + self.ac_bonus
+            elif stat == 'charm':
+                shop.give_charm_discount(math.floor(self.stats_dict[stat] / 25))
+                
 
         def get_stat(self, stat):
             return self.stats_dict[stat]

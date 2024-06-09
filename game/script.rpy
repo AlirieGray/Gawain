@@ -93,7 +93,7 @@ label start:
     
     # TODO: DEV JUMP ONLY
     # REMOVE FOR BUILD
-    jump first_combat
+    # jump first_combat
     # $ calendar.current_month = 4
     # jump go_to_town
     # jump boss_fight
@@ -1351,8 +1351,6 @@ label start:
         $ calendar.set_played('inn', 2)
         $ calendar.increment_week()
         jump go_to_town
-
-
 
     label inn_no_event:
         "Rest up for the search ahead."

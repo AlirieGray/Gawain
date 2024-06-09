@@ -10,12 +10,11 @@ screen combat_menus(enemy):
             text enemy.get_name()
             text " HP: " + str(enemy.hp)
         hbox:
-            text " Gawain "
-            text "HP: " + str(g.current_hp)
+            text "Gawain "
+            text "HP: " + str(g.current_hp) # TODO bar
         imagebutton:
-
             idle "images/backpack.png"
             hover "images/backpack.png"
             action Show('inventory')
         textbutton "Inventory" action Show('inventory')
-        add enemy.get_image() xalign .75
+        add enemy.get_image() xpos 190
