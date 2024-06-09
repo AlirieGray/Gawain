@@ -10,7 +10,6 @@ screen shop:
         xsize 580
         xfill True
         text "Llud's Libations" style "special_font" xalign .5
-        use tooltip(current_tooltip, 50, 90, False)
 
         # TODO: this could be a grid
         # TODO yoffset not the most elegant way to adust padding

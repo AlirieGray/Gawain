@@ -41,14 +41,14 @@ init python:
                     self.current_hp = self.max_hp
                 else:
                     self.current_hp = self.current_hp + 10
-                renpy.say(None, "You feel the liveliness course through you, your bruises and aches fade away! You have recovered +10 Hp.")
+                renpy.notify("You feel the liveliness course through you, your bruises and aches fade away! You have recovered +10 Hp.")
 
             elif potion == 'Libation of Life':
                 if self.current_hp + 25 > self.max_hp:
                     self.current_hp = self.max_hp
                 else:
                     self.current_hp = self.current_hp + 10
-                renpy.say(None, "You feel a burst of life and vigor, your wounds mending! You have recoverd +25 HP.")
+                renpy.notify("You feel a burst of life and vigor, your wounds mending! You have recoverd +25 HP.")
             elif potion == 'Libation of Love':
                 if self.current_hp == self.max_hp:
                     self.max_hp = self.max_hp + 5
@@ -56,14 +56,21 @@ init python:
                 else:
                     self.max_hp = self.max_hp + 5
                 self.hp_bonus = self.hp_bonus + 5
-                renpy.say(None, "You feel the power of love beating in your heart. Your maximum HP has permanently increased by 5.")
+                renpy.notify("You feel the power of love beating in your heart. Your maximum HP has permanently increased by 5.")
             elif potion == 'Libation of Luck':
                 self.luck_potion_active = True
-                renpy.say(None, "It's your lucky week! The spoils of your next battle will get a boost.")
+                renpy.notify("It's your lucky week! The spoils of your next battle will get a boost.")
             elif potion == 'Libation of Liberation':
                 self.ac_bonus = self.ac_bonus +5
-                renpy.say(None, "The sensation of liberation opens your mind and your heart. You now have an increased chance to dodge enemy attacks!")
-
+                renpy.notify("The sensation of liberation opens your mind and your heart. You now have an increased chance to dodge enemy attacks!")
+            elif potion == 'Libation of Leverage':
+                renpy.notify("You feel more powerful! All your stats increase by 1.")
+                g.change_stat('mettle', 1)
+                g.change_stat('charm', 1)
+                g.change_stat('intuition', 1)
+                g.change_stat('archery', 1)
+                g.change_stat('swordplay', 1)
+        
         def get_min_stat(self):
             return min(self.stats_dict, key = self.stats_dict.get)
         
@@ -138,7 +145,7 @@ init python:
             self.c = character
 
     class Enemy:
-        def __init__(self, character, name, hp, ac, attack_modifier, img):
+        def __init__(self, character, name, hp, ac, attack_modifier, reward, img):
             self.c = character
             self.max_hp = hp
             self.hp = hp
@@ -146,6 +153,7 @@ init python:
             self.attack_modifier = attack_modifier
             self.img = img
             self.name = name
+            self.reward = reward
 
         def get_image(self):
             return self.img
@@ -155,7 +163,7 @@ init python:
 
         def attack(self):
             to_hit = roll(100, self.attack_modifier)
-            # TODO: calculate Gawain's AC based on mettle stat
+
             # TODO: use different attack and damage modifiers 
             if to_hit > g.ac:
                 return roll(3, self.attack_modifier)

@@ -3,6 +3,7 @@ init python:
         def __init__(self):
             self.combat_status_string = ""
             self.current_enemy = None
+            self.current_reward = 0
 
         def next_turn(self):
             self.player_turn = not self.player_turn
@@ -12,8 +13,13 @@ init python:
                 renpy.jump("won_morgana_battle")
             else:
                 # TODO: reward depends on difficulty of enemy. reward stat on enemy class
-                self.combat_status_string = "Your foe is vanquished!\n You receive +10 gold. Feel free to spend it all in one place."
-                g.change_gold(10) # TODO + bonus from potion...
+                if self.current_reward != 0:
+                    if g.luck_potion_active:
+                        self.current_reward = self.current_reward + 5
+                        g.luck_potion_active = False
+                    self.combat_status_string = "Your foe is vanquished!\n You receive +" + str(self.current_reward) + " gold. Feel free to spend it all in one place."
+                
+                g.change_gold(current_reward) # TODO + bonus from potion...
                 self.current_enemy = None
                 calendar.increment_week()
                 calendar.set_next_jump()
@@ -63,6 +69,7 @@ init python:
 
         def set_enemy(self, enemy):
             self.current_enemy = enemy
+            self.current_reward = enemy.reward
         
 
 

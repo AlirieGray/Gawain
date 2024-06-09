@@ -603,9 +603,21 @@ screen about():
             label "[config.name!t]"
             text _("Version [config.version!t]\n")
 
-            ## gui.about is usually set in options.rpy.
-            if gui.about:
-                text "[gui.about!t]\n"
+            text "Narrative Writer: max_poetic"
+            textbutton "https://max-poetic.itch.io/\n" action OpenURL("https://max-poetic.itch.io/")
+
+            text "Programmer: Alirie Gray"
+            textbutton "https://www.aliriegray.com/\n" action OpenURL("https://www.aliriegray.com/")
+
+            text "Character Art: Brielle"
+            textbutton "https://vanipurin.itch.io/\n" action OpenURL("https://vanipurin.itch.io/")
+
+            text "Character Art: Nathalie Maciel"
+            textbutton "https://enemursenpai.itch.io/\n" action OpenURL("https://enemursenpai.itch.io/")
+
+            text "Background Art: Adrienne\n"
+
+            text "This project was created for Mix Jam 12."
 
             text _("Made with {a=https://www.renpy.org/}Ren'Py{/a} [renpy.version_only].\n\n[renpy.license!t]")
 
@@ -1298,7 +1310,7 @@ screen notify(message):
     frame at notify_appear:
         text "[message!tq]"
 
-    timer 3.25 action Hide('notify')
+    timer 4.25 action Hide('notify')
 
 
 transform notify_appear:

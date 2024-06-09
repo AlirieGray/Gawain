@@ -73,13 +73,13 @@ label start:
     define v = Character("Viviane")
 
 
-    $ beast_1 = Enemy(Character("Monster"), "Monster", 10, 40, 2, "images/monster_small.png")
-    $ beast_2 = Enemy(Character("Monster"), "Monster", 20, 40, 2, "images/monster_small.png")
-    $ beast_3 = Enemy(Character("Monster"), "Monster", 35, 50, 3, "images/monster_small.png")
-    $ beast_4 = Enemy(Character("Monster"), "Monster", 50, 50, 3, "images/monster_small.png")
-    $ beast_5 = Enemy(Character("Monster"), "Monster", 60, 60, 4, "images/monster_small.png")
-    $ big_boss = Enemy(Character("Monster"), "Monster", 75, 60, 5, "images/monster_small.png")
-    $ morgana_boss = Enemy(morg, "Morgana", 100, 65, 10, "images/morgana.png")
+    $ beast_1 = Enemy(Character("Monster"), "Monster", 10, 40, 2, 10, "images/monster_small.png")
+    $ beast_2 = Enemy(Character("Monster"), "Monster", 20, 40, 2, 15, "images/monster_small.png")
+    $ beast_3 = Enemy(Character("Monster"), "Monster", 35, 50, 5, 20, "images/monster_small.png")
+    $ beast_4 = Enemy(Character("Monster"), "Monster", 50, 50, 7, 20, "images/monster_small.png")
+    $ beast_5 = Enemy(Character("Monster"), "Monster", 60, 60, 10, 30, "images/monster_small.png")
+    $ big_boss = Enemy(Character("Monster"), "Monster", 75, 70, 15, 25, "images/monster_small.png")
+    $ morgana_boss = Enemy(morg, "Morgana", 100, 65, 10, 0, "images/morgana.png")
 
     # handlers
     $ calendar = Calendar()
@@ -89,7 +89,7 @@ label start:
 
     scene lake
 
-    play music ballad loop fadein 2.0
+    play music ballad loop fadein 2.0 fadeout 1.0
 
     #####***** INTRO CUTSCENE *****#####
 
@@ -337,11 +337,13 @@ label start:
     label boss_fight:
         scene forest with fade
 
+        play music tokyo_drift fadein 2.0 fadeout 2.0
+
         show monster
         "A young girl alone picking flowers on the edge of town screams once she sees she’s in the cat’s sights, scrambling to her feet as she desperately tries to get away."
         
         "You draw your sword; you don't even hesitate for a moment before you’re charging into the fray, sprinting forward to put yourself between the giant cat and the innocent little child." 
-        
+        hide monster
         $ combat_handler.set_enemy(big_boss)
         
         show screen combat_menus(combat_handler.current_enemy)
@@ -603,9 +605,9 @@ label start:
             "No":
                 "The bartender gives you a drink on the house."
 
-        "You gain +2 Charm and +5 Mettle"
+        "You gain +5 Charm and +5 Mettle"
         $ g.change_stat('mettle', 5)
-        $ g.change_stat('charm', 2)
+        $ g.change_stat('charm', 5)
         $ calendar.set_played('tavern', 0)
         $ calendar.increment_week()
         jump go_to_town
@@ -675,8 +677,8 @@ label start:
                             $ chose_balk = True
             "No":
                 "You have a nice meal at the tavern."
-        "You gain +3 Charm and +4 mettle."
-        $ g.change_stat('charm', 3)
+        "You gain +4 Charm and +4 mettle."
+        $ g.change_stat('charm', 4)
         $ g.change_stat('mettle', 4)
 
         $ calendar.set_played('tavern', 1)
@@ -687,9 +689,9 @@ label start:
         $ r = roll(2, 0)
         if r == 1:
             "The bartender gives you a drink on the house."
-            "You gain +2 Charm and +6 Mettle"
+            "You gain +4 Charm and +6 Mettle"
 
-            $ g.change_stat('charm', 2)
+            $ g.change_stat('charm', 4)
             $ g.change_stat('mettle', 6)
         else:
             "You have a nice meal at the tavern."
@@ -916,7 +918,7 @@ label start:
         
         "A regal Bobtail cat approaches on its hind legs, walking like a human." 
 
-        show hiss at midright
+        show hiss at midright_intro
         
         h "Greetings, human and cat friends! My name is Sir Hiss Meowington, pleasure to have you visit our humble haven. Who do I have the honor of meeting on this fine day?"
         
@@ -938,6 +940,8 @@ label start:
         
         "The cats erupt into cheers, clapping their little paws. "
 
+        hide hiss
+
         show gawain at midleft
         
         $ g.c("Actually, it’s Sir Gawai-")
@@ -950,7 +954,7 @@ label start:
         
         hide hiss
 
-        show lotus
+        show lotus at midright
         
         "Lady Lotus, hearing her name, turns to offer you a curtsey before turning back to mind the kittens." 
         
@@ -1162,9 +1166,10 @@ label start:
 
         hide mittens
         
+        show gawain at midleft
+
         "Ragamuffin perks up at the sound of her name." 
 
-        show gawain at midleft
         
         $ g.c("Ragamuffin is but a regular cat, not a magical one like you.")
 
@@ -2185,6 +2190,8 @@ label start:
                 $ g.c("But why do you need the wives of Hereford? You are a powerful sorceress, Morgana. Could you not have ascended the throne alone?")
 
                 hide gawain
+
+                show morgana at midright
                 
                 morg "Could I have? Potentially, but did Arthur not have his Round Table? I desired a coven of powerful women to work alongside me and keep the peace of Camelot."
                 
@@ -2244,7 +2251,9 @@ label start:
 
                 hide morgana
                 
-                "You head back to Hereford, the journey back surprisingly more straightforward than the journey towards the meadow, with Lady Lotus and her kittens in tow. Ragamuffin is perched happily on your shoulder, rubbing up against your cheek to show her pride for your choice." 
+                "You head back to Hereford, the journey back surprisingly more straightforward than the journey towards the meadow, with Lady Lotus and her kittens in tow."
+                
+                "Ragamuffin is perched happily on your shoulder, rubbing up against your cheek to show her pride for your choice." 
                 
                 "Despite the hit to your reputation and the fact your quest would remain unfinished, you were respecting the women of Herefordshire’s wishes and leaving them be with Morgana - soon-to-be Queen Morgana."
 
@@ -2260,7 +2269,9 @@ label start:
 
                 show gawain at midleft
                 
-                $ g.c("I did find her, Olive. She is safe and happy, being cared for by the sorceress Morgana. I asked her as I asked all the women if she wanted to come with me, and they all said nothing. They chose to stay as members of Morgana's coven.")
+                $ g.c("I did find her, Olive. She is safe and happy, being cared for by the sorceress Morgana.")
+                
+                $ g.c("I asked her as I asked all the women if she wanted to come with me, and they all said nothing. They chose to stay as members of Morgana's coven.")
                 
                 $ g.c("I have to trust they were telling me the truth.")
 
@@ -2309,7 +2320,7 @@ label start:
             jump romance_ending
         elif romance_ending and fought_morgana:
             jump romance_ending_morgana_fight
-        elif not romance_ending and fought_morgan:
+        elif not romance_ending and fought_morgana:
             jump friendship_ending_morgana_fight
         else:
             jump friendship_ending
