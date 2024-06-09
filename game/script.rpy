@@ -103,7 +103,7 @@ label start:
     # jump first_combat
     # $ calendar.current_month = 4
     # jump go_to_town
-    jump boss_fight
+    # jump boss_fight
     # jump first_time_in_town
     # jump lludds
 
@@ -2260,6 +2260,8 @@ label start:
                 show gawain at midleft
                 
                 $ g.c("My quest was to bring them home to their families...")
+
+                hide gawain
                 
                 morg "Then, you shall not leave empty handed. Any woman who wishes to join Sir Gawain and return to Herefordshire step forward now"
                 
@@ -2283,11 +2285,12 @@ label start:
 
                 show gawain at midleft
                 
+                hide morgana
+
                 $ g.c("Well, I wish you luck, my Queen.")
 
                 "You bow to Morgana, deep and respectful. She giggles at your kindness, utterly charmed."
-
-                hide morgana
+                hide gawain
 
                 show morgana at midright
                 
@@ -2501,6 +2504,127 @@ label start:
         
         "Gyngolyn even follows in your footsteps, becoming the first knight anointed under Queen Morgana’s rule, and the two of you spend the rest of your days serving Viviane and Queen Morgana to keep Camelot safe and united once and for all."
         
+        jump credits
+
+    label friendship_ending:
+        scene lake with fade
+
+        show lady at midright_intro
+        
+        $ l.c("My dear knight, you seem forlorn. Anything a listening ear can help soothe?")
+
+        hide lady
+
+        show gawain at midleft_intro
+        
+        $ g.c("I do not wish to trouble you, my Lady.")
+
+        hide gawain
+        
+        show lady at midright
+        
+        $ l.c("It’s no bother at all, darling knight. Come, sit with me, and we may speak.")
+        
+        "She heads to the edge of the lake, sitting in the peat moss. She pats the spot beside her with a welcoming smile." 
+        
+        "Mochi and Ragamuffin head off to splash about the shallows, happily playing with one another."
+
+        hide lady
+
+        show gawain at midleft
+        
+        $ g.c("I let Morgana go. She’s-")
+
+        hide gawain
+        
+        show lady at midright
+        
+        $ l.c("The future queen of Camelot, yes, I know who she is, dear knight. I was helping her on her quest.")
+
+        hide lady
+
+        show gawain at midleft
+        
+        $ g.c("You were?! But my quest was to-")
+
+        hide gawain
+        
+        show lady at midright
+        
+        $ l.c("Stop her, I know. I found it quite amusing. Forgive me for desiring some entertainment, dearest Gawain.")
+        
+        "The Lady of the Lake laughs, eyes glittering with mirth even with her face upturned to watch the clouds drift through the sky as the two of you talk." 
+        
+        show lady at midright
+        
+        $ l.c("Morgana is a dear friend of mine. I knew she would make a perfect queen to unite Camelot once more after the disappearance of Arthur")
+        
+        $ l.c("She has a worthy vision for our future, and I sought to aid her on her journey. You arriving was a welcome surprise, dear knight")
+        
+        hide lady
+
+        show gawain at midleft
+
+        $ g.c("And you let me try to stop her?")
+
+        hide gawain
+        
+        show lady at midright
+        
+        $ l.c("Well, yes, because I had faith that if you managed to track Morgana down, that you would hear her out and respect the women of Herefordshire’s choices to serve as members of her coven.")
+        
+        hide lady
+
+        show gawain at midleft
+        
+        $ g.c("Well, I appreciate your faith in me, my Lady. I’m glad you think me less pig-headed than my fellow members of the male sex.")
+        
+        hide gawain
+
+        show lady at midright
+        
+        "The Lady of the Lake laughs, open and sweet as birdsong." 
+        
+        v "Call me Viviane, dearest knight. You’ve earned the knowledge of my true name after being such a good sport at my lighthearted fun."
+
+        hide lady
+
+        show gawain at midleft
+        
+        $ g.c("You honor me, Viviane. Thank you for your trust.")
+
+        hide gawain
+
+        show lady at midright
+        
+        v "I knew the townspeople would respect Morgana’s plan if they heard it from you - or they would learn to respect it in time. You are a good man and a kind heart, dearest Gawain."
+        
+        "Out of thin air, Viviane produces one final golden flower for you - a blessing."  
+        
+        v "Give this to your son, Gyngolyn, for me. It’s my apology for keeping his father busy for so long."
+
+        hide lady
+
+        show gawain at midleft
+        
+        $ g.c("You honor us, Viviane. Thank you for your guidance.")
+
+        hide gawain
+        
+        show lady at midright
+        
+        v "Until we meet again, dearest Gawain."
+        
+        "Viviane hands you the blessing, smiling down upon you as she rises to her feet." 
+        
+        v "You may stay by the water’s edge as long as you desire, dear knight, you’ve a long journey ahead. Both you and Gyngolyn are welcome here whenever your hearts desire. Farewell, my dear Gawain. May Camelot be kinder to you under Morgana’s rule."
+        
+        hide lady
+
+        "For the rest of your days, you serve your Lady, Viviane, and her dear friend, Queen Morgana, to continue to keep Camelot safe." 
+        
+        "Gyngolyn even follows in your footsteps, becoming the first knight anointed under Queen Morgana’s rule, and the two of you spend the rest of your days serving Viviane and Queen Morgana to keep Camelot safe and united once and for all."
+
         jump credits
 
     label friendship_ending_morgana_fight:
