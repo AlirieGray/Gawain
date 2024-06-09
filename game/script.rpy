@@ -79,8 +79,8 @@ label start:
     $ beast_3 = Enemy(Character("Monster"), "Creature", 35, 50, 5, 20, "images/monster_small.png")
     $ beast_4 = Enemy(Character("Monster"), "Creature", 40, 50, 7, 20, "images/monster_small.png")
     $ beast_5 = Enemy(Character("Monster"), "Creature", 60, 60, 8, 30, "images/monster_small.png")
-    $ big_boss = Enemy(Character("Monster"), "Monster", 75, 50, 9, 0, "images/monster_small.png")
-    $ morgana_boss = Enemy(morg, "Morgana", 100, 65, 10, 0, "images/morgana_small.png")
+    $ big_boss = Enemy(Character("Monster"), "Monster", 70, 50, 9, 0, "images/monster_small.png")
+    $ morgana_boss = Enemy(morg, "Morgana", 85, 65, 10, 0, "images/morgana_small.png")
 
     # handlers
     $ calendar = Calendar()
@@ -106,6 +106,7 @@ label start:
     # jump boss_fight
     # jump first_time_in_town
     # jump lludds
+    jump romance_ending_morgana_fight
 
     "In the land of yore, when kings and queens still ruled over all and knights still roamed the kingdom, you, Gawain, fought valiantly to prove yourself worthy of your place at King Arthur's Round Table."
     "You battled fearsome beasts and loathsome sorcerers, traveled far and wide on many a dangerous quest, and wooed many lusty and kind-hearted maidens alike."
@@ -776,7 +777,7 @@ label start:
         o "I’ve had to postpone my wedding to pick up the pieces of our family, and she’s out galavanting with her cat. That’s what Father says, anyways."
 
         show gawain at midleft
-        if g.get_stat('charm') > 14:
+        if g.get_stat('charm') > 15:
             menu:
                 "Challenge":
 
@@ -1464,8 +1465,10 @@ label start:
     label inn_no_event:
         "Rest up for the search ahead."
 
-        "You gain +5 Swordplay."
+        "You gain +5 Swordplay and +2 Intuition."
         $ g.change_stat('swordplay', 5)
+
+        $ g.change_stat('intuition', 2)
 
         $ calendar.increment_week()
         jump go_to_town
@@ -1678,7 +1681,7 @@ label start:
 
             $ g.change_stat('archery', 10)
 
-            if g.get_stat('charm') > 10:
+            if g.get_stat('charm') > 12:
                 menu:
                     "Ask for Advice":
                         $ l.c("You can visit each location more than once. There are many new people to meet that may have valuable information, dear knight.")
@@ -2708,6 +2711,142 @@ label start:
         "You had your son. What a beautiful blessing."
 
         jump credits
+
+    label romance_ending_morgana_fight:
+        scene lake with fade
+        
+        "As you approach the Lady of the Lake, she’s visibly miffed." 
+        
+        show lady at midright_intro
+
+        $ l.c("Gawain! You killed Morgana?")
+
+        hide lady
+
+        show gawain at midleft_intro
+
+        $ g.c("...Yes? She was kidnapping the women of Herefordshire. Was this not my quest, my Lady?")
+
+        hide gawain
+        
+        show lady at midright
+
+        $ l.c("I suppose it was, but… did you not hear her out? Did you not listen when she tried to speak?")
+        
+        hide lady
+
+        show gawain at midleft
+        
+        $ g.c("You should have seen those women, my Lady. They were in such a daze, I couldn’t in good conscience leave them with her.")
+        
+        $ g.c("Anyone who traps others and denies them the freedom to live with their families is an enemy of mine, no matter if they’re a maiden themself.")
+        
+        hide gawain
+        
+        show lady at midright
+
+        $ l.c("Ugh, I told her not to use spells! The women were to join her of their own volition!")
+
+        hide lady
+        
+        show gawain at midleft
+        
+        "{i}Wait... the Lady of the Lake was in on the plan?!{/i}"
+
+        hide gawain
+        
+        show lady at midright
+
+        $ l.c("I see Morgana was not the future queen I had hoped she would be. My apologies for wasting your time, dear knight, but it seems you’ve freed us all from yet another despot.")
+        
+        "Out of thin air, she produces a golden, glowing flower - a blessing. " 
+
+        $ l.c("Give this to your son, Gyngolyn, as my apology for keeping his father from him for so long. You are free to return to him whenever you wish. I will miss you, dear knight, and Mochi will miss Ragamuffin, I’m sure.")
+        
+        hide lady
+        
+        show gawain at midleft
+
+        $ g.c("Thank you for your kindness, my Lady. Gyngolyn will be incredibly grateful as well.")
+
+        hide gawain
+        
+        show lady at midright
+
+        $ l.c("Well, I’m glad. Now, off with you. I must hunt for Arthur’s replacement all over again, seeing you foiled my last attempt to fill the throne.")
+
+        hide lady
+
+        show gawain at midleft
+        
+        "You hesitate. The two of you had grown so close, had bared your souls to one another, and she's brushing you off so?" 
+        
+        $ g.c("My Lady… may I at least visit you soon? I find I’m loath to be without you. We’ve become lovers, have we not? My heart aches at your sudden disinterest.")
+
+        hide gawain
+        
+        show lady at midright
+
+        $ l.c("Dear, sweet Gawain, I have no desire to hurt you.")
+        
+        "She sighs deeply as if she’s lost in thought. She approaches again before producing a brilliant collar of golden flowers, which she places around Ragamuffin’s neck." 
+
+        $ l.c("A being like me has little time for human emotion. Our time together has been fun, darling knight, but the best I can offer is this token of my affections. It’s a luck charm, to help you in your future journeys.")
+        
+        $ l.c("You may visit when you please, but I have higher motives I must follow to ensure the serenity of Camelot.")
+        
+        hide lady
+
+        show gawain at midleft
+        
+        $ g.c("...As much as it hurts, I understand, my Lady. I am but a man asking you to stay for him. You are a being far beyond the confines of man. I was foolish to think you would be mine as I am yours.")
+        
+        hide gawain
+
+        show lady at midright
+
+        $ l.c("Don’t seem so down, dear Gawain. It was fun while it lasted, no? Does the journey not mean more than the destination?")
+
+        hide lady
+        
+        show gawain at midleft
+
+        $ g.c("My journey with you was one of the most meaningful in my life, yes. I will forever cherish the gifts you’ve bestowed upon me and my family.")
+
+        hide gawain
+        
+        show lady at midright
+
+        "The Lady of the Lake steps forward to press a gentle kiss to your cheek. She smells like lotus, rainwater, and honeysuckle - a scent you will crave for the rest of your life." 
+
+        $ l.c("Have a safe journey home, my dearest Gawain. Say hello to Gyngolyn for me.")
+
+        hide lady
+
+        "With that, she leaves you and Ragamuffin alone, the mysterious lady that captured your heart submerged once again in the depths of the lake she calls home." 
+        
+        "Part of you thinks to dive in after her, to chase her and beg her to stay, to not leave you alone like Ragnell did, but you think better of it."
+
+        scene black_bg with fade
+
+        "You head home to your son, Gyngolyn, instead, having been away from him for far too long. He’s a moody teen now, though his love for you is still clear and strong." 
+        
+        "You take time to hold him close, hugging him long and tight. Seeing Olive and Isoude’s reunion had shaken you to your core - you remembered how much of a wreck both you and Gyngolyn had been when his mother passed." 
+        
+        "Even as Gyngolyn protests, you hold him closer still. Your family had taken a hit with Ragnell’s passing, but you would always fight to be there for him." 
+        
+        $ g.c("I love you, son. More than anything on this Earth.")
+        
+        "Gyngolyn doesn’t say it back, too overcome with emotion as he finally, mercifully hugs you back just as tightly as you’ve craved since seeing Olive and Isoude." 
+        
+        "You are safe, home with your son, and despite the Lady of the Lake’s disappointment, you’d reunited at least a dozen families and prevented the dissolution of countless others." 
+        
+        "You have Gyngolyn: come what may, your heart is strong and full, your child you would move heaven and earth to return home to after each quest." 
+        
+        "You had your son. What a beautiful blessing."
+        
+        jump credits
+
 
 
     # This ends the game.
