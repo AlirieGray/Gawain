@@ -132,6 +132,7 @@ init python:
                 self.current_hp = 0
                 combat_handler.gawain_defeated()
 
+    # TODO refactor we don't need this
     class Lady:
         def __init__(self, character):
             self.c = character
@@ -139,6 +140,7 @@ init python:
     class Enemy:
         def __init__(self, character, name, hp, ac, attack_modifier, img):
             self.c = character
+            self.max_hp = hp
             self.hp = hp
             self.ac = ac
             self.attack_modifier = attack_modifier

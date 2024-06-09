@@ -21,23 +21,27 @@ default end_month_tutorial = [
 # styles
 transform midleft_intro:
     alpha 0.3
-    xcenter 0.33
-    yalign 0.85
-    easein 0.4 alpha 1.0 yalign .4
+    xcenter 0.25
+    yanchor 1.0
+    yalign 1.0
+    easein 0.4 alpha 1.0 xcenter .3
 
 transform midright_intro:
     alpha 0.3
-    xcenter 0.67
-    yalign 0.85
-    easein 0.4 alpha 1.0 yalign .4
+    xcenter 0.75
+    yanchor 1.0
+    yalign 1.0
+    easein 0.4 alpha 1.0 xcenter .7
 
 transform midright:
-    yalign 0.4
-    xcenter .67
+    yanchor 1.0
+    yalign 1.0
+    xcenter .7
 
 transform midleft:
-    xcenter 0.33
-    yalign 0.4
+    xcenter 0.3
+    yanchor 1.0
+    yalign 1.0
 
 transform bottomleft:
     xalign 0.5
@@ -85,6 +89,8 @@ label start:
 
     scene lake
 
+    play music ballad loop fadein 2.0
+
     #####***** INTRO CUTSCENE *****#####
 
 
@@ -93,7 +99,7 @@ label start:
     
     # TODO: DEV JUMP ONLY
     # REMOVE FOR BUILD
-    # jump first_combat
+    jump first_combat
     # $ calendar.current_month = 4
     # jump go_to_town
     # jump boss_fight
@@ -907,8 +913,12 @@ label start:
         "The cats seem just as spooked and... whisper to each other behind their paws?"
         
         "A regal Bobtail cat approaches on its hind legs, walking like a human." 
+
+        show hiss at midright
         
         h "Greetings, human and cat friends! My name is Sir Hiss Meowington, pleasure to have you visit our humble haven. Who do I have the honor of meeting on this fine day?"
+        
+        hide hiss
         
         "Talking cats? Magic must be afoot here..."
 
@@ -917,6 +927,8 @@ label start:
         $ g.c("My name is Sir Gawain the True and this is my cat, Ragamuffin. Pleased to meet you, Sir Hiss.")
 
         hide gawain
+
+        show hiss at midright
         
         "Sir Hiss turns to announce you to the whole group. All the cats give Sir Hiss their full attention, stopping their whispering." 
         
@@ -929,14 +941,26 @@ label start:
         $ g.c("Actually, it’s Sir Gawai-")
 
         hide gawain
+
+        show hiss at midright
         
         h "So, Sir Meowain, let me introduce you to the others. We have Shrimp, Mittens, Catthew, Craig, and my beautiful wife, Lady Lotus. She’s over yonder with our kittens, Lily, Lavender, and Lemon."
+        
+        hide hiss
+
+        show lotus
         
         "Lady Lotus, hearing her name, turns to offer you a curtsey before turning back to mind the kittens." 
         
         "She’s a regal Angora with piercing blue eyes, which each of her kittens have, too." 
+
+        hide lotus
+
+        show hiss at midright
         
         h "If you need anything at all, we will be most hospitable to you and Ragamuffin. Do not hesitate to ask, Sir Meowain. Mayhaps you and Ragamuffin desire some cream for the road?"
+        
+        hide hiss
         
         "Ragamuffin perks up at the mention of cream; if she seems intrigued, you know you can trust Sir Hiss’ offer." 
         
@@ -947,8 +971,12 @@ label start:
         $ g.c("Thank you for your hospitality, Sir Hiss. We won’t soon forget your kindness.")
 
         hide gawain
+
+        show hiss at midright
         
         h "We protect our own here, and any strays we pick up along the way. Have a safe journey back into town, Sir Meowain the Tuna. May we meet again soon"
+        
+        hide hiss
         
         $ calendar.set_played('cat', 0)
         
@@ -959,8 +987,12 @@ label start:
         s "Sir Meowain, Sir Meowain!!"
 
         show gawain at midleft_intro
-        $g.c("Hello there, Shrimp. How are you on this fine day? ")
+
+        $ g.c("Hello there, Shrimp. How are you on this fine day? ")
+
         hide gawain
+
+        show shrimp at midright
 
         s "I have the most dangerous quest for you, will you accept?"
 
@@ -973,11 +1005,23 @@ label start:
                 "Ask for more details":
                     $ g.c ("What is this quest you so desire to send me on, Shrimp?")
 
+                    hide gawain
+
+                    show shrimp at midright
+
                     s "I want some salmon from the market! Will you get me some?"
+
+                    show gawain at midleft
 
                     $ g.c ("You want me to buy you some salmon to eat?")
 
+                    hide gawain
+
+                    show shrimp at midright
+
                     s "Yes, yes, yes, I do! Oh! And I have some gold for you that Sir Hiss gave me to buy salmon with!"
+
+                    hide shrimp
 
                     "Shrimp gives you the gold and you head into town and purchase some raw salmon. When you return, all members of the Cat Coven feast and share Shrimp’s spoils."
 
@@ -1004,9 +1048,19 @@ label start:
                 "Ask for more details":
                     $ g.c ("What is this quest you so desire to send me on, Shrimp?")
 
+                    hide gawain
+
+                    show shrimp at midright
+
                     s "I want some salmon from the market! Will you get me some?"
 
+                    show gawain at midleft
+
                     $ g.c ("You want me to buy you some salmon to eat?")
+
+                    hide gawain
+
+                    show shrimp at midright
 
                     s "Yes, yes, yes, I do! Oh! And I have some gold for you that Sir Hiss gave me to buy salmon with!"
 
@@ -1070,9 +1124,16 @@ label start:
 
         hide gawain
 
+        show shrimp at midright
+
         s "I see, Sir Meowain. Be on your way then. Sorry to bother you." 
+
+        hide shrimp
+        
         "Shrimp sulks off to be comforted by Mittens, who glares at you for hurting Shrimp’s feelings."
+        
         "You lose 1 Intuition and 1 Charm."
+        
         $ g.change_stat('intuition', -1)
         $ g.change_stat('charm', -1)
         $ calendar.set_played('cat', 1)
@@ -2152,8 +2213,12 @@ label start:
                 "You and Morgana look around the circle, waiting for anyone to speak up. A moment passes, and Lady Lotus emerges from behind the skirts of someone you recognize - Crisea of Hereford - with Lemon, Lily, and Lavender in tow." 
                 
                 hide morgana
+
+                show lotus at midright
                 
                 lotus "I wish to return, Gawain. I’ve made a mistake in leaving Sir Hiss. Bring me with you on your journey back to Hereford."
+
+                hide lotus
 
                 show morgana at midright
                 
@@ -2454,8 +2519,11 @@ label start:
     # This ends the game.
 
     label credits:
+        play music electric_boogaloo fadeout 5.0
         scene black_bg with fade
         show screen credits
+
+        pause 10.0
 
         return
 
