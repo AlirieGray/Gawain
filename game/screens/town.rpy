@@ -3,6 +3,8 @@ screen town_menus:
     add "gui/custom/transparent_bg_500_150.png" xalign 0.53 yalign .05 
     use stats_left
     use hud
+    use inventory_button
+    # use inventory
 
     imagebutton:
         idle "images/tavern_idle.png"
@@ -33,7 +35,6 @@ screen town_menus:
         xpos 1135
         ypos 374
         action [Function(calendar.add_activity, activity="Check out Cat Haven")]
-
 
     imagebutton:
         idle "images/shop_idle.png"

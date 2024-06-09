@@ -8,5 +8,4 @@ screen hud:
         hbox:
             text "HP: " + str(g.current_hp) + "/" + str(g.max_hp) size 18
             text "Gold: " + str(g.gold) xoffset 25 size 18
-        textbutton "Inventory" action Show("inventory") text_size 18
 

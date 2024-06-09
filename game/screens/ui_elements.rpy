@@ -1,6 +1,25 @@
-#TODO: standardize margins and UI layout across game, standardize corner rounding on bgs
-# TODO: reset health after combat ends??
-# TODO: buttons to take potion, inventory on side screen or in hud
+#TODO: standardize margins and UI layout across game
+
+screen inventory_button:
+    imagebutton:
+        idle "gui/custom/transparent_bg_100_100.png"
+        hover "gui/custom/transparent_bg_100_100.png" 
+        xalign 0.03
+        xoffset -1
+        ypos 550
+        action Show('inventory')
+    vbox:
+        xalign 0.03
+        ypos 550
+        imagebutton:
+            idle "images/backpack.png"
+            hover "images/backpack.png"
+            action Show('inventory')
+            ypos 50
+            xpos 60
+        textbutton "Inventory" action Show('inventory') ypos 70 xpos 30
+
+
 screen stats_left:
     add "gui/custom/transparent_bg_300_500.png" xalign 0.03 yalign 0.05 
     vbox:
@@ -72,7 +91,7 @@ screen tutorial_modal(tutorial):
     add "gui/custom/tutorial_modal.png"
     vbox:
         xsize 390
-        xpos 470
+        xpos 460
         ypos 220
         spacing 2
         text tutorial[0].title() style "special_font"

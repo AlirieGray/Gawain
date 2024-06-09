@@ -19,6 +19,9 @@ default end_month_tutorial = [
     "Your time in Hereford has been peaceful so far, but you've heard rumors of foul beasts that show themselves around the full moon.\nIf you wish to stock up on any potions, stop by Llud's Libations before ending the month.",
 ]
 
+default shop_tutorial = ['Visiting the Shop', 'At the shop you can buy potions with helpful effects like healing HP and boosting your stats.\nThe shop restocks at the end of every month.', 'After buying a potion, you need to drink it in order to get its effect.\nYou can view your potions and drink them from the inventory, which you can access from the inventory button on the bottom left of the screen.']
+default first_time_at_lludds = True
+
 # styles
 transform midleft_intro:
     alpha 0.3
@@ -106,7 +109,7 @@ label start:
     # jump boss_fight
     # jump first_time_in_town
     # jump lludds
-    jump romance_ending_morgana_fight
+    # jump romance_ending_morgana_fight
 
     "In the land of yore, when kings and queens still ruled over all and knights still roamed the kingdom, you, Gawain, fought valiantly to prove yourself worthy of your place at King Arthur's Round Table."
     "You battled fearsome beasts and loathsome sorcerers, traveled far and wide on many a dangerous quest, and wooed many lusty and kind-hearted maidens alike."
@@ -217,7 +220,7 @@ label start:
         
         $ l.c("And never hesitate to return to me when you need more sage advice, or a well-intended ear when the journey gets too lonely.")
         
-        $ l.c("Sir Gawain the True, and sweet Ragamuffin, go forth into Herefordshire. May luck be on your side. ")
+        $ l.c("Sir Gawain the True, and sweet Ragamuffin, go forth into Herefordshire. May luck be on your side.")
 
         hide lady
 
@@ -391,6 +394,8 @@ label start:
 
         hide screen combat_menus
 
+        $ g.current_hp = g.max_hp
+
         "You failed to kill the beast, but you manage to get a wound on it, and it retreats into the forest."
         
         "You look over your shoulder to the little girl."
@@ -434,8 +439,6 @@ label start:
         morg "Make this quick, Sir Gawain. I have little time for such humorous outbursts."
 
         hide morgana
-
-        # TODO add fight and win/lose conditions
 
         $ combat_handler.set_enemy(morgana_boss)
         
@@ -512,13 +515,26 @@ label start:
         jump final_lady_cutscenes
 
     label lost_morgana_battle:
+        scene forest 
+        hide screen combat_menus
+
         "You’re beaten within an inch of your life, left broken and bleeding in the dirt of the meadow. Ragamuffin is crumpled beside you, looking still as death." 
         
+        show gawain at midleft
+
         $ g.c("You’ll never get away with this Morgana. Fate will punish you yet. ")
+
+        hide gawain
+
+        show morgana at midright
         
         "Morgana just laughs, kneeling down so she can caress your cheek."  
         
         morg "It’s a shame you’re so steadfast in your knighthood, Sir Gawain. It would have been lovely to have you by my side."
+        
+        hide morgana
+
+        scene black_bg with fade 
         
         "Morgana pulls back her fist, fingers glowing gold, and with one final punch, your life ends, left in the meadow in the forests of Herefordshire to become one with the daisies." 
         
@@ -1656,7 +1672,13 @@ label start:
 
         # $ _window_hide()
 
+
         show screen shop
+        if first_time_at_lludds:
+
+            $ first_time_at_lludds = False
+
+            show screen tutorial_modal(shop_tutorial)
 
         $ wait_for_status(activities_selected)
 
@@ -1669,6 +1691,8 @@ label start:
         scene lake with fade
 
         show lady at midright_intro
+
+        $ shop.restock_shop()
 
         $ g.reset_health()
 
