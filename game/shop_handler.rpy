@@ -27,7 +27,7 @@ init python:
 
         def give_charm_discount(self, discount):
             for potion in self.inventory.keys():
-                self.inventory[potion]['price'] = self.inventory[potion]['price']['default_price'] - discount
+                self.inventory[potion]['price'] = self.inventory[potion]['default_price'] - discount
 
         def restock_shop(self):
             self.inventory['Libation of Liveliness']['stock'] = 2
