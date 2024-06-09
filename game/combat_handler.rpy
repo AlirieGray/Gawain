@@ -19,12 +19,12 @@ init python:
                         g.luck_potion_active = False
                     self.combat_status_string = "Your foe is vanquished!\n You receive +" + str(self.current_reward) + " gold. Feel free to spend it all in one place."
                 elif boss_time and not fought_morgana:
-                    self.combat_status_string = "You receive a +10 bonus to all stats."
-                    g.change_stat('mettle', 10)
-                    g.change_stat('intuition', 10)
-                    g.change_stat('charm', 10)
-                    g.change_stat('archery', 10)
-                    g.change_stat('swordplay', 10)
+                    self.combat_status_string = "You receive a +5 bonus to all stats."
+                    g.change_stat('mettle', 5)
+                    g.change_stat('intuition', 5)
+                    g.change_stat('charm', 5)
+                    g.change_stat('archery', 5)
+                    g.change_stat('swordplay', 5)
                 
                 g.change_gold(self.current_reward) # TODO + bonus from potion...
                 self.current_enemy = None

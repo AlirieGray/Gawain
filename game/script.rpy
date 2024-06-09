@@ -958,7 +958,7 @@ label start:
         
         "The cats seem just as spooked and... whisper to each other behind their paws?"
         
-        "A regal Bobtail cat approaches on its hind legs, walking like a human." 
+        "A regal cat approaches on its hind legs, walking like a human." 
 
         show hiss at midright_intro
         
@@ -999,8 +999,6 @@ label start:
         show lotus at midright
         
         "Lady Lotus, hearing her name, turns to offer you a curtsey before turning back to mind the kittens." 
-        
-        "She’s a regal Angora with piercing blue eyes, which each of her kittens have, too." 
 
         hide lotus
 
@@ -1710,6 +1708,10 @@ label start:
                         jump go_to_town
         elif calendar.current_month == 2:
             $ l.c("Hello, my dearest Gawain. I offer you another blessing to aid you on your quest")
+
+            "You gain +10 Mettle."
+
+            $ g.change_stat('mettle', 10)
             
             if g.get_stat('charm') > 15:
 
@@ -1761,9 +1763,9 @@ label start:
         elif calendar.current_month == 3:
             $ l.c("Hello, my dearest knight. I offer you yet another blessing to aid you on your quest.")
 
-            "You gain +10 Mettle."
+            "You gain +10 Intuition."
 
-            $ g.change_stat('mettle', 10)
+            $ g.change_stat('intuition', 10)
 
             hide lady
 
@@ -1830,7 +1832,7 @@ label start:
             show lady at midright_intro
             $ l.c("Hello, my dearest knight. I offer you yet another blessing to aid you on your quest.")
 
-            "You gain + 10 Swordplay."
+            "You gain +10 Swordplay."
 
             $ g.change_stat('swordplay', 10)
             
@@ -1883,6 +1885,10 @@ label start:
         elif calendar.current_month == 5:
             show lady at midright_intro
             $ l.c("Hello, my dearest knight. I offer you yet another blessing to aid you on your quest.")
+
+            "You gain +10 Charm."
+
+            $ g.change_stat('charm', 10)
 
             if flirted_with_lady:
                 menu:
@@ -1983,6 +1989,12 @@ label start:
                         jump go_to_town
         elif calendar.current_month == 6:
             $ l.c("Hello, my dearest Gawain. I offer you one final blessing to aid you on your quest.")
+
+            "You gain +10 in Swordplay and +5 in Intuition."
+
+            $ g.change_stat('swordplay', 10)
+
+            $ g.change_stat('intuition', 5)
             
             if flirted_with_lady:
                 menu:
